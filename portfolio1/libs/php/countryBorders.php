@@ -11,7 +11,7 @@ $result = file_get_contents("countryBorders.geo.json");
 
   function compare($a, $b) {
     if($a["name"] == $b["name"]) return 0;
-    return ($a["name"]<$B["name"]) ? -1 : 1;
+    return ($a["name"]<$b["name"]) ? -1 : 1;
   }
 
   $decode = json_decode($result, true);
