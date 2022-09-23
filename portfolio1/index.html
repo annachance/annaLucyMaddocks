@@ -29,168 +29,68 @@
 
 		
 	</head>
-<!--////////////////////////////////////////////////////////////////-->
+    <!--////////////////////////////////////////////////////////////////-->
 	<body>
+		<header>
+			<!-- Not sure if needed yet!! -->
+			<!-- <div id="preloader"></div> -->
 
-        <!-- Not sure if needed yet!! -->
-        <!-- <div id="preloader"></div> -->
+			<!--   NavBar/ dropdown menu!   -->
+			<nav class="navbar navbar-dark bg-primary navbar-fixed-top" role="navigation">
+				<form>
+					<div class="form-group navbar-form">
+						<select form="form-control" id="country-dropdown" name="country-dropdown"> 
+					    <option value="">--Select a country of the world--</option>
+					   <!-- <option value="CA">Canada</option>
+							<option value="CR">Costa Rica</option>
+							<option value="CU">Cuba</option>
+							<option value="GL">Greenland</option>
+							<option value="GL">Greenland</option> 
+							<option value="GL">Greenland</option> 
+							<option value="GL">Greenland</option> 
+							<option value="GL">Greenland</option> 
+							<option value="GL">Greenland</option> 
+							<option value="GL">Greenland</option> 
+							<option value="GL">Greenland</option> 
+							<option value="GL">Greenland</option>  -->
+						</select>
 
-        <!--   NavBar/ dropdown menu!   -->
-		<nav class="navbar navbar-dark bg-primary navbar-fixed-top" role="navigation">
-			<form>
-			  <div class="form-group navbar-form">
-				<select form="form-control" id="locality-dropdown" name="locality-dropdown"> <!--<div class="dropdown dropdown-center">-->
-				  <option value="">--Select a country of the world--</option>
+					</div>
+				</form>
+			</nav>
+	    </header>
 
-				 <!-- not sure about the below just yet --> 
-				 <!-- <option value="GB">Great Britain</option>
-			      <option value="FR">France</option>
-			      <option value="DE">Germany</option>
-			      <option value="US">USA</option> -->
-				</select>
+	    <!--////////////////////////////////////////////////////////////////-->
+        <main>
+	    <!--   Full-screen sized map   -->
 
-			  </div>
-			</form>
-	  </nav>
-	  <!-- <select id="countrySelect" name="countrySelect"> -->
-
-	     <!-- <nav class="navbar navbar-expand-lg bg-light">
-			<div class="container-fluid">
-			  <a class="navbar-brand" href="#"></a>
-			  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			  </button>
-			  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				  <li class="nav-item">
-				  
-				  <div class="dropdown dropdown-center">
-					<button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-					  Select a country of the world
-					</button>
-					<ul class="dropdown-menu">
-					   <li><a class="dropdown-item" value="GB">Great Britain</a></li>
-					  <li><a class="dropdown-item" href="FR">France</a></li>
-					  <li><a class="dropdown-item" value="DE">Germany</a></li>   <!--value/ href/ or something else?! -->
-					 <!-- </ul> 
-				  </div>
-
-				<!-- think this is better for the dropdown button (label id='countrySelect') but not 100% yet!-->
-					<!-- <label id="countrySelect" button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Select a country from the list:</label>
-				</ul> -->
-					
-					<!-- <select id="countrySelect" name="countrySelect"></select> 
-					<option value="GB">Great Britain</option>
-					<option value="FR">France</option>
-					<option value="DE">Germany</option>
-					<option value="US">USA</option>
-					 </select> -->
-				
-			  <!-- </div>
-			</div>
-		  </nav> -->
-
-		<!--////////////////////////////////////////////////////////////////-->
-
-	      <!--   Full-screen sized map   -->
-		  <div id="map"></div>
+	       <div id="map"></div>
 		  
-		<!--////////////////////////////////////////////////////////////////-->
+	    <!--////////////////////////////////////////////////////////////////-->
 
-		 <!--  Modals/Overlays  -->
+	    <!--  Modals/Overlays  -->
 
-
-
-
-       <!--////////////////////////////////////////////////////////////////-->
+		
 
 
-       <!-- Script.js -->
-	    <!-- <script type="application/javascript" src="libs/js/jquery-2.2.3.min.js"></script> -->
-		<script type="application/javascript" src="libs/js/script.js"></script>
+         <!--////////////////////////////////////////////////////////////////-->
+
+	     </main>
+        <!-- Script.js -->
+	    <script type="application/javascript" src="libs/js/jquery-3.6.1.min.js"></script>
+	    
         
-		<!-- Boostrap initialization -->
+	    <!-- Boostrap initialization -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script> 
 		
-		<!-- Leaflet map initialization -->
+	    <!-- Leaflet map initialization -->
         <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
 
-		<!-- User current location initialization -->
-		<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+	    <!-- User current location initialization -->
+	    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+
+		<script type="application/javascript" src="libs/js/script.js"></script>
 
 	</body>
 
-<!-- JS Code/ for JS file -->
-	<script>
-
-// Map initialization
-var map = L.map('map').setView([51.505, -0.09], 3);
-
-// OSM/ Tile layer
-var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-});
-osm.addTo(map);
-
- // World terrain
-var Esri_WorldTerrain = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
-	maxZoom: 13
-});
-Esri_WorldTerrain.addTo(map); 
-
-// World gray canvas
-var Esri_WorldGrayCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
-	maxZoom: 16
-});
-Esri_WorldGrayCanvas.addTo(map); 
-
-
-
-/*// Icon
-var myIcon = L.icon({
-	iconUrl: 'my-icon.png',
-	iconSize: [40, 40]
-}); */
-
-// Marker - (example) need to amend!!!!!!!!!
-var singleMarker = L.marker([50.5, 30.5], /*{icon: myIcon}*/);
-var popup = singleMarker.bindPopup('This is my marker/popup!!').openPopup();
-popup.addTo(map); 
-
-
-/* .addTo(map);   ?!?!?!?!! */ 
-
-// Layer control
-var baseMaps = {
-	"OSM": osm,
-	"Esri_WorldTerrain": Esri_WorldTerrain,
-	"Esri_WorldGrayCanvas": Esri_WorldGrayCanvas
-};
-var overlayMaps = {
-	"Marker": singleMarker
-};
-L.control.layers(baseMaps, overlayMaps).addTo(map);
-
-// Current user location marker (note sure if this is needed as of yet as may have to be onload not a button!!)
-L.control.locate().addTo(map);
-
-// adding countryborder.geo.json file to mapp (country borders)
-$.getJSON("libs/js/countryBorders.geo.json", function(data) {
-	L.geoJSON(data, {
-		style: function (feature) {
-			return {
-				color: 'black',
-				fillColor: 'none'
-			};
-		}
-	}).addTo(map);
-});
-
-
-
-////////////////////////////////////////////////////
-
-	</script>
 </html>
