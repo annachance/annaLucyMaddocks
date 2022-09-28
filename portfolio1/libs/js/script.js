@@ -1,7 +1,6 @@
 
 // Global Variables
 var countries = [];
-var myLinesLayer = null;
 
 
 // Map initialization
@@ -65,7 +64,7 @@ $(document).ready(function () {
     
     $.ajax({ // Retrieve country names to dropdown
 
-        url: "libs/php/countryBorders.php",
+        url: "libs/php/countryDropdownList.php",
         type: 'GET',
         dataType: 'json',
 
@@ -98,76 +97,4 @@ $(document).ready(function () {
             })
         });
 
-
-        // Country borders 
-          
-          function applyCountryBorder() {
-            
-            $.ajax({ // Retrieve country border of selected country
-                url: "libs/php/countryBorders.php",
-                type: 'GET',
-                dataType: 'json',
-        
-        success: function(result) {
-                   
-        if (result.status.name == "ok") {
-            for(var i = 0; i < result['data'].length; i++){
-
-                if(result['data'][i]['properties']['iso_a2'] == document.getElementById("country-dropdown").value){
-                    geojson = {"type":"FeatureCollection","features": [{"type":"Feature","properties":result['data'][i]['properties'],"geometry":result['data'][i]['geometry']}]};
-                
-                    L.geoJSON(data, geojson {
-                        style: function (feature) {
-                            return {
-                                color: 'black',
-                                fillColor: 'none'
-                            }
-                        }
-                    }).bindPopup(function(layer){
-                                return layer.feature.properties.name.geometry
-                            }).addTo(map);
-                   map.fitBounds(L.geoJSON.getBounds());
-                }
-             }
-             
-    }
-              }
-          
-
-})
-};
-
-       
-
-    ///////////////////////////////////////////////////////////
-  
- // Adding countryborder.geo.json file to mapp (country borders)
- /*$.getJSON("libs/php/countryBorders.php", function(data) {
-	L.geoJSON(data, {
-		style: function (feature) {
-			return {
-				color: 'black',
-				fillColor: 'none'
-			};
-		}
-	}).addTo(map);
-    map.fitBounds(L.geoJSON.getBounds());
- }); 
-
-
-
- ////////////////////////////////////////////////////
-
- 
-  ///////////////////////////////////////////////////////////
-   /*  
-  // not sure if need atm!!!
- 
- $(window).on('load', function () {
-	if ($('#preloader').length) {
-	$('#preloader').delay(1000).fadeOut('slow', function () {
-	$(this).remove();
-	});
-	}
-  });   
-*/
+        /////////////////////////////////////////////////////////////////////////
