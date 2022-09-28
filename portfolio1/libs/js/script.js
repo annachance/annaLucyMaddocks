@@ -3,6 +3,7 @@
 var countries = [];
 
 
+
 // Map initialization
 var map = L.map('map').setView([51.505, -0.09], 3);
 //applyCountryBorder(map, "United Kingdom");
@@ -98,3 +99,49 @@ $(document).ready(function () {
         });
 
         /////////////////////////////////////////////////////////////////////////
+// Retrieve country borders from geojson file
+
+$('#country-dropdown').click(function() {
+             let name = $('#country-dropdown').val();
+        
+            $.ajax({
+                url: "libs/php/countryBorders.php",
+                type: 'POST',
+                dataType: 'json',
+        
+                success: function(result) {
+                    console.log(result);
+
+                    if (result.status.name == "ok") {
+                    for (var i=0; i<result.data.border.features.length; i++) {
+
+                        if(result['data'][i]['properties']['iso_a2'] == document.getElementById("country-dropdown").value){
+                            var geojsonFeature = {"type":"FeatureCollection","features": [{"type":"Feature","properties":result['data'][i]['properties'],"geometry":result['data'][i]['geometry']}]};
+                           
+                        }
+
+                        $('#country-dropdown').append($('<option>', {
+                            value: result.data.border.features[i].properties.iso_a2,
+                            text: result.data.border.features[i].properties.name,
+                        }));
+                    }
+
+                      border = L.geoJSON(geojsonFeature,{
+                          "type": type,
+                          "coordinates": coordinates
+                   },{
+                        style: {
+                          color: "black"
+                      }
+                   }).addTo(map); 
+                       map.fitBounds(border.getBounds())
+                    }
+            },
+        error: function(jqXHR, textStatus, errorThrown) {
+            // your error code
+            console.log(errorThrown),
+            console.log(jqXHR);
+        } 
+        
+            })
+        });
