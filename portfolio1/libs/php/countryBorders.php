@@ -5,15 +5,16 @@ error_reporting(E_ALL);
 
 $executionStartTime = microtime(true);
    
-   $result = file_get_contents('countryBorders.geo.json');
+   $result = file_get_contents("countryBorders.geo.json");
 
-   $border = json_decode($result,true);
+   $decode = json_decode($result,true);
+ 
+   $countryBorder;
 
-   $countries = [];
-
-  for ($i = 0; $i < count($border['features']); $i++) {
-    if ($border['features'][$i]['properties']['iso_a2'] == ) 
-
+  for ($i = 0; $i < count($decode['features']); $i++) {
+    if ($decode['features'][$i]['properties']['iso_a2'] == $_REQUEST['iso']) {
+      $countryBorder = $decode['features'][$i]['geometry'];
+    } 
   };
 
    $output['status']['code'] = "200";
@@ -21,7 +22,7 @@ $executionStartTime = microtime(true);
    $output['status']['description'] = "success";
    $output['status']['executedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
 
-   $output['data']['border'] = $border;
+   $output['data'] = $countryBorder;
    
    header('Content-Type: application/json; charset=UTF-8');
 
