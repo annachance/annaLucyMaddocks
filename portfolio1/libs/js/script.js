@@ -1,6 +1,7 @@
 
 // Global Variables
 var countries = [];
+var borderLayer = null;
 
 
 
@@ -74,14 +75,10 @@ $(document).ready(function () {
             console.log(result);
 
         if (result.status.name == "ok") {
-            //var select = $("#country-dropdown");
+            
            console.log(result['data'])
            for(var i = 0; i < result['data'].length; i++){
-            // var opt = result['data'][i]['name'];
-            // var val = result['data'][i]['code'];
-            // var el = document.createElement("option");
-            // el.textContent = opt;
-            // el.value = val;
+           
             $("#country-dropdown").append(`<option value="${result['data'][i]['code']}">${result['data'][i]['name']}</option>`);
            }
 
@@ -91,50 +88,52 @@ $(document).ready(function () {
 
         error: function(jqXHR, textStatus, errorThrown) {
             // your error code
-            console.log(errorThrown)
-            console.log(jqXHR);
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+            //console.log(errorThrown)
+            //console.log(jqXHR);
         }
 
             })
         });
 
         /////////////////////////////////////////////////////////////////////////
+       
+        //var GeoJSONLayer = new L.GeoJSON();
 // Retrieve country borders from geojson file
 
-
-var GeoJSONLayer = new L.GeoJSON();
-
 $('#country-dropdown').change(function() {
-    var iso_a2 = $('#country-dropdown option:selected').val();
+    
     $.ajax({
         url: "libs/php/countryBorders.php",
-        type: 'POST',
+        type: 'GET',
         dataType: 'json',
-        data: {
-            iso: iso_a2
-        },
+        data: 'iso',
+        
         success: function(result) {
 
             if (result.status.name == "ok") {
-                for(var i = 0; i < result['data'].length; i++){
-        
-                        if(result['data'][i]['properties']['iso_a2'] == document.getElementById("country-dropdown").value){
-                            geojson = {"type":"FeatureCollection","features": [{"type":"Feature","properties":result['data'][i]['properties'],"geometry":result['data'][i]['geometry']}]};
-                           
-                        }
+                console.log(result['data'])
+           for(var i = 0; i < result['data'].length; i++){   
+            
+               return L.geoJSON(data, {
+                    style: function (feature) {
+                        return {geometry: feature.features.geometry};
                     }
+                }).addTo(map)
 
-                GeoJSONLayer.clearLayers();
 
-                var geoJSONFeature = result['data']['border'];
-                GeoJSONLayer.addData(geoJSONFeature).addTo(map);
-                map.fitBounds(GeoJSONLayer.getBounds());
+                //var geoJSONFeature = result['geometry'];
+                //L.geoJSON(geoJSONFeature).addTo(map);
+                
+                map.fitBounds(L.geoJSON.getBounds());
+
             }
+        }
     
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            console.log(errorThrown),
-            console.log(jqXHR);
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+            //console.log(jqXHR);
         }
-    })
-});
+    });
+}); 
