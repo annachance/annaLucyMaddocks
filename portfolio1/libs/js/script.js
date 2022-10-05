@@ -14,6 +14,8 @@
 // Global Variables
 var countries = [];
 
+var marker = null;
+
 ///////////////////////////////////////////////////////////
 
 // Map initialization
@@ -110,7 +112,7 @@ $(document).ready(function () {
                         $("#result").html("Found your location <br />Lat : "+position.coords.latitude+" </br>Lang :"+ position.coords.longitude);
                         
                        //Retrieve country name based on current location                 
-                       $.ajax({ // Calls Open Cage- Reverse Geocoding API
+                       $.ajax({ // Calls Geonames- Country Codes API
                         
                         url: "libs/php/currentUserLocation.php",
                         type: 'POST',
@@ -118,26 +120,30 @@ $(document).ready(function () {
                         data: {
                             lat: position.coords.latitude,
                             lng: position.coords.longitude,
-                            "iso": $('#country-dropdown').val()
                         },
                         success: function(result) {
 
+                        console.log(result['data']);
+
                         if (result.status.name == "ok") {
 
-                            console.log(result['data'][0]['geometry']['lat']);
-                            console.log(result['data'][0]['geometry']['lng']);
-                            console.log(result['data'][0]['geometry']['country']);
-                            console.log(result['data'][0]['geometry']['iso_a2']);
+                            console.log(result['data'][0]['components']['lat']);
+                            console.log(result['data'][0]['components']['lng']);
+
+                            $("#country-dropdown").val(country).change();   //Sets dropdown to current country
+                            //var countryCode = L.geoJSON(result['data'][0]['country']['lat']['lng']).addTo(map);
+
+
+                           // console.log(result['data'][0]['geometry']['country']);
+                           // console.log(result['data'][0]['geometry']['iso_a2']);
                            // lat = result['data'][0]['geometry']['lat'];
                            // lng = result['data'][0]['geometry']['lng'];
-                        
-                            //document.getElementById('country-dropdown').value=currentBorder();   //Sets dropdown to current country
+                    
                            
-                           //getCurrentPosition();
 
-                           var currentBorder = L.geoJSON(result['data'][0]['geometry']['lat']['lng']['country']['iso_a2']).addTo(map);
-                           currentBorder.bindPopup("Your Location!");
-                           map.fitBounds(currentBorder.getBounds());
+                           //var currentBorder = L.geoJSON(result['data'][0]['geometry']['lat']['lng']/*['country']['iso_a2']*/).addTo(map);
+                           //currentBorder.bindPopup("Your Location!");
+                           //map.fitBounds(currentBorder.getBounds());
                         }
                         
                         },
