@@ -111,7 +111,7 @@ $(document).ready(function () {
                 navigator.geolocation.getCurrentPosition(function(position){ 
                         $("#result").html("Found your location <br />Lat : "+position.coords.latitude+" </br>Lang :"+ position.coords.longitude);
                         
-                       //Retrieve country name based on current location                 
+                       //Retrieve country name and border based on current location                 
                        $.ajax({ // Calls Geonames- Country Codes API
                         
                         url: "libs/php/currentUserLocation.php",
@@ -127,29 +127,14 @@ $(document).ready(function () {
 
                         if (result.status.name == "ok") {
 
-                            console.log(result['data'][0]['components']['lat']);
-                            console.log(result['data'][0]['components']['lng']);
+                           $("#country-dropdown").val(result['data']).change(); //Sets dropdown to current country
 
-                            $("#country-dropdown").val(country).change();   //Sets dropdown to current country
-                            //var countryCode = L.geoJSON(result['data'][0]['country']['lat']['lng']).addTo(map);
-
-
-                           // console.log(result['data'][0]['geometry']['country']);
-                           // console.log(result['data'][0]['geometry']['iso_a2']);
-                           // lat = result['data'][0]['geometry']['lat'];
-                           // lng = result['data'][0]['geometry']['lng'];
-                    
-                           
-
-                           //var currentBorder = L.geoJSON(result['data'][0]['geometry']['lat']['lng']/*['country']['iso_a2']*/).addTo(map);
-                           //currentBorder.bindPopup("Your Location!");
-                           //map.fitBounds(currentBorder.getBounds());
-                        }
+                           }
                         
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             // your error code
-                            alert(errorThrown);
+                            console.log(jqXHR);
                         } 
                         
                             })
@@ -178,6 +163,10 @@ $('#country-dropdown').change(function() {
 
             if (result.status.name == "ok") {
                 console.log(result['data'])
+		    
+		    /* if (border !== null) { // (not working atm!!)-removes current border layer when new country selected (ready to load new country border!) 
+                    map.removeLayer(border);
+                } */
 
               var border = L.geoJSON(result['data']).addTo(map);
 
@@ -194,3 +183,102 @@ $('#country-dropdown').change(function() {
         });
 
 /////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
+
+// Retrieve Country Info ----- (API's)
+function getCountryInfo(){ 
+
+    $.ajax({  // Calls Geonames- Country Codes API
+        url: "libs/php/countryInfo.php",
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            country: {
+                     lat: position.coords.latitude,
+                     lng: position.coords.longitude,
+                     country:iso_a2,
+        },
+        success: function(result) {
+
+            console.log(result['data']);
+
+            if (result.status.name == "ok") {
+
+               $('#countryName').html(result['data']/*['geonames']*/['countryName']); 
+        
+                $('#txtcapital').html(result['data']['capitalName']);
+                $('#txtpopulation').html(result['data']['population']);
+                $('#txtcurrency').html(result['data']['currencyName']); // ?!
+                $('#txtcurrencyCode').html(result['data']['currencyCode']);
+                document.getElementById("flag").src = result['data']['flag'];
+                $('#Language').html(result['data']['language']);
+                $('#continent').html(result['data']['continent']);
+                $('#currencySymbol').html(result['data']['currencySymbol']); //?!
+                $('#naitiveName').html(result['data']['naitiveName']); //?!
+
+               // $("#country-dropdown").val(result['data']).change(); //Sets dropdown to current country
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR));
+            console.log(JSON.stringify(textStatus));
+            console.log(JSON.stringify(errorThrown));
+            //console.log(jqXHR); ?!
+            //console.log(jqXHR, textStatus, errorThrown); ?!
+        }
+    }
+    }); 
+};  
+
+/////////////////////////////////////////////////////////////////////////
+// NOT SURE YET!!!!! //
+//Changing the select dropdown- call everything function
+$('select').on('change', function() {
+    
+    getCountryInfo();
+
+  });
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Retrieve L.easyButtons
+// -------------------------------- Button 1 - Country Information --------------------------------
+
+L.easyButton('<img src="libs/svg/globe-solid.svg" style="width:16px">', function(btn, map) {
+    $('#modal1').modal('show');
+}, 'Country Information').addTo(map);
+
+// -------------------------------- Button 2 - Country Weather --------------------------------
+
+L.easyButton('<img src="libs/svg/cloud-sun-solid.svg" style="width:16px">', function(btn, map) {
+    $('#modal2').modal('show');
+}, 'Weather').addTo(map);
+
+// -------------------------------- Button 3 - Country Currenecy --------------------------------
+
+L.easyButton('<img src="libs/svg/wallet-solid.svg" style="width:16px">', function(btn, map) {
+    $('#modal3').modal('show');
+}, 'Currency').addTo(map);
+
+// -------------------------------- Button 4 - Country Covid Chart --------------------------------
+
+L.easyButton('<img src="libs/svg/disease-solid.svg" style="width:16px">', function(btn, map) {
+    $('#modal4').modal('show');
+}, 'Covid').addTo(map);
+
+// -------------------------------- Button 5 - Country Airports --------------------------------
+
+L.easyButton('<img src="libs/svg/plane-departure-solid.svg" style="width:16px">', function(btn, map) {
+   
+    if(map.hasLayer(airportCluster)) {
+        
+        map.removeLayer(airportCluster);
+    } else {
+        map.addLayer(airportCluster);        
+        
+   }
+
+
+}, 'Airports').addTo(map); 
