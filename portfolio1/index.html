@@ -1,96 +1,312 @@
 <!doctype html>
+    
+       <html lang="en">
+      
+           <head>
 
-<html lang="en">
+               <meta charset="utf-8">
+               <title>Project 1- Gazetteer | IT Career Switch</title>
+               <meta name="description" content="IT Career Switch">
+               <meta name="author" content="Anna Maddocks">
+               <meta http-equiv="X-UA-Compatible" content="IE-edge"> 
+               <meta name="viewport" content="width=device-width, initial-scale=1"> 
+      
 
-	<head>
+               <!-- Favicon and Stylesheet-->
+               <link href="favicon.ico" rel="icon">
+               <link rel="stylesheet" type="text/css" href="libs/css/style.css"> 
+      
+               <!-- Bootstrap Initialization -->
+               <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+      
+               <!-- Leaflet Map Initialization -->
+               <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"/>
 
-		<meta charset="utf-8">
+               <!-- Leaflet L.easyButton --> 
+               <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
 
-		<title>Project 1- Gazetteer | IT Career Switch</title>
-		<meta name="description" content="IT Career Switch">
-		<meta name="author" content="Anna Maddocks">
-	    <meta http-equiv="X-UA-Compatible" content="IE-edge"> 
-		<meta name="viewport" content="width=device-width, initial-scale=1"> 
-		
-		<!-- Favicon and stylesheet-->
-		<link href="favicon.ico" rel="icon">
-        <link rel="stylesheet" type="text/css" href="libs/css/style.css"> 
-        
-		<!-- Bootstrap initialization -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">  
-		
-		<!-- Leaflet map initialization -->
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"/>
+               <!-- User Current Location Initialization  -->
+               <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+               <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.css" />
+    
+           </head>
+      
+<!--///////////////////////////////////////////////////////////////////////////////-->
 
-        <!-- User current location initialization  -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.css" />
+           <body>
+    
+               <header>
+                   <!-- Not sure if needed yet!! -->
+                   <!-- <div id="preloader"></div> -->
+      
+                   <!--   NavBar/ dropdown menu!   -->
+                   <nav class="navbar navbar-dark bg-primary navbar-fixed-top" role="navigation">
+                       <form>
+                           <div class="form-group navbar-form">
+    
+                               <select form="form-control" id="country-dropdown" name="country-dropdown"> 
+                               <option value="">--Select a country of the world--</option>
+							   
+                               </select>
+      
+                           </div>
+                       </form>
+                   </nav>
+
+               </header>
+      
+<!--///////////////////////////////////////////////////////////////////////////////-->
+    
+               <main>
+				   
+               <!--   Full-screen sized map   -->
+
+                  <div id="map"></div>
+    
+<!--///////////////////////////////////////////////////////////////////////////////-->
+
+<!--//////////////////////////// Modals/Overlays ///////////////////////////////// -->
+
+               <!-- Modal 1 - Country Information -->
+<!-- Modal -->
+<div class="modal fade" id="modal1" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal Content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Country Information</h4>
+        </div>
+        <div class="modal-body">
+          <table class="table" id="table">
+            <tbody>
+            <tr>
+                <td>Country: </td>
+                <td id="countryName"></td>
+            </tr>
+            <tr>
+              <td>Naitive Name: </td>
+              <td id="naitiveName"></td>
+          </tr>
+            <tr>
+              <td>Continent: </td>
+              <td id="continent"></td>
+          </tr>
+          <tr>
+            <td>Capital: </td>
+            <td id="txtcapital"></td>
+        </tr>
+        <tr>
+          <td>Language: </td>
+          <td id="Language"></td>
+      </tr>
+      <tr>
+        <td>Population: </td>
+        <td id="txtpopulation"></td>
+    </tr>
+    <tr>
+      <td>Bordering Countries: </td>
+      <td id="timeZone"></td>
+  </tr> 
+            
+            
+            
+            <tr>
+                <td>Flag: </td>
+                <td><img id="flag" src='' style="width:100px;height:100px;"></td>
+            </tr>
+        </tbody>
+        </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+           
+    </div>
+  </div>
 
 
-		
-	</head>
-    <!--////////////////////////////////////////////////////////////////-->
-	<body>
-		<header>
-			<!-- Not sure if needed yet!! -->
-			<!-- <div id="preloader"></div> -->
+				<!-- <a href="#" data-toggle="modal" data-target="countryInfoModal">Open Modal</a> ?! ?! --> 
 
-			<!--   NavBar/ dropdown menu!   -->
-			<nav class="navbar navbar-dark bg-primary navbar-fixed-top" role="navigation">
-				<form>
-					<div class="form-group navbar-form">
-						<select form="form-control" id="country-dropdown" name="country-dropdown"> 
-					    <option value="">--Select a country of the world--</option>
-					   <!-- <option value="CA">Canada</option>
-							<option value="CR">Costa Rica</option>
-							<option value="CU">Cuba</option>
-							<option value="GL">Greenland</option>
-							<option value="GL">Greenland</option> 
-							<option value="GL">Greenland</option> 
-							<option value="GL">Greenland</option> 
-							<option value="GL">Greenland</option> 
-							<option value="GL">Greenland</option> 
-							<option value="GL">Greenland</option> 
-							<option value="GL">Greenland</option> 
-							<option value="GL">Greenland</option>  -->
-						</select>
+<!--///////////////////////////////////////////////////////////////////////////////-->
 
-					</div>
-				</form>
-			</nav>
-	    </header>
+					<!-- Modal 2 - Country Weather -->
+<!-- Modal -->
+<div class="modal fade" id="modal2" role="dialog">
+	<div class="modal-dialog">
+						
+	<!-- Modal content-->
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Current Weather</h4>
+	</div>
+    <div class="modal-body">
+        <table class="table" id="table">
+			<tbody>
+				<tr>
+					<td>Weather: </td>
+					<td id="txtdescription"></td>
+				</tr>
+				<tr>
+					<td>Temperature C (Real): </td>
+					<td id="txttemperature"></td>
+			    </tr>
+				<tr>
+					<td>Temperature C (Feels Like): </td>
+					<td id="txtFeelsLike"></td>
+				</tr>
+				<tr>
+					<td>Humidity (%): </td>
+					<td id="txtHumidity"></td>
+				</tr>
+				<tr>
+				    <td>Wind (MPH): </td>
+					<td id="txtWind"></td>
+				</tr>
+							
+			</tbody>
+		</table>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	</div>
+</div>
+							
+</div>
+</div>
 
-	    <!--////////////////////////////////////////////////////////////////-->
-        <main>
-	    <!--   Full-screen sized map   -->
+<!--///////////////////////////////////////////////////////////////////////////////-->
 
-	       <div id="map"></div>
-		  
-	    <!--////////////////////////////////////////////////////////////////-->
+					<!-- Modal 3 - Country Currency -->
+<!-- Modal -->
+<div class="modal fade" id="modal3" role="dialog">
+	<div class="modal-dialog">
 
-	    <!--  Modals/Overlays  -->
+	<!-- Modal content-->
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Currency</h4>
+		</div>
+		<div class="modal-body">
+		     <table class="table" id="table2">
+				<tbody>
+				    <tr>
+						<td>Currency: </td>
+						<td id="txtcurrency"></td>
+					</tr>
+				    <tr>
+						 <td>Currency Symbol: </td>
+					     <td id="currencySymbol"></td>
+				     </tr>
+					 <tr>
+						<td>Currency Code: </td>
+						<td id="txtcurrencyCode"></td>
+					</tr>
+					 <tr>
+						<td>Exchange Rate(USD): </td>
+						<td id="exchangeRateUSD"></td>
+					</tr>
+					<tr>
+						 <td>Exchange Rate(EUR): </td>
+						 <td id="exchangeRateEUR"></td>
+					</tr>
+					 <tr>
+					    <td>Exchange Rate(GBP): </td>
+					    <td id="exchangeRateGBP"></td>
+					</tr>
+							  
+					</tbody>
+				    </table>
+						</div>
+						<div class="modal-footer">
+						  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+				</div>
+			</div>
+		</div>
 
-		
+<!--///////////////////////////////////////////////////////////////////////////////-->
 
+					<!-- Modal 4 - Country Covid Information -->
+<!-- Modal -->
+<div class="modal fade" id="modal4" role="dialog">
+	<div class="modal-dialog">
 
-         <!--////////////////////////////////////////////////////////////////-->
+  <!-- Modal content-->
+  <div class="modal-content">
+	<div class="modal-header">
+	  <button type="button" class="close" data-dismiss="modal">&times;</button>
+	  <h4 class="modal-title">Covid Information</h4>
+	</div>
+	<div class="modal-body" id="graph-container">
+	  <table class="table" id="table2">
+		<tbody>
+		  <tr>
+			  <td>Confirmed Covid: </td>
+			  <td id="covidConfirmed"></td>
+		  </tr>
+		  <tr>
+			  <td>Covid Deaths: </td>
+			  <td id="covidDeaths"></td>
+		  </tr>
+		  <tr>
+			  <td>Covid Recovered: </td>
+			  <td id="covidRecovered"></td>
+		  </tr>
+		  <tr>
+			<td><canvas id="lineChart"></canvas> </td>
+			
+		</tr>
+  
+		</tbody>
+	  </table>
+	  
+	</div>
+	<div class="modal-footer">
+	  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	</div>
+  </div>
+  </div>
+</div>
 
-	     </main>
-        <!-- Script.js -->
-	    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPIFFSUTR+nIdQm1LuPXQ=" crossorigin="anonymous"></script>
-	    
-        
-	    <!-- Boostrap initialization -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script> 
-		
-	    <!-- Leaflet map initialization -->
-        <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+<!--///////////////////////////////////////////////////////////////////////////////-->
 
-	    <!-- User current location initialization -->
-	    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+					<!-- Modal 5 - Country Airports ?!?!?!  -->
+<!-- Modal ->
+      
+<!--///////////////////////////////////////////////////////////////////////////////-->
+		       
+<i class="fas fa-home"></i>  //not sure what this does just yet!!
+</main>
 
-		<script type="application/javascript" src="libs/js/script.js"></script>
+<!--///////////////////////////////////////////////////////////////////////////////-->
 
-	</body>
+<!-- Script.js -->
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
+<!-- Boostrap Initialization -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+      
+<!-- Popper Bootstrap Module -- needed?! -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> 
+
+<!-- Leaflet Map Initialization -->
+<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+
+<!-- Leaflet L.easyButton --> 
+<script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+
+<!-- User Current Location Initialization -->
+<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+<script type="application/javascript" src="libs/js/script.js"></script>
+      
+
+</body>
+    
 </html>
