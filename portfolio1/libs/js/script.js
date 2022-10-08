@@ -187,17 +187,14 @@ $('#country-dropdown').change(function() {
 
 
 // Retrieve Country Info ----- (API's)
-function getCountryInfo(){ 
+function getCountryInfo(iso_a2){ 
 
     $.ajax({  // Calls Geonames- Country Codes API
         url: "libs/php/countryInfo.php",
         type: 'GET',
         dataType: 'json',
         data: {
-            country: {
-                     lat: position.coords.latitude,
-                     lng: position.coords.longitude,
-                     country:iso_a2,
+            country: country.iso_a2,
         },
         success: function(result) {
 
@@ -217,15 +214,16 @@ function getCountryInfo(){
                 $('#currencySymbol').html(result['data']['currencySymbol']); //?!
                 $('#naitiveName').html(result['data']['naitiveName']); //?!
 
-               // $("#country-dropdown").val(result['data']).change(); //Sets dropdown to current country
+                getCountryInfo($("#country-dropdown").val());
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            console.log(JSON.stringify(jqXHR));
-            console.log(JSON.stringify(textStatus));
-            console.log(JSON.stringify(errorThrown));
-            //console.log(jqXHR); ?!
-            //console.log(jqXHR, textStatus, errorThrown); ?!
+            //console.log(JSON.stringify(jqXHR));
+            //console.log(JSON.stringify(textStatus));
+            //console.log(JSON.stringify(errorThrown));
+            console.log(errorThrown),
+            console.log(jqXHR); 
+            //console.log(jqXHR, textStatus, errorThrown); 
         }
     }
     }); 
@@ -236,7 +234,8 @@ function getCountryInfo(){
 //Changing the select dropdown- call everything function
 $('select').on('change', function() {
     
-    getCountryInfo();
+    //getCountryInfo();
+    getCountryInfo($("#country-dropdown").val());
 
   });
 
