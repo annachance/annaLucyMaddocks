@@ -194,7 +194,7 @@ function getCountryInfo(iso_a2){
         type: 'GET',
         dataType: 'json',
         data: {
-            country: country.iso_a2,
+            country: iso_a2,
         },
         success: function(result) {
 
@@ -206,27 +206,25 @@ function getCountryInfo(iso_a2){
         
                 $('#txtcapital').html(result['data']['capitalName']);
                 $('#txtpopulation').html(result['data']['population']);
-                $('#txtcurrency').html(result['data']['currencyName']); // ?!
+               // $('#txtcurrency').html(result['data']['currencyName']); // ?!
                 $('#txtcurrencyCode').html(result['data']['currencyCode']);
-                document.getElementById("flag").src = result['data']['flag'];
+                //document.getElementById("flag").src = result['data']['flag'];
                 $('#Language').html(result['data']['language']);
                 $('#continent').html(result['data']['continent']);
-                $('#currencySymbol').html(result['data']['currencySymbol']); //?!
-                $('#naitiveName').html(result['data']['naitiveName']); //?!
+               // $('#currencySymbol').html(result['data']['currencySymbol']); //?!
+              //  $('#naitiveName').html(result['data']['naitiveName']); //?!
 
-                getCountryInfo($("#country-dropdown").val());
+                //getCountryInfo($("#country-dropdown").val());
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            //console.log(JSON.stringify(jqXHR));
-            //console.log(JSON.stringify(textStatus));
-            //console.log(JSON.stringify(errorThrown));
+            // your error code
             console.log(errorThrown),
             console.log(jqXHR); 
-            //console.log(jqXHR, textStatus, errorThrown); 
+           
         }
-    }
-    }); 
+    
+    })
 };  
 
 /////////////////////////////////////////////////////////////////////////
