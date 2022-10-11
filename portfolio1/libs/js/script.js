@@ -211,6 +211,7 @@ function getCountryInfo(iso_a2){
                 //document.getElementById("flag").src = result['data']['flag'];
                 $('#Language').html(result['data']['language']);
                 $('#continent').html(result['data']['continent']);
+		$('#area').html(result['data']['areaInSqKm']);
                // $('#currencySymbol').html(result['data']['currencySymbol']); //?!
               //  $('#naitiveName').html(result['data']['naitiveName']); //?!
 
