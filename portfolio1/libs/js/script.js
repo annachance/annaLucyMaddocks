@@ -68,7 +68,8 @@ L.control.layers(baseMaps, overlayMaps).addTo(map);
 // Current user location marker (note sure if this is needed as of yet as may have to be onload not a button!!)
 L.control.locate().addTo(map);
 
-
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 
 // On webpage Load 
@@ -76,7 +77,6 @@ $(document).ready(function () {
 
 // Retrieve country names to dropdown
     $.ajax({ 
-
         url: "libs/php/countryDropdownList.php",
         type: 'GET',
         dataType: 'json',
@@ -102,7 +102,7 @@ $(document).ready(function () {
             //console.log(jqXHR);
         }
         
-            })
+            })   //done (working!)
 /////////////////////////////////////////////////////////////////////////
 // Retrieve user current loaction
 
@@ -144,7 +144,7 @@ $(document).ready(function () {
             }else{
                 console.log("Browser doesn't support geolocation!");
             }
-        });  
+        });  //done (working!)
 
  /////////////////////////////////////////////////////////////////////////
         
@@ -180,63 +180,80 @@ $('#country-dropdown').change(function() {
             } 
             
           }); 
-        });
+        });   //done (working!)
 
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
+//-------------------------------API's---------------------------------//
 
-
-// Retrieve Country Info ----- (API's)
-function getCountryInfo(iso_a2){ 
+// Retrieve Country Info 
+function getCountryInfo(iso_a2) { 
 
     $.ajax({  // Calls Geonames- Country Codes API
         url: "libs/php/countryInfo.php",
         type: 'GET',
         dataType: 'json',
-        data: {
+        data:  {
             country: iso_a2,
         },
+
         success: function(result) {
 
-            console.log(result['data']);
+            console.log(result['data']); 
 
-            if (result.status.name == "ok") {
+           if (result.status.name == "ok") {
 
-               $('#countryName').html(result['data']/*['geonames']*/['countryName']); 
+                $('#countryName').html(result['data']['geonames'][0]['countryName']); 
         
-                $('#txtcapital').html(result['data']['capitalName']);
-                $('#txtpopulation').html(result['data']['population']);
-               // $('#txtcurrency').html(result['data']['currencyName']); // ?!
-                $('#txtcurrencyCode').html(result['data']['currencyCode']);
-                //document.getElementById("flag").src = result['data']['flag'];
-                $('#Language').html(result['data']['language']);
-                $('#continent').html(result['data']['continent']);
-		$('#area').html(result['data']['areaInSqKm']);
-               // $('#currencySymbol').html(result['data']['currencySymbol']); //?!
-              //  $('#naitiveName').html(result['data']['naitiveName']); //?!
+                $('#txtcapital').html(result['data']['geonames'][0]['capital']);
+                $('#txtpopulation').html(result['data']['geonames'][0]['population']);
+                //$('#txtcurrency').html(result['data']['currencyName']); // ?! **
+                $('#txtcurrencyCode').html(result['data']['geonames'][0]['currencyCode']);
+               // document.getElementById("flag").src = result['data']['flag']; **
+                $('#Language').html(result['data']['geonames'][0]['languages']);
+                $('#continent').html(result['data']['geonames'][0]['continent']);
+                $('#area').html(result['data']['geonames'][0]['areaInSqKm']);
+               // $('#currencySymbol').html(result['data']['currencySymbol']); //?! **
+                //$('#naitiveName').html(result['data']['naitiveName']); //?! **
 
-                //getCountryInfo($("#country-dropdown").val());
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
             // your error code
             console.log(errorThrown),
             console.log(jqXHR); 
-           
-        }
+            //console.log(jqXHR, textStatus, errorThrown); 
+        } 
     
-    })
-};  
+    }) 
+};  //done (working!) 
 
 /////////////////////////////////////////////////////////////////////////
-// NOT SURE YET!!!!! //
+
+
+
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
 //Changing the select dropdown- call everything function
+
 $('select').on('change', function() {
     
     //getCountryInfo();
     getCountryInfo($("#country-dropdown").val());
+    
+    //getWeatherInfo();
+    //getWeatherInfo($("#country-dropdown").val()); **
 
-  });
+    //getExchangeRate();
+    //getExchangeRate($("#country-dropdown").val()); **
+
+    //getCovidInfo();
+    //getCovidInfo($("#country-dropdown").val()); **
+
+
+
+    
+  }); 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
