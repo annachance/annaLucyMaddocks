@@ -6,7 +6,7 @@
 	$executionStartTime = microtime(true);
 	
     //Geonames- Country Codes (info) API
-	$url='http://api.geonames.org/countryInfoJSON?&lang=en'.'&country='.$_REQUEST['country'].'&username=anna_chance&style=full';
+	$url='http://api.geonames.org/countryInfoJSON?&lang=en&country='.$_REQUEST["country"].'&username=anna_chance&style=full';
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -23,7 +23,7 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
-	$output['data'] = $decode; //['geonames'];
+	$output['data'] = $decode; 
 	
 	header('Content-Type: application/json; charset=UTF-8');
 
