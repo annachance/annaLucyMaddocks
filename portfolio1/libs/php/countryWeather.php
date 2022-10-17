@@ -5,10 +5,14 @@
     
     $executionStartTime = microtime(true) / 1000;
     
-    //Open Weather API
-    $url='http://api.openweathermap.org/data/2.5/weather?'.'&appid=4d5ab8a2e54f4fc6266e34bcf9c514ab';
+   //Open Weather API
+    //$url='http://api.openweathermap.org/data/2.5/weather?'.'&appid=4d5ab8a2e54f4fc6266e34bcf9c514ab';
 	
-    //$url='https://api.openweathermap.org/data/2.5/weather?lat='.$_REQUEST['lat'].'lon='.$_REQUEST['lon'].'&appid=4d5ab8a2e54f4fc6266e34bcf9c514ab';
+	$url='https://api.openweathermap.org/data/2.5/weather?lat=55.9533&lon=3.1883'.'&appid=4d5ab8a2e54f4fc6266e34bcf9c514ab';
+
+	//$url='https://api.openweathermap.org/data/2.5/weather?lat='.$_REQUEST['lat'].'&lon='.$_REQUEST['lon'].'&appid=4d5ab8a2e54f4fc6266e34bcf9c514ab';
+
+	//$url='http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}'.'&appid=4d5ab8a2e54f4fc6266e34bcf9c514ab';
 
      $ch = curl_init();
      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
