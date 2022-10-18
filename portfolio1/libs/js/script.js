@@ -102,7 +102,7 @@ $(document).ready(function () {
             //console.log(jqXHR);
         }
         
-            })   //done (working!)
+            })   //done and working!
 /////////////////////////////////////////////////////////////////////////
 // Retrieve user current loaction
 
@@ -144,12 +144,15 @@ $(document).ready(function () {
             }else{
                 console.log("Browser doesn't support geolocation!");
             }
-        });  //done (working!)
+        });  //done and working!
 
  /////////////////////////////////////////////////////////////////////////
         
+//$('select').on('change', function() {
+    
 // Retrieve country borders from geojson file
-$('#country-dropdown').change(function() {
+//$('#country-dropdown').change(function() { // not sure which is going to work best yet!
+function everything(){
 
     $.ajax({
         url: "libs/php/countryBorders.php",
@@ -179,8 +182,97 @@ $('#country-dropdown').change(function() {
                 console.log(jqXHR, textStatus, errorThrown);
             } 
             
-          }); 
-        });   //done (working!)
+          }); //done and working
+/////////////////////////////////////////////////////////////////////////
+//-------------------------------API's---------------------------------//
+// Retrieve Forward Geocoding from OpenCage API (lat and lon coords) 
+
+          $.ajax({  // Calls OpenCage API
+                
+            url: "libs/php/forwardGeoCode.php",
+            type: 'POST',
+            dataType: 'json',
+            data: {country: $('#country-dropdown').val()},
+
+            success: function(result) {
+                
+                console.log(result);
+               // console.log("test");
+                    
+                if (result.status.name == "ok") {
+
+                    lat = result['data'][0]['geometry']['lat'];
+                    lng = result['data'][0]['geometry']['lng'];
+                       
+        } //done and working!
+/////////////////////////////////////////////////////////////////////////
+// Retrieve Weather Info 
+
+$.ajax({  // Calls Open Weather API
+
+    url: "libs/php/countryWeather.php",
+    type: 'POST',
+    dataType: 'json',
+    data: {
+        lat: lat,
+        lon: lng, 
+    },
+    success: function(result) {
+
+            console.log(result['data']);
+           // console.log(result['data']['weather'][0]['main']);
+           // console.log("test");
+
+        if (result.status.name == "ok") {
+
+            var temp = parseInt(result['data']['main']['temp'] + '°C');
+            var midTemp = temp - 273.15;
+            var newTemp = midTemp.toFixed(2);
+            var tempFeels = parseInt(result['data']['main']['feels_like'] + '°C');
+            var midTempFeels = tempFeels - 273.15;
+            var newTempFeels = midTempFeels.toFixed(2);
+
+            $('#txtIcon').html(result['data']['weather']['0']['icon']); 
+            $('#txtDescription').html(result['data']['weather'][0]['description']);
+            $('#txtMain').html(result['data']['weather'][0]['main']);
+            $('#txtTemperature').html(newTemp);
+            $('#txtFeelsLike').html(newTempFeels); 
+            $('#txtLowestTemp').html(result['data']['main']['temp_min'] + '°C');
+            $('#txtHighestTemp').html(result['data']['main']['temp_max'] + '°C');
+            $('#txtHumidity').html(result['data']['main']['humidity'] + '%');
+            $('#txtWind').html(result['data']['wind']['speed'] + 'm/s');
+            $('#txtTimeZone').html(result['data']['timezone']);
+
+            var unixTimestampSunrise = result['data']['sys']['sunrise'];
+            var unixTimestampSunset = result['data']['sys']['sunset'];
+            var sunriseDate = new Date(unixTimestampSunrise * 1000).toDateString();
+            var sunsetDate = new Date(unixTimestampSunset * 1000).toDateString();
+            
+            // need to change one of these to get the time aswell as date!!
+            $('#weatherSunSet').html(sunriseDate);
+            $('#weatherSunRise').html(sunsetDate);
+
+            $('#weatherSunSet2').html(result['data']['sys']['sunrise']);
+            $('#weatherSunRise2').html(result['data']['sys']['sunset']);
+    
+            //getWeatherInfo($("#country-dropdown").val());
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        // your error code
+        //console.log(jqXHR, textStatus, errorThrown);  ?!?!?
+        console.log(errorThrown),
+        console.log(jqXHR);
+     } 
+    }); //done and working!
+/////////////////////////////////////////////////////////////////////////
+
+
+  }
+}); // end of forward geocode api call!
+
+
+};  // end of function everything() call!
 
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
@@ -212,7 +304,7 @@ function getCountryInfo(iso_a2) {
                // document.getElementById("flag").src = result['data']['flag']; **
                 $('#Language').html(result['data']['geonames'][0]['languages']);
                 $('#continent').html(result['data']['geonames'][0]['continent']);
-                $('#area').html(result['data']['geonames'][0]['areaInSqKm']);
+                $('#area').html(result['data']['geonames'][0]['areaInSqKm'] + '(km2)');
                // $('#currencySymbol').html(result['data']['currencySymbol']); //?! **
                 //$('#naitiveName').html(result['data']['naitiveName']); //?! **
 
@@ -226,7 +318,7 @@ function getCountryInfo(iso_a2) {
         } 
     
     }) 
-};  //done (working!) 
+};  //done and working!
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -242,7 +334,9 @@ $('select').on('change', function() {
     getCountryInfo($("#country-dropdown").val());
     
     //getWeatherInfo();
-    //getWeatherInfo($("#country-dropdown").val()); **
+    //getWeatherInfo($("#country-dropdown").val()); ?!
+	
+    everything($("#country-dropdown").val());
 
     //getExchangeRate();
     //getExchangeRate($("#country-dropdown").val()); **
