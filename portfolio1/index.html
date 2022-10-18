@@ -64,19 +64,19 @@
                   <div id="map"></div>
     
 <!--///////////////////////////////////////////////////////////////////////////////-->
-
 <!--//////////////////////////// Modals/Overlays ///////////////////////////////// -->
 
                <!-- Modal 1 - Country Information -->
 <!-- Modal -->
-<div class="modal fade" id="modal1" role="dialog">
+<div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
     <div class="modal-dialog">
     
       <!-- Modal Content-->
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Country Information</h4>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          
         </div>
         <div class="modal-body">
           <table class="table" id="table">
@@ -88,30 +88,31 @@
             <tr>
               <td>Naitive Name: </td>
               <td id="naitiveName"></td>
-          </tr>
+            </tr>
             <tr>
               <td>Continent: </td>
               <td id="continent"></td>
-          </tr>
-          <tr>
-            <td>Capital: </td>
-            <td id="txtcapital"></td>
-        </tr>
-        <tr>
-          <td>Language: </td>
-          <td id="Language"></td>
-      </tr>
-      <tr>
-        <td>Population: </td>
-        <td id="txtpopulation"></td>
-    </tr>
-    <tr>
-      <td>Bordering Countries: </td>
-      <td id="timeZone"></td>
-  </tr> 
-            
-            
-            
+            </tr>
+            <tr>
+            	<td>Capital: </td>
+            	<td id="txtCapital"></td>
+        	</tr>
+        	<tr>
+         		<td>Languages: </td>
+         		<td id="languages"></td>
+      		</tr>
+      		<tr>
+        		<td>Population: </td>
+        		<td id="txtPopulation"></td>
+   			</tr>
+   			<tr>
+      			<td>Bordering Countries: </td>
+      			<td id="timeZone"></td>
+  			</tr> 
+  			<tr>
+				<td>Land Area: </td>
+				<td id="area"></td>
+			</tr> 
             <tr>
                 <td>Flag: </td>
                 <td><img id="flag" src='' style="width:100px;height:100px;"></td>
@@ -120,7 +121,7 @@
         </table>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
            
@@ -134,44 +135,83 @@
 
 					<!-- Modal 2 - Country Weather -->
 <!-- Modal -->
-<div class="modal fade" id="modal2" role="dialog">
+<div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
 	<div class="modal-dialog">
 						
 	<!-- Modal content-->
 	<div class="modal-content">
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Current Weather</h4>
+			<h4 class="modal-title">Current Weather</h4>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
 	</div>
     <div class="modal-body">
         <table class="table" id="table">
 			<tbody>
 				<tr>
-					<td>Weather: </td>
-					<td id="txtdescription"></td>
+					<td>Icon: </td>
+					<td><img id="txtIcon" src='' style="width:100px;height:100px;"></td>
 				</tr>
 				<tr>
-					<td>Temperature C (Real): </td>
-					<td id="txttemperature"></td>
+					<td>Weather: </td>
+					<td id="txtDescription"></td>
+				</tr>
+				<tr>
+				    <td>Main: </td>
+					<td id="txtMain"></td>
+				</tr>
+				<tr>
+					<td>Current Temperature: </td>
+					<td id="txtTemperature"></td>
 			    </tr>
 				<tr>
-					<td>Temperature C (Feels Like): </td>
+					<td>Feels Like: </td>
 					<td id="txtFeelsLike"></td>
 				</tr>
 				<tr>
-					<td>Humidity (%): </td>
+				    <td>Lowest Temperature: </td>
+					<td id="txtLowestTemp"></td>
+				</tr>
+				<tr>
+				    <td>Highest Temperature: </td>
+					<td id="txtHighestTemp"></td>
+				</tr>
+				<tr>
+					<td>Humidity: </td>
 					<td id="txtHumidity"></td>
 				</tr>
 				<tr>
-				    <td>Wind (MPH): </td>
+				    <td>Wind Speed: </td>
 					<td id="txtWind"></td>
+				</tr>
+				<tr>
+					<td>Time Zone: </td>
+					<td id="txtTimeZone"></td>
+				</tr> 
+				<tr>
+				    <td>Sunset: </td>
+					<td id="weatherSunSet"></td>
+				</tr>
+				<tr>
+				    <td>SunRise: </td>
+					<td id="weatherSunRise"></td>
+				</tr>
+
+
+				<tr>
+				    <td>Sunset2: </td>
+					<td id="weatherSunSet2"></td>
+				</tr>
+				<tr>
+				    <td>SunRise2: </td>
+					<td id="weatherSunRise2"></td>
 				</tr>
 							
 			</tbody>
 		</table>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
 	</div>
 </div>
 							
