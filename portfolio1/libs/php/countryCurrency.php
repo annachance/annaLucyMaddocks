@@ -1,17 +1,13 @@
 <?php
 
-    ini_set('display_errors', 'On');
+        ini_set('display_errors', 'On');
 	error_reporting(E_ALL);
     
 	$executionStartTime = microtime(true) / 1000;
 
-    //Open Exchange Rates API
-    $url = 'https://openexchangerates.org/api/latest.json?'.$_REQUEST['currencyCode'].'app_id=30266cba1d97439cb23025bccb6285c8';  //not 100% sure on the request bit jusy yet?!?!?! or if this url is typed correct!!!
+        //Open Exchange Rates API
+        $url = 'https://openexchangerates.org/api/latest.json?'.$_REQUEST['currencyCode'].'app_id=30266cba1d97439cb23025bccb6285c8';  //not 100% sure on the request bit jusy yet?!?!?! or if this url is typed correct!!!
 
-	//$url= 'https://openexchangerates.org/api/latest.json?app_id=0f67b20b1dd94b68aaabb87421ce8687&symbols='. $_REQUEST['currencyCode']
-	//$url = 'https://api.exchangeratesapi.io/latest?symbols='. $_REQUEST['currencyCode'];
-	//$url = 'https://v6.exchangerate-api.com/v6/47e5a1fc1aa02bbd3ccc8292/latest/'. $_REQUEST['currencyCode'];
-	
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
