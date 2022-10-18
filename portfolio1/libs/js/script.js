@@ -225,18 +225,18 @@ $.ajax({  // Calls Open Weather API
 
         if (result.status.name == "ok") {
 
-            var temp = parseInt(result['data']['main']['temp'] + '°C');
+            var temp = parseInt(result['data']['main']['temp']);
             var midTemp = temp - 273.15;
             var newTemp = midTemp.toFixed(2);
-            var tempFeels = parseInt(result['data']['main']['feels_like'] + '°C');
+            var tempFeels = parseInt(result['data']['main']['feels_like']);
             var midTempFeels = tempFeels - 273.15;
             var newTempFeels = midTempFeels.toFixed(2);
 
             $('#txtIcon').html(result['data']['weather']['0']['icon']); 
             $('#txtDescription').html(result['data']['weather'][0]['description']);
             $('#txtMain').html(result['data']['weather'][0]['main']);
-            $('#txtTemperature').html(newTemp);
-            $('#txtFeelsLike').html(newTempFeels); 
+            $('#txtTemperature').html(newTemp + '°C');
+            $('#txtFeelsLike').html(newTempFeels + '°C'); 
             $('#txtLowestTemp').html(result['data']['main']['temp_min'] + '°C');
             $('#txtHighestTemp').html(result['data']['main']['temp_max'] + '°C');
             $('#txtHumidity').html(result['data']['main']['humidity'] + '%');
