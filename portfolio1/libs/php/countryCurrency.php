@@ -6,7 +6,7 @@
 	$executionStartTime = microtime(true) / 1000;
 
         //Open Exchange Rates API
-        $url = 'https://openexchangerates.org/api/latest.json?'.$_REQUEST['currencyCode'].'app_id=30266cba1d97439cb23025bccb6285c8';  //not 100% sure on the request bit jusy yet?!?!?! or if this url is typed correct!!!
+        $url = 'https://openexchangerates.org/api/latest.json?app_id=30266cba1d97439cb23025bccb6285c8&symbols='; 
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -23,7 +23,7 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] = $decode['currency']; //['rates']; 
+	$output['data'] = $decode['rates'][$_REQUEST['currencyCode']]; 
 	
 	header('Content-Type: application/json; charset=UTF-8');
 
