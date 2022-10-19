@@ -265,43 +265,7 @@ $.ajax({  // Calls Open Weather API
         console.log(jqXHR);
      } 
     }); //done and working!
-/////////////////////////////////////////////////////////////////////////
-// -------------------------------- Get Exchange Rate from Open Exchange Rate  --------------------------------//
-// Retrieve Currency Info 
 
-    $.ajax({   // Calls Open Exchange Rates API
-                
-        url: "libs/php/countryCurrency.php",
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            currencyCode
-             // country: countryCode
-            //country: iso_a2,
-        },
-        success: function(result) {
-    
-            console.log(result['data']);
-            console.log("test");
-                   
-        if (result.status.name == "ok") {
-            
-            $('#exchangeRateGBP').html(result['data']['rates'][0]['GBP']);
-            $('#exchangeRateEUR').html(result['data']['rates'][0]['EUR']);
-            $('#exchangeRateUSD').html(result['data']['rates'][0]['USD']);
-    
-    
-            //getExchangeRate($("#country-dropdown").val());
-          }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            // your error code
-            // console.log(jqXHR, textStatus, errorThrown); 
-            console.log(errorThrown),
-            console.log(jqXHR);
-    
-        } 
-    });
 		    
 		    
 
@@ -345,8 +309,46 @@ function getCountryInfo(iso_a2) {
                // $('#currencySymbol').html(result['data']['currencySymbol']); //?! **
                 //$('#naitiveName').html(result['data']['naitiveName']); //?! **
 
-            }
+            }  //done and working!
+/////////////////////////////////////////////////////////////////////////
+// -------------------------------- Get Exchange Rate from Open Exchange Rate  --------------------------------//
+// Retrieve Currency Info 
+
+    $.ajax({   // Calls Open Exchange Rates API
+                
+        url: "libs/php/countryCurrency.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            currencyCode
+             // country: countryCode
+            //country: iso_a2,
         },
+        success: function(result) {
+    
+            console.log(result['data']);
+            console.log("test");
+                   
+        if (result.status.name == "ok") {
+            
+            $('#exchangeRateGBP').html(result['data']['rates'][0]['GBP']);
+            $('#exchangeRateEUR').html(result['data']['rates'][0]['EUR']);
+            $('#exchangeRateUSD').html(result['data']['rates'][0]['USD']);
+    
+    
+            //getExchangeRate($("#country-dropdown").val());
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            // your error code
+            // console.log(jqXHR, textStatus, errorThrown); 
+            console.log(errorThrown),
+            console.log(jqXHR);
+    
+        } 
+    });
+		
+        },  //end of the success callback of geonames api call!
         error: function(jqXHR, textStatus, errorThrown) {
             // your error code
             console.log(errorThrown),
@@ -354,8 +356,8 @@ function getCountryInfo(iso_a2) {
             //console.log(jqXHR, textStatus, errorThrown); 
         } 
     
-    }) 
-};  //done and working!
+    }) // end of geonames api call!
+};  // end of function getCountryInfo(iso_a2) call!
 
 /////////////////////////////////////////////////////////////////////////
 
