@@ -187,7 +187,7 @@ function everything(){
 //-------------------------------API's---------------------------------//
 // Retrieve Forward Geocoding from OpenCage API (lat and lon coords) 
 
-          $.ajax({  // Calls OpenCage API
+         $.ajax({  // Calls OpenCage API
                 
             url: "libs/php/forwardGeoCode.php",
             type: 'POST',
@@ -220,7 +220,6 @@ $.ajax({  // Calls Open Weather API
     success: function(result) {
 
             console.log(result['data']);
-           // console.log(result['data']['weather'][0]['main']);
            // console.log("test");
 
         if (result.status.name == "ok") {
@@ -325,14 +324,13 @@ function getCountryInfo(iso_a2) {
         success: function(result1) {
     
             console.log(result1['data']);
-            console.log("test");
+           // console.log("test");
                    
         if (result.status.name == "ok") {
             
-            $('#exchangeRateGBP').html(result1['data']);
-            $('#exchangeRateEUR').html(result1['data']['rates']['EUR']); // this is not working!
-            $('#exchangeRateUSD').html(result1['data']['rates']['USD']); // this is not working!
-    
+            $('#exchangeRateGBP').html('£ ' + result1['data']['GBP']);
+            $('#exchangeRateEUR').html('€ ' +result1['data']['EUR']); 
+            $('#exchangeRateUSD').html('$ ' +result1['data']['USD']); 
     
             //getExchangeRate($("#country-dropdown").val());
           }
@@ -344,7 +342,13 @@ function getCountryInfo(iso_a2) {
             console.log(jqXHR);
     
         } 
-    });
+    });  //done and working!
+		
+		
+		
+		
+		
+		
 		
         },  //end of the success callback of geonames api call!
         error: function(jqXHR, textStatus, errorThrown) {
@@ -376,7 +380,7 @@ $('select').on('change', function() {
     everything($("#country-dropdown").val());
 
     //getExchangeRate();
-    //getExchangeRate($("#country-dropdown").val()); **
+    //getExchangeRate($("#country-dropdown").val()); ?!
 
     //getCovidInfo();
     //getCovidInfo($("#country-dropdown").val()); **
