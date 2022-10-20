@@ -23,8 +23,13 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] = $decode['rates'][$_REQUEST['currencyCode']]; 
-	
+
+	$output['data'][$_REQUEST['currencyCode']] = $decode['rates'][$_REQUEST['currencyCode']]; 
+
+	$output['data']['GBP'] = $decode['rates']['GBP'];
+	$output['data']['EUR'] = $decode['rates']['EUR'];
+	$output['data']['USD'] = $decode['rates']['USD'];
+
 	header('Content-Type: application/json; charset=UTF-8');
 
 	echo json_encode($output); 
