@@ -320,20 +320,18 @@ function getCountryInfo(iso_a2) {
         type: 'POST',
         dataType: 'json',
         data: {
-            currencyCode
-             // country: countryCode
-            //country: iso_a2,
+                currencyCode:result['data']['geonames'][0]['currencyCode'],
         },
-        success: function(result) {
+        success: function(result1) {
     
-            console.log(result['data']);
+            console.log(result1['data']);
             console.log("test");
                    
         if (result.status.name == "ok") {
             
-            $('#exchangeRateGBP').html(result['data']['rates'][0]['GBP']);
-            $('#exchangeRateEUR').html(result['data']['rates'][0]['EUR']);
-            $('#exchangeRateUSD').html(result['data']['rates'][0]['USD']);
+            $('#exchangeRateGBP').html(result1['data']);
+            $('#exchangeRateEUR').html(result1['data']['rates']['EUR']); // this is not working!
+            $('#exchangeRateUSD').html(result1['data']['rates']['USD']); // this is not working!
     
     
             //getExchangeRate($("#country-dropdown").val());
