@@ -11,7 +11,7 @@
         //$url='https://api.countrylayer.com/v2/name/'.'?access_key = bdcb51e95a4da6befdbef7586487d059'.'?fullText=true';
         //$url='https://api.countrylayer.com/v2/all'.'?access_key = bdcb51e95a4da6befdbef7586487d059'. '?fullText=true';
 
-       $url='https://restcountries.com/v3.1/all/?access_key = bdcb51e95a4da6befdbef7586487d059/?fullText=true';
+       //$url='https://restcountries.com/v3.1/all/?access_key = bdcb51e95a4da6befdbef7586487d059/?fullText=true';
 
 	$url='https://restcountries.com/v3.1/name/{name}/?fullText=true';
    	 //$url='https://restcountries.com/v3.1/name/?fullText=true';
