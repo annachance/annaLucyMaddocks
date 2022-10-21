@@ -3,13 +3,13 @@
 	$executionStartTime = microtime(true) / 1000;
 
   
-   // bdcb51e95a4da6befdbef7586487d059
+        // bdcb51e95a4da6befdbef7586487d059
 
-   // https://api.countrylayer.com/v2/name/{name}
-   // ? access_key = API_KEY & fullText=
+        // https://api.countrylayer.com/v2/name/{name}
+        // ? access_key = API_KEY & fullText=
 
 	//$url='https://api.countrylayer.com/v2/all'.'?access_key = bdcb51e95a4da6befdbef7586487d059'. '?fullText=true';
-    $url='https://api.countrylayer.com/v2/name/'.'?access_key = bdcb51e95a4da6befdbef7586487d059'.'?fullText=true';
+        $url='https://api.countrylayer.com/v2/name/'.'?access_key = bdcb51e95a4da6befdbef7586487d059'.'?fullText=true';
 
 
 	$ch = curl_init();
