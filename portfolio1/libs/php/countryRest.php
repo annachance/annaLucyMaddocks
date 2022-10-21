@@ -13,6 +13,10 @@
 
        $url='https://restcountries.com/v3.1/all/?access_key = bdcb51e95a4da6befdbef7586487d059/?fullText=true';
 
+	$url='https://restcountries.com/v3.1/name/{name}/?fullText=true';
+   	 //$url='https://restcountries.com/v3.1/name/?fullText=true';
+ 	//$url='https://restcountries.com/v3.1/name/peru/?fullText=true';
+
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
