@@ -7,9 +7,11 @@
 
         // https://api.countrylayer.com/v2/name/{name}
         // ? access_key = API_KEY & fullText=
-
 	//$url='https://api.countrylayer.com/v2/all'.'?access_key = bdcb51e95a4da6befdbef7586487d059'. '?fullText=true';
-        $url='https://api.countrylayer.com/v2/name/'.'?access_key = bdcb51e95a4da6befdbef7586487d059'.'?fullText=true';
+        //$url='https://api.countrylayer.com/v2/name/'.'?access_key = bdcb51e95a4da6befdbef7586487d059'.'?fullText=true';
+        //$url='https://api.countrylayer.com/v2/all'.'?access_key = bdcb51e95a4da6befdbef7586487d059'. '?fullText=true';
+
+       $url='https://restcountries.com/v3.1/all/?access_key = bdcb51e95a4da6befdbef7586487d059/?fullText=true';
 
 
 	$ch = curl_init();
@@ -27,7 +29,7 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] = $decode['country'];
+	$output['data'] = $decode;
 	
 	header('Content-Type: application/json; charset=UTF-8');
 
