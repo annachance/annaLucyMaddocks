@@ -3,7 +3,7 @@
 	$executionStartTime = microtime(true) / 1000;
 
     	//Open REST Countries API
-    	$url='https://restcountries.com/v3.1/name/'.$_REQUEST['countryName'].'?fullText=true'; 
+    	$url='https://restcountries.com/v3.1/alpha/'.$_REQUEST['country']; 
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
