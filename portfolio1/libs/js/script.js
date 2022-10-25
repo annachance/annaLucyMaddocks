@@ -362,7 +362,37 @@ function getCountryInfo(iso_a2) {
 };  // end of function getCountryInfo(iso_a2) call!
 
 /////////////////////////////////////////////////////////////////////////
+// -------------------------------- Get REST info from REST Countries API  --------------------------------//
 
+// Retrieve REST INFO
+function getRestInfo() {
+
+$.ajax({  //Calls REST Countries API
+                
+    url: "libs/php/countryRest.php",
+    type: 'POST',
+    dataType: 'json',
+    data: {
+        countryName: $('#country-dropdown option:selected').text(),
+    },
+    success: function(result) {
+
+        let noSpaceName1 = $('#country-dropdown option:selected').text();
+        noSpaceName1 = noSpaceName1.replaceAll(' ', '');
+        console.log(noSpaceName1);
+
+        console.log(result['data']);
+        console.log("test");
+	    
+	     if (result.status.name == "ok") {
+	    
+	            }
+         }
+    })
+};  
+	    
+	    
+	    
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -374,16 +404,20 @@ $('select').on('change', function() {
     //getCountryInfo();
     getCountryInfo($("#country-dropdown").val());
     
-    //getWeatherInfo();
-    //getWeatherInfo($("#country-dropdown").val()); ?!
+    //getWeatherInfo();  // dont need
+    //getWeatherInfo($("#country-dropdown").val()); // dont need
 	
     everything($("#country-dropdown").val());
 
-    //getExchangeRate();
-    //getExchangeRate($("#country-dropdown").val()); ?!
+    //getExchangeRate();  // dont need
+    //getExchangeRate($("#country-dropdown").val()); // dont need
 
     //getCovidInfo();
     //getCovidInfo($("#country-dropdown").val()); **
+	
+	
+    //getRestInfo();    
+    getRestInfo($("#country-dropdown").val());  
 
 
 
