@@ -2,22 +2,8 @@
 
 	$executionStartTime = microtime(true) / 1000;
 
-  
-        // bdcb51e95a4da6befdbef7586487d059
-
-        // https://api.countrylayer.com/v2/name/{name}
-        // ? access_key = API_KEY & fullText=
-	//$url='https://api.countrylayer.com/v2/all'.'?access_key = bdcb51e95a4da6befdbef7586487d059'. '?fullText=true';
-        //$url='https://api.countrylayer.com/v2/name/'.'?access_key = bdcb51e95a4da6befdbef7586487d059'.'?fullText=true';
-        //$url='https://api.countrylayer.com/v2/all'.'?access_key = bdcb51e95a4da6befdbef7586487d059'. '?fullText=true';
-
-       //$url='https://restcountries.com/v3.1/all/?access_key = bdcb51e95a4da6befdbef7586487d059/?fullText=true';
-
-    	$url='https://restcountries.com/v3.1/name/'.$_REQUEST['countryName']; 
-	//$url='https://restcountries.com/v3.1/name/{name}/?fullText=true';
-   	 //$url='https://restcountries.com/v3.1/name/?fullText=true';
- 	//$url='https://restcountries.com/v3.1/name/peru/?fullText=true';
-
+    	//Open REST Countries API
+    	$url='https://restcountries.com/v3.1/name/'.$_REQUEST['countryName'].'?fullText=true'; 
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
