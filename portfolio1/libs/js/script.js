@@ -341,14 +341,54 @@ function getCountryInfo(iso_a2) {
             console.log(errorThrown),
             console.log(jqXHR);
     
-        } 
-    });  //done and working!
+        }    //done and working!
+    });  // end of Open Exchange Rates API call! 
+/////////////////////////////////////////////////////////////////////////
+// -------------------------------- Get REST info from REST Countries API  --------------------------------//
+// Retrieve REST INFO
+
+    $.ajax({  //Calls REST Countries API
+                    
+        url: "libs/php/countryRest.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            country: iso_a2,
+        },
+        success: function(result) {
+    
+           /* let noSpaceName1 = $('#country-dropdown option:selected').text();
+            noSpaceName1 = noSpaceName1.replaceAll(' ', '');
+            console.log(noSpaceName1); */ //dont think this is needed but leave until finished then delete just incase needed (as works!)
+    
+            console.log(result['data']);
+            //console.log("test");           
+    
+            if (result.status.name == "ok") {
+
+                $('#nativeName').html(result['data']['nativeName']); 
+                $('#txtCurrency').html(result['data']['currencies'][0]['name']);
+                $('#currencySymbol').html(result['data']['currencies'][0]['symbol']); 
+                $('#flag').src = result['data']['flag'];
+                $('#languages').html(result['data']['languages'][0]["name"]);
+                $('#continent').html(result['data']['subregion']); 
+                
+                 var bordersArray = result['data']['borders']
+                 var borders = ""
+    
+                for(var z=0; z<bordersArray.length; z++){
+                    borders += bordersArray[z] + ", "
+               }
+                $('#timeZone').html(borders); 
+        
+            }
+        }
+    }); // end of REST Countries API call!
+/////////////////////////////////////////////////////////////////////////
+
 		
 		
-		
-		
-		
-		
+	
 		
         },  //end of the success callback of geonames api call!
         error: function(jqXHR, textStatus, errorThrown) {
@@ -361,39 +401,6 @@ function getCountryInfo(iso_a2) {
     }) // end of geonames api call!
 };  // end of function getCountryInfo(iso_a2) call!
 
-/////////////////////////////////////////////////////////////////////////
-// -------------------------------- Get REST info from REST Countries API  --------------------------------//
-
-// Retrieve REST INFO
-function getRestInfo() {
-
-$.ajax({  //Calls REST Countries API
-                
-    url: "libs/php/countryRest.php",
-    type: 'POST',
-    dataType: 'json',
-    data: {
-        countryName: $('#country-dropdown option:selected').text(),
-    },
-    success: function(result) {
-
-        let noSpaceName1 = $('#country-dropdown option:selected').text();
-        noSpaceName1 = noSpaceName1.replaceAll(' ', '');
-        console.log(noSpaceName1);
-
-        console.log(result['data']);
-        console.log("test");
-	    
-	     if (result.status.name == "ok") {
-	    
-	            }
-         }
-    })
-};  
-	    
-	    
-	    
-
 
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
@@ -403,24 +410,9 @@ $('select').on('change', function() {
     
     //getCountryInfo();
     getCountryInfo($("#country-dropdown").val());
-    
-    //getWeatherInfo();  // dont need
-    //getWeatherInfo($("#country-dropdown").val()); // dont need
 	
+    //get everything();
     everything($("#country-dropdown").val());
-
-    //getExchangeRate();  // dont need
-    //getExchangeRate($("#country-dropdown").val()); // dont need
-
-    //getCovidInfo();
-    //getCovidInfo($("#country-dropdown").val()); **
-	
-	
-    //getRestInfo();    
-    getRestInfo($("#country-dropdown").val());  
-
-
-
     
   }); 
 
