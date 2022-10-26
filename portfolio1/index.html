@@ -64,6 +64,7 @@
                   <div id="map"></div>
     
 <!--///////////////////////////////////////////////////////////////////////////////-->
+
 <!--//////////////////////////// Modals/Overlays ///////////////////////////////// -->
 
                <!-- Modal 1 - Country Information -->
@@ -82,18 +83,33 @@
           <table class="table" id="table">
             <tbody>
             <tr>
-                <td>Country: </td>
+                <td>Country Name: </td>
                 <td id="countryName"></td>
             </tr>
             <tr>
-              <td>Naitive Name: </td>
-              <td id="naitiveName"></td>
+              <td>Native Name: </td>
+              <td id="nativeName"></td>
             </tr>
             <tr>
-              <td>Continent: </td>
-              <td id="continent"></td>
+              <td>Continent Name: </td>
+              <td id="continentName"></td>
             </tr>
+			<tr>
+				<td>Continent *: </td>
+				<td id="continent"></td>
+			</tr>
+			<tr>
+				<td>ISO Code (Alpha2): </td>
+				<td id="cca2"></td>
+			</tr> 
+			<tr>
+				<td>ISO Code (Alpha3): </td>
+				<td id="cca3"></td>
+			</tr> 
             <tr>
+				<td>
+					<i class="fas fa-city fa-2x"></i>
+				</td>
             	<td>Capital: </td>
             	<td id="txtCapital"></td>
         	</tr>
@@ -107,8 +123,16 @@
    			</tr>
    			<tr>
       			<td>Bordering Countries: </td>
-      			<td id="timeZone"></td>
+      			<td id="txtBorders"></td>
   			</tr> 
+			<tr>
+				<td>Driving Side: </td>
+				<td id="drivingSide"></td>
+			</tr> 
+			<tr>
+				<td>Time Zones: </td>
+				<td id="txtTimeZones"></td>
+			</tr> 
   			<tr>
 				<td>Land Area: </td>
 				<td id="area"></td>
@@ -117,6 +141,10 @@
                 <td>Flag: </td>
                 <td><img id="flag" src='' style="width:100px;height:100px;"></td>
             </tr>
+			<tr>
+				<td>Coat of Arms: </td>
+				<td id="coatOfArms"></td>
+			</tr> 
         </tbody>
         </table>
         </div>
@@ -129,7 +157,7 @@
   </div>
 
 
-				<!-- <a href="#" data-toggle="modal" data-target="countryInfoModal">Open Modal</a> ?! ?! --> 
+				<!-- <a href="#" data-toggle="modal" data-target="countryInfoModal">Open Modal</a> -->
 
 <!--///////////////////////////////////////////////////////////////////////////////-->
 
@@ -222,21 +250,22 @@
 
 					<!-- Modal 3 - Country Currency -->
 <!-- Modal -->
-<div class="modal fade" id="modal3" role="dialog">
+<div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
 	<div class="modal-dialog">
 
 	<!-- Modal content-->
 	<div class="modal-content">
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
 			<h4 class="modal-title">Currency</h4>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  
 		</div>
 		<div class="modal-body">
 		     <table class="table" id="table2">
 				<tbody>
 				    <tr>
-						<td>Currency: </td>
-						<td id="txtcurrency"></td>
+						<td>Currency Name: </td>
+						<td id="txtCurrency"></td>
 					</tr>
 				    <tr>
 						 <td>Currency Symbol: </td>
@@ -244,7 +273,7 @@
 				     </tr>
 					 <tr>
 						<td>Currency Code: </td>
-						<td id="txtcurrencyCode"></td>
+						<td id="txtCurrencyCode"></td>
 					</tr>
 					 <tr>
 						<td>Exchange Rate(USD): </td>
@@ -263,7 +292,7 @@
 				    </table>
 						</div>
 						<div class="modal-footer">
-						  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
 						</div>
 				</div>
 			</div>
@@ -273,14 +302,15 @@
 
 					<!-- Modal 4 - Country Covid Information -->
 <!-- Modal -->
-<div class="modal fade" id="modal4" role="dialog">
+<div class="modal fade" id="modal4" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
 	<div class="modal-dialog">
 
-  <!-- Modal content-->
+  <!-- Modal content-->   <!-- not sure if doing this one?!?! -->
   <div class="modal-content">
 	<div class="modal-header">
-	  <button type="button" class="close" data-dismiss="modal">&times;</button>
-	  <h4 class="modal-title">Covid Information</h4>
+		<h4 class="modal-title">Covid Information</h4>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
 	</div>
 	<div class="modal-body" id="graph-container">
 	  <table class="table" id="table2">
@@ -307,7 +337,7 @@
 	  
 	</div>
 	<div class="modal-footer">
-	  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
 	</div>
   </div>
   </div>
@@ -316,13 +346,36 @@
 <!--///////////////////////////////////////////////////////////////////////////////-->
 
 					<!-- Modal 5 - Country Airports ?!?!?!  -->
-<!-- Modal ->
-      
-<!--///////////////////////////////////////////////////////////////////////////////-->
-		       
-<i class="fas fa-home"></i>  //not sure what this does just yet!!
-</main>
+<!-- Modal -->
 
+
+<!--///////////////////////////////////////////////////////////////////////////////-->
+
+					<!-- Modal 6 - User Guide ?!?! not sure whther to have this or have as a pop up onload   -->
+<!-- Modal -->
+<div class="modal fade" id="modal6" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+	<div class="modal-dialog">
+  <div class="modal-content">
+	<div class="modal-header">
+		<h4 class="modal-title">About</h4>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="'Close"></button>
+
+	</div>
+	<div class="modal-body" id="graph-container">
+	  <p>
+		Welcome to the map application. This website will give you information on diffirent countries around the world.
+		select a country from the dropdown list or click the country on the map.
+		Different information can be seen on the other buttons on the left hand side.
+	  </p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+	</div>
+  </div>
+  </div>
+</div>
+
+</main>    
 <!--///////////////////////////////////////////////////////////////////////////////-->
 
 <!-- Script.js -->
