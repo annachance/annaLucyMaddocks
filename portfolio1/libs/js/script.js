@@ -357,27 +357,24 @@ function getCountryInfo(iso_a2) {
             noSpaceName1 = noSpaceName1.replaceAll(' ', '');
             console.log(noSpaceName1); */ //dont think this is needed but leave until finished then delete just incase needed (as works!)
     
-            console.log(result['data']);
+            console.log(result2['data']);
             //console.log("test");     
-           // console.log(result2['data'][0]['languages']);  
-           // console.log(Object.keys(result2['data'][0]['languages']));           
     
             if (result2.status.name == "ok") {
 
                 $('#languages').html(result2['data'][0]['languages'][Object.keys(result2['data'][0]['languages'])[0]]);
-
-                $('#nativeName').html(result2['data']['nativeName']);  // isnt displaying in modal!
-                $('#continent').html(result2['data']['subregion']);  // isnt displaying in modal!
-                $('#cca2').html(result2['data']['cca2']);  // isnt displaying in modal!
-                $('#cca3').html(result2['data']['cca3']);  // isnt displaying in modal!
-                $('#drivingSide').html(result2['data']['car']); // isnt displaying in modal!
-                $('#txtTimeZones').html(result2['data']['timezones']);  // isnt displaying in modal!
-
+                $('#nativeName').html(result2['data'][0]['name']['official']);  
+                $('#txtSubregion').html(result2['data'][0]['subregion']);  
+                $('#cca2').html(result2['data'][0]['cca2']);  
+                $('#cca3').html(result2['data'][0]['cca3']);  
+                $('#drivingSide').html(result2['data'][0]['car']['side']); 
                 $('#txtCurrency').html(result2['data'][0]['currencies'][result['data']['geonames'][0]['currencyCode']]['name']);
                 $('#currencySymbol').html(result2['data'][0]['currencies'][result['data']['geonames'][0]['currencyCode']]['symbol']); 
 
-                $('#flag').src = result2['data']['flag'];  // isnt displaying in modal!
-                $('#coatOfArms').html(result2['data']['coatOfArms']); // isnt displaying in modal! // not sure whether to do this one?!?!?!
+                $('#txtTimeZones').html(result2['data'][0]['timezones']);  //this isnt displaying in modal!
+                $('#flag').src = result2['data'][0]['flag'][0];  //this isnt displaying in modal!
+                $('#coatOfArms').html(result2['data'][0]['coatOfArms'][0]); //this isnt displaying in modal! // not sure whether to do this one?!?!?!
+                $('#flags').src = result2['data'][0]['flags'][0];  //this isnt displaying in modal!
 
                  var bordersArray = result2['data'][0]['borders']
                  var borders = ""
@@ -387,7 +384,7 @@ function getCountryInfo(iso_a2) {
                 }
                 $('#txtBorders').html(borders); 
             }
-		 },error:function(err) {
+        },error:function(err) {
             console.log(err);
         }
     }); // end of REST Countries API call!
