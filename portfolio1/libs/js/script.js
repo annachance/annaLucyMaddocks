@@ -264,6 +264,7 @@ $.ajax({  // Calls Open Weather API
         console.log(jqXHR);
      } 
     }); //done and working!
+/////////////////////////////////////////////////////////////////////////
 
 		    
 		    
@@ -299,14 +300,9 @@ function getCountryInfo(iso_a2) {
         
                 $('#txtcapital').html(result['data']['geonames'][0]['capital']);
                 $('#txtpopulation').html(result['data']['geonames'][0]['population']);
-                //$('#txtcurrency').html(result['data']['currencyName']); // ?! **
                 $('#txtcurrencyCode').html(result['data']['geonames'][0]['currencyCode']);
-               // document.getElementById("flag").src = result['data']['flag']; **
-                $('#Language').html(result['data']['geonames'][0]['languages']);
                 $('#continent').html(result['data']['geonames'][0]['continent']);
                 $('#area').html(result['data']['geonames'][0]['areaInSqKm'] + '(km2)');
-               // $('#currencySymbol').html(result['data']['currencySymbol']); //?! **
-                //$('#naitiveName').html(result['data']['naitiveName']); //?! **
 
             }  //done and working!
 /////////////////////////////////////////////////////////////////////////
@@ -362,26 +358,37 @@ function getCountryInfo(iso_a2) {
             console.log(noSpaceName1); */ //dont think this is needed but leave until finished then delete just incase needed (as works!)
     
             console.log(result['data']);
-            //console.log("test");           
+            //console.log("test");     
+           // console.log(result2['data'][0]['languages']);  
+           // console.log(Object.keys(result2['data'][0]['languages']));           
     
-            if (result.status.name == "ok") {
+            if (result2.status.name == "ok") {
 
-                $('#nativeName').html(result['data']['nativeName']); 
-                $('#txtCurrency').html(result['data']['currencies'][0]['name']);
-                $('#currencySymbol').html(result['data']['currencies'][0]['symbol']); 
-                $('#flag').src = result['data']['flag'];
-                $('#languages').html(result['data']['languages'][0]["name"]);
-                $('#continent').html(result['data']['subregion']); 
-                
-                 var bordersArray = result['data']['borders']
+                $('#languages').html(result2['data'][0]['languages'][Object.keys(result2['data'][0]['languages'])[0]]);
+
+                $('#nativeName').html(result2['data']['nativeName']);  // isnt displaying in modal!
+                $('#continent').html(result2['data']['subregion']);  // isnt displaying in modal!
+                $('#cca2').html(result2['data']['cca2']);  // isnt displaying in modal!
+                $('#cca3').html(result2['data']['cca3']);  // isnt displaying in modal!
+                $('#drivingSide').html(result2['data']['car']); // isnt displaying in modal!
+                $('#txtTimeZones').html(result2['data']['timezones']);  // isnt displaying in modal!
+
+                $('#txtCurrency').html(result2['data'][0]['currencies'][result['data']['geonames'][0]['currencyCode']]['name']);
+                $('#currencySymbol').html(result2['data'][0]['currencies'][result['data']['geonames'][0]['currencyCode']]['symbol']); 
+
+                $('#flag').src = result2['data']['flag'];  // isnt displaying in modal!
+                $('#coatOfArms').html(result2['data']['coatOfArms']); // isnt displaying in modal! // not sure whether to do this one?!?!?!
+
+                 var bordersArray = result2['data'][0]['borders']
                  var borders = ""
     
                 for(var z=0; z<bordersArray.length; z++){
                     borders += bordersArray[z] + ", "
-               }
-                $('#timeZone').html(borders); 
-        
+                }
+                $('#txtBorders').html(borders); 
             }
+		 },error:function(err) {
+            console.log(err);
         }
     }); // end of REST Countries API call!
 /////////////////////////////////////////////////////////////////////////
