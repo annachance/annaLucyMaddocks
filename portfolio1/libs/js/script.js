@@ -297,12 +297,12 @@ function getCountryInfo(iso_a2) {
            if (result.status.name == "ok") {
 
                 $('#countryName').html(result['data']['geonames'][0]['countryName']); 
-        
-                $('#txtcapital').html(result['data']['geonames'][0]['capital']);
-                $('#txtpopulation').html(result['data']['geonames'][0]['population']);
-                $('#txtcurrencyCode').html(result['data']['geonames'][0]['currencyCode']);
-                $('#continent').html(result['data']['geonames'][0]['continent']);
-                $('#area').html(result['data']['geonames'][0]['areaInSqKm'] + '(km2)');
+                $('#continentName').html(result['data']['geonames'][0]['continentName']);
+                $('#continentCode').html(result['data']['geonames'][0]['continent']);
+                $('#txtCapital').html(result['data']['geonames'][0]['capital']);
+                $('#txtPopulation').html(result['data']['geonames'][0]['population']);
+                $('#txtCurrencyCode').html(result['data']['geonames'][0]['currencyCode']);
+                $('#area').html(result['data']['geonames'][0]['areaInSqKm'] + ' km2');
 
             }  //done and working!
 /////////////////////////////////////////////////////////////////////////
@@ -353,28 +353,25 @@ function getCountryInfo(iso_a2) {
         },
         success: function(result) {
     
-           /* let noSpaceName1 = $('#country-dropdown option:selected').text();
-            noSpaceName1 = noSpaceName1.replaceAll(' ', '');
-            console.log(noSpaceName1); */ //dont think this is needed but leave until finished then delete just incase needed (as works!)
-    
             console.log(result2['data']);
-            //console.log("test");     
+            //console.log("test"); 
+            //console.log(result2['data'][0]['latlng']);  //make a pop up on map using this
+            //console.log(result2['data'][0]['capitalInfo']['latlng']); //make a pop up on map using this
+
     
             if (result2.status.name == "ok") {
 
                 $('#languages').html(result2['data'][0]['languages'][Object.keys(result2['data'][0]['languages'])[0]]);
                 $('#nativeName').html(result2['data'][0]['name']['official']);  
-                $('#txtSubregion').html(result2['data'][0]['subregion']);  
+                $('#txtSubRegion').html(result2['data'][0]['subregion']);  
                 $('#cca2').html(result2['data'][0]['cca2']);  
                 $('#cca3').html(result2['data'][0]['cca3']);  
                 $('#drivingSide').html(result2['data'][0]['car']['side']); 
                 $('#txtCurrency').html(result2['data'][0]['currencies'][result['data']['geonames'][0]['currencyCode']]['name']);
                 $('#currencySymbol').html(result2['data'][0]['currencies'][result['data']['geonames'][0]['currencyCode']]['symbol']); 
-
-                $('#txtTimeZones').html(result2['data'][0]['timezones']);  //this isnt displaying in modal!
-                $('#flag').src = result2['data'][0]['flag'][0];  //this isnt displaying in modal!
-                $('#coatOfArms').html(result2['data'][0]['coatOfArms'][0]); //this isnt displaying in modal! // not sure whether to do this one?!?!?!
-                $('#flags').src = result2['data'][0]['flags'][0];  //this isnt displaying in modal!
+                $('#txtTimeZones').html(result2['data'][0]['timezones']);
+                $('#coatOfArms').attr("src", result2['data'][0]['coatOfArms']['png']);
+                $('#flags').attr("src", result2['data'][0]['flags']['png']);  
 
                  var bordersArray = result2['data'][0]['borders']
                  var borders = ""
@@ -383,9 +380,14 @@ function getCountryInfo(iso_a2) {
                     borders += bordersArray[z] + ", "
                 }
                 $('#txtBorders').html(borders); 
-            }
-        },error:function(err) {
-            console.log(err);
+
+               // $('#capitalLatLng').html(result2['data'][0]['capitalInfo']['latlng']);  //use for popup on map
+              //  $('#countryLatLng').html(result2['data'][0]['latlng']);  //use for popup on map
+
+
+             }  //done and working!
+	 },error:function(err) {
+              console.log(err);
         }
     }); // end of REST Countries API call!
 /////////////////////////////////////////////////////////////////////////
