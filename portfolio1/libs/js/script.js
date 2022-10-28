@@ -240,19 +240,15 @@ $.ajax({  // Calls Open Weather API
             $('#txtHighestTemp').html(result['data']['main']['temp_max'] + '°C');
             $('#txtHumidity').html(result['data']['main']['humidity'] + '%');
             $('#txtWind').html(result['data']['wind']['speed'] + 'm/s');
-            $('#txtTimeZone').html(result['data']['timezone']);
+           // $('#txtTimeZone').html(result['data']['timezone']);
 
             var unixTimestampSunrise = result['data']['sys']['sunrise'];
             var unixTimestampSunset = result['data']['sys']['sunset'];
             var sunriseDate = new Date(unixTimestampSunrise * 1000).toDateString();
             var sunsetDate = new Date(unixTimestampSunset * 1000).toDateString();
             
-            // need to change one of these to get the time aswell as date!!
-            $('#weatherSunSet').html(sunriseDate);
-            $('#weatherSunRise').html(sunsetDate);
-
-            $('#weatherSunSet2').html(result['data']['sys']['sunrise']);
-            $('#weatherSunRise2').html(result['data']['sys']['sunset']);
+            $('#weatherSunSet2').html(sunriseDate); // change to get todays date!!
+            $('#weatherSunRise2').html(sunsetDate); // change to get todays date!!
     
             //getWeatherInfo($("#country-dropdown").val());
         }
@@ -265,7 +261,42 @@ $.ajax({  // Calls Open Weather API
      } 
     }); //done and working!
 /////////////////////////////////////////////////////////////////////////
+// -------------------------------- Get Timezone from GeoNames --------------------------------//
+// Retrieve TIMEZONE
 
+$.ajax({  //Calls GeoNames API- Timezone
+
+    url: "libs/php/getTimezone.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+        lat: lat,
+        lng: lng,
+    },
+    success: function(result) {
+
+        console.log(result['data']);
+
+        if (result.status.name == "ok") {
+
+            $('#txtCountryName').html(result['data']['countryName']);
+            $('#weatherSunSet').html(result['data']['sunset']);
+            $('#weatherSunRise').html(result['data']['sunrise']);
+            $('#timezoneId').html(result['data']['timezoneId']);
+            $('#currentTime').html(result['data']['time']);
+
+
+        }  //done and working!
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(JSON.stringify(jqXHR));
+        console.log(JSON.stringify(textStatus));
+        console.log(JSON.stringify(errorThrown));
+    }
+});  // end of Timezone- Geonames API call! 
+/////////////////////////////////////////////////////////////////////////
+		    
+		    
 		    
 		    
 
