@@ -146,9 +146,9 @@
 				<td><img id="coatOfArms" src='' style="width:100px;height:100px;"></td>
 			</tr> 
 			<tr>
-                <td>Flags: </td>
-                <td><img id="flags" src='' style="width:100px;height:100px;"></td>
-            </tr>
+				<td>Flags: </td>
+				<td><img id="flags" src='' style="width:100px;height:100px;"></td>
+		        </tr>
         </tbody>
         </table>
         </div>
@@ -181,8 +181,12 @@
         <table class="table" id="table">
 			<tbody>
 				<tr>
+					<td>Country Name: </td>
+					<td id="txtCountryName"></td>
+				</tr>
+				<tr>
 					<td>Icon: </td>
-					<td><img id="txtIcon" src='' style="width:100px;height:100px;"></td>
+					<td><img id="txtIcon" src="" alt="" style="width:100px;height:100px;"></td>
 				</tr>
 				<tr>
 					<td>Weather: </td>
@@ -217,28 +221,25 @@
 					<td id="txtWind"></td>
 				</tr>
 				<tr>
-					<td>Time Zone: </td>
-					<td id="txtTimeZone"></td>
+					<td>Time Zone ID: </td>
+					<td id="timezoneId"></td>
 				</tr> 
 				<tr>
-				    <td>Sunset: </td>
-					<td id="weatherSunSet"></td>
-				</tr>
-				<tr>
-				    <td>SunRise: </td>
-					<td id="weatherSunRise"></td>
-				</tr>
-
-
-				<tr>
-				    <td>Sunset2: </td>
+				    <td>Todays Date: </td>
 					<td id="weatherSunSet2"></td>
 				</tr>
 				<tr>
-				    <td>SunRise2: </td>
-					<td id="weatherSunRise2"></td>
+				    <td>Today's Date/Time: </td>
+					<td id="currentTime"></td>
 				</tr>
-							
+				<tr>
+				    <td>Today's SunSet: </td>
+					<td id="weatherSunSet"></td>
+				</tr>
+				<tr>
+				    <td>Today's SunRise: </td>
+					<td id="weatherSunRise"></td>
+				</tr>			
 			</tbody>
 		</table>
 	</div>
