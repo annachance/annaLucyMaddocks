@@ -294,6 +294,38 @@ $.ajax({  //Calls GeoNames API- Timezone
     }
 });  // end of Timezone- Geonames API call! 
 /////////////////////////////////////////////////////////////////////////
+// -------------------------------- Get Airports from AeroDataBox Rapid API ---------------------------------//
+// Retrieve AIRPORT info
+
+$.ajax({  //Calls AeroDataBox Rapid API- Airports
+
+    url: "libs/php/getAirports.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+       // country: $('#country-dropdown').val(),
+       // countryCode: countryCode
+        lat: lat,
+        lng: lng,
+    },
+    success: function(result4) {
+
+        console.log(result4['data']);
+
+        if (result4.status.name == "ok") {                
+            
+            $('#txtAirports').html(result4['data']['items']);
+
+         
+        } 
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(JSON.stringify(jqXHR));
+        console.log(JSON.stringify(textStatus));
+        console.log(JSON.stringify(errorThrown));
+    }
+}); // end of GEONAMES Airports call!  
+/////////////////////////////////////////////////////////////////////////
 		    
 		    
 		    
@@ -420,34 +452,7 @@ function getCountryInfo(iso_a2) {
         }
     }); // end of REST Countries API call!
 /////////////////////////////////////////////////////////////////////////
-// -------------------------------- Get Airports from AeroDataBox Rapid API ---------------------------------//
-// Retrieve AIRPORT info
 
-$.ajax({  //Calls AeroDataBox Rapid API- Airports (getAirports)!! // ** geonames currently (getAirports1)!!
-
-    url: "libs/php/getAirports1.php",
-    type: 'GET',
-    dataType: 'json',
-    data: {
-        country: $('#country-dropdown').val(),
-       // countryCode: countryCode
-    },
-    success: function(result4) {
-
-        console.log(result4['data']);
-
-        if (result4.status.name == "ok") {                
-            
-            $('#txtAirports').html(result4['data']['geonames']['toponymName']);
-		
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-        console.log(JSON.stringify(jqXHR));
-        console.log(JSON.stringify(textStatus));
-        console.log(JSON.stringify(errorThrown));
-    }
-}); // end of GEONAMES Airports call!  
-/////////////////////////////////////////////////////////////////////////
 		
 		
 	
