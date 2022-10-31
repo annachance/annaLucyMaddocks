@@ -20,7 +20,7 @@
                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
       
                <!-- Leaflet Map Initialization -->
-               <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"/>
+	       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
 
                <!-- Leaflet L.easyButton --> 
                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
@@ -315,28 +315,37 @@
 	<div class="modal-header">
 		<h4 class="modal-title">Covid Information</h4>
 		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	</div>
+	
+	  
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+	</div>
+  </div>
+  </div>
+</div>
+
+<!--///////////////////////////////////////////////////////////////////////////////-->
+
+					<!-- Modal 5 - Country Airports -->
+<!-- Modal -->
+<div class="modal fade" id="modal5" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+	<div class="modal-dialog">
+
+  <!-- Modal content-->   <!-- not sure if doing this one?!?! -->
+  <div class="modal-content">
+	<div class="modal-header">
+		<h4 class="modal-title">Country Airports</h4>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
 	</div>
 	<div class="modal-body" id="graph-container">
 	  <table class="table" id="table2">
 		<tbody>
 		  <tr>
-			  <td>Confirmed Covid: </td>
-			  <td id="covidConfirmed"></td>
+			  <td>Here is a list of all airports within this country: </td>
+			  <td id="txtAirports"></td>
 		  </tr>
-		  <tr>
-			  <td>Covid Deaths: </td>
-			  <td id="covidDeaths"></td>
-		  </tr>
-		  <tr>
-			  <td>Covid Recovered: </td>
-			  <td id="covidRecovered"></td>
-		  </tr>
-		  <tr>
-			<td><canvas id="lineChart"></canvas> </td>
-			
-		</tr>
-  
 		</tbody>
 	  </table>
 	  
@@ -347,40 +356,8 @@
   </div>
   </div>
 </div>
-
 <!--///////////////////////////////////////////////////////////////////////////////-->
-
-					<!-- Modal 5 - Country Airports ?!?!?!  -->
-<!-- Modal -->
-
-
-<!--///////////////////////////////////////////////////////////////////////////////-->
-
-					<!-- Modal 6 - User Guide ?!?! not sure whther to have this or have as a pop up onload   -->
-<!-- Modal -->
-<div class="modal fade" id="modal6" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
-	<div class="modal-dialog">
-  <div class="modal-content">
-	<div class="modal-header">
-		<h4 class="modal-title">About</h4>
-		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="'Close"></button>
-
-	</div>
-	<div class="modal-body" id="graph-container">
-	  <p>
-		Welcome to the map application. This website will give you information on diffirent countries around the world.
-		select a country from the dropdown list or click the country on the map.
-		Different information can be seen on the other buttons on the left hand side.
-	  </p>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-	</div>
-  </div>
-  </div>
-</div>
-
-</main>    
+  
 <!--///////////////////////////////////////////////////////////////////////////////-->
 
 <!-- Script.js -->
@@ -395,7 +372,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> 
 
 <!-- Leaflet Map Initialization -->
-<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
 
 <!-- Leaflet L.easyButton --> 
 <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
