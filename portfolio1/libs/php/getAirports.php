@@ -8,7 +8,7 @@ $curl = curl_init();
 //** needs work!! */
 //AeroDataBox Rapid API- Airports! -  Works only on one lat&long coords in the url atm! need to get it to work for all!!!
 curl_setopt_array($curl, [
-	CURLOPT_URL => "https://aerodatabox.p.rapidapi.com/airports/search/location/51.511142/-0.103869/km/100/20?withFlightInfoOnly=false",
+	CURLOPT_URL => 'https://aerodatabox.p.rapidapi.com/airports/search/location/'.$_REQUEST['lat'].'/'.$_REQUEST['lng'].'km/100/20?withFlightInfoOnly=false',
 	CURLOPT_RETURNTRANSFER => true,
 	CURLOPT_FOLLOWLOCATION => true,
 	CURLOPT_ENCODING => "",
