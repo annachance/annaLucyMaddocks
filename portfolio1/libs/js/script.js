@@ -94,7 +94,6 @@ $(document).ready(function () {
            }
         }
       },
-
         error: function(jqXHR, textStatus, errorThrown) {
             // your error code
             console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
@@ -320,7 +319,6 @@ function getCountryInfo(iso_a2) {
         data:  {
             country: iso_a2,
         },
-
         success: function(result) {
 
             console.log(result['data']); 
@@ -422,7 +420,34 @@ function getCountryInfo(iso_a2) {
         }
     }); // end of REST Countries API call!
 /////////////////////////////////////////////////////////////////////////
+// -------------------------------- Get Airports from AeroDataBox Rapid API ---------------------------------//
+// Retrieve AIRPORT info
 
+$.ajax({  //Calls AeroDataBox Rapid API- Airports (getAirports)!! // ** geonames currently (getAirports1)!!
+
+    url: "libs/php/getAirports1.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+        country: $('#country-dropdown').val(),
+       // countryCode: countryCode
+    },
+    success: function(result4) {
+
+        console.log(result4['data']);
+
+        if (result4.status.name == "ok") {                
+            
+            $('#txtAirports').html(result4['data']['geonames']['toponymName']);
+		
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(JSON.stringify(jqXHR));
+        console.log(JSON.stringify(textStatus));
+        console.log(JSON.stringify(errorThrown));
+    }
+}); // end of GEONAMES Airports call!  
+/////////////////////////////////////////////////////////////////////////
 		
 		
 	
@@ -484,7 +509,7 @@ L.easyButton('<img src="libs/svg/disease-solid.svg" style="width:16px">', functi
 // -------------------------------- Button 5 - Country Airports --------------------------------
 
 L.easyButton('<img src="libs/svg/plane-departure-solid.svg" style="width:16px">', function(btn, map) {
-   
+    $('#modal5').modal('show');
     if(map.hasLayer(airportCluster)) {
         
         map.removeLayer(airportCluster);
@@ -492,6 +517,4 @@ L.easyButton('<img src="libs/svg/plane-departure-solid.svg" style="width:16px">'
         map.addLayer(airportCluster);        
         
    }
-
-
-}, 'Airports').addTo(map); 
+}, 'Country Airports').addTo(map); 
