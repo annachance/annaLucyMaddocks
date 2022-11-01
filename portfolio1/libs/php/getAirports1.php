@@ -5,8 +5,8 @@
 
 	$executionStartTime = microtime(true) / 1000;
 
-    //Geonames API- Airports  - WORKS!!!!
-    $url='http://api.geonames.org/searchJSON?country='.$_REQUEST['country'].'&featureCode=AIRP&maxRows=30'.'&username=anna_chance&style=full';
+       //Geonames API- Airports  - WORKS!!!!
+       $url='http://api.geonames.org/searchJSON?country='.$_REQUEST['country'].'&featureCode=AIRP&maxRows=30'.'&username=anna_chance&style=full';
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
