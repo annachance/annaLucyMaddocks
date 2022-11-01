@@ -329,6 +329,43 @@ $.ajax({  //Calls GeoNames API- Airports
     }
 }); // end of GEONAMES Airports call!  
 /////////////////////////////////////////////////////////////////////////
+		    // -------------------------------- Universities --------------------------------//
+// Retrieve UNIVERSITIES INFO
+
+$.ajax({  //Calls GEONAMES Universities API
+
+    url: "libs/php/getUniversities.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+        country: iso_a2,
+    },
+    success: function(result3) {
+
+        console.log(result3['data']);
+    
+        if (result3.status.name == "ok") {    
+
+            var universityName = result3['data']['geonames'].length;
+            var universities = ""
+
+            for(var u=0; u < universityName; u++){
+                universities += universityName[u] + ", " 
+
+             console.log(result3['data']['geonames'][u]['toponymName']);
+
+             $('#txtUniversities').append(result3['data']['geonames'][u]['toponymName'] + ", ");
+            } 
+        }            
+    }, error: function(jqXHR, textStatus, errorThrown) {
+        // your error code
+        // console.log(jqXHR, textStatus, errorThrown); 
+        console.log(errorThrown),
+        console.log(jqXHR);
+    }
+  }); // end of GEONAMES Universities API call!  
+/////////////////////////////////////////////////////////////////////////
+		    
 		    
 		    
 		    
