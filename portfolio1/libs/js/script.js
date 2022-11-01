@@ -284,7 +284,6 @@ $.ajax({  //Calls GeoNames API- Timezone
             $('#timezoneId').html(result['data']['timezoneId']);
             $('#currentTime').html(result['data']['time']);
 
-
         }  //done and working!
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -297,16 +296,13 @@ $.ajax({  //Calls GeoNames API- Timezone
 // -------------------------------- Get Airports from AeroDataBox Rapid API ---------------------------------//
 // Retrieve AIRPORT info
 
-$.ajax({  //Calls AeroDataBox Rapid API- Airports
+$.ajax({  //Calls GeoNames API- Airports
 
-    url: "libs/php/getAirports.php",
+    url: "libs/php/getAirports1.php",
     type: 'GET',
     dataType: 'json',
     data: {
-       // country: $('#country-dropdown').val(),
-       // countryCode: countryCode
-        lat: lat,
-        lng: lng,
+        country: $('#country-dropdown').val(),
     },
     success: function(result4) {
 
@@ -314,10 +310,17 @@ $.ajax({  //Calls AeroDataBox Rapid API- Airports
 
         if (result4.status.name == "ok") {                
             
-            $('#txtAirports').html(result4['data']['items']);
+                var airportsName = result4['data']['geonames'].length;
+                var airports = ""
 
-         
-        } 
+                for(var a=0; a < airportsName; a++){
+                    airports += airportsName[a] + ", "
+
+                   //console.log(result4['data']['geonames'][a]['toponymName']);
+			
+                    $('#txtAirports').append(result4['data']['geonames'][a]['toponymName'] + ", ");
+                }
+        }
     },
     error: function(jqXHR, textStatus, errorThrown) {
         console.log(JSON.stringify(jqXHR));
