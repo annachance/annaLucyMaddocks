@@ -489,10 +489,311 @@ function getCountryInfo(iso_a2) {
              }  //done and working!
 	 },error:function(err) {
               console.log(err);
+     }
+}); // end of REST Countries API call!
+/////////////////////////////////////////////////////////////////////////
+// -------------------------------- Get Airports from GEONAMES API ---------------------------------//
+// Retrieve AIRPORT info
+
+$.ajax({  //Calls GeoNames API- Airports
+
+    url: "libs/php/getAirports1.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+        country: $('#country-dropdown').val(),
+    },
+    success: function(result4) {
+
+        console.log(result4['data']);
+
+        if (result4.status.name == "ok") {                
+            
+                var airportsName = result4['data']['geonames'].length;
+                var airports = ""
+
+                for(var a=0; a < airportsName; a++){
+                    airports += airportsName[a] + ", "
+
+                   // console.log(result4['data']['geonames'][a]['toponymName']);
+                 
+                    $('#txtAirports').append(result4['data']['geonames'][a]['toponymName'] + ", ");
+                }
+// working but - need to do so comes up with a cluster of markers on the country (on the map!)
+
         }
-    }); // end of REST Countries API call!
+    },  //done and working!
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(JSON.stringify(jqXHR));
+        console.log(JSON.stringify(textStatus));
+        console.log(JSON.stringify(errorThrown));
+    }
+});  // end of GEONAMES Airports call!  
+/////////////////////////////////////////////////////////////////////////
+// -------------------------------- Universities --------------------------------//
+// Retrieve UNIVERSITIES INFO
+
+$.ajax({  //Calls GEONAMES Universities API
+
+    url: "libs/php/getUniversities.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+        country: iso_a2,
+    },
+    success: function(result3) {
+
+        console.log(result3['data']);
+    
+        if (result3.status.name == "ok") {    
+
+            var universityName = result3['data']['geonames'].length;
+            var universities = ""
+
+            for(var u=0; u < universityName; u++){
+                universities += universityName[u] + ", " 
+
+             //console.log(result3['data']['geonames'][u]['toponymName']);
+
+             $('#txtUniversities').append(result3['data']['geonames'][u]['toponymName'] + ", ");
+            } 
+        }  //done and working!
+                // working but - need to do so comes up with a cluster of markers on the country (on the map!)
+               // country.marker_universities.push([result['data']['geonames'][i]['name'],result['data']['geonames'][i]['lat'],result['data']['geonames'][i]['lng']]);
+            
+    }, error: function(jqXHR, textStatus, errorThrown) {
+        // your error code
+        // console.log(jqXHR, textStatus, errorThrown); 
+        console.log(errorThrown),
+        console.log(jqXHR);
+    }
+}); // end of GEONAMES Universities API call!  
+/////////////////////////////////////////////////////////////////////////
+// -----------------------------Get Museums from GEONAMES API ----------------------------//
+// Retrieve MUSEUMS info
+
+$.ajax({  //Calls GEONAMES API- Museums
+
+    url: "libs/php/getMuseums.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+        country: iso_a2,
+    },
+    success: function(result5) {
+
+     console.log(result5['data']);
+
+        if (result5.status.name == "ok") {  
+
+            var museumName = result5['data']['geonames'].length;
+            var museums = ""
+
+            for(var m=0; m < museumName; m++){
+                museums += museumName[m] + ", " 
+
+             //console.log(result5['data']['geonames'][m]['toponymName']);
+
+            // $('#txtMuseums').append(result5['data']['geonames'][m]['toponymName'] + ", ");
+            } 
+        }
+    },  //done and working!
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(JSON.stringify(jqXHR));
+        console.log(JSON.stringify(textStatus));
+        console.log(JSON.stringify(errorThrown));
+    }
+}); // end of GEONAMES Museums call! 
+/////////////////////////////////////////////////////////////////////////
+// -----------------------------Get Hospitals from GEONAMES API ----------------------------//
+// Retrieve HOSPITALS info
+
+$.ajax({  //Calls GEONAMES API- Hospitals
+
+    url: "libs/php/getHospitals.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+        country: iso_a2,
+    },
+    success: function(result6) {
+
+        console.log(result6['data']);
+
+        if (result6.status.name == "ok") {  
+
+            var hospitalName = result6['data']['geonames'].length;
+            var hospitals = ""
+
+            for(var h=0; h < hospitalName; h++){
+                hospitals += hospitalName[h] + ", " 
+
+             //console.log(result6['data']['geonames'][h]['toponymName']);
+
+            // $('#txtHospitals').append(result6['data']['geonames'][h]['toponymName'] + ", ");
+            } 
+        }
+    },  //done and working!
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(JSON.stringify(jqXHR));
+        console.log(JSON.stringify(textStatus));
+        console.log(JSON.stringify(errorThrown));
+    }
+}); // end of GEONAMES Hospitals call! 
+/////////////////////////////////////////////////////////////////////////
+// -----------------------------Get Zoo's from GEONAMES API ----------------------------//
+// Retrieve ZOO'S info
+
+$.ajax({  //Calls GEONAMES API- Zoo's
+
+    url: "libs/php/getZoos.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+        country: iso_a2,
+    },
+    success: function(result7) {
+
+        console.log(result7['data']);
+
+        if (result7.status.name == "ok") {  
+
+            var zooName = result7['data']['geonames'].length;
+            var zoo = ""
+
+            for(var z=0; z < zooName; z++){
+                zoo += zooName[z] + ", " 
+
+             //console.log(result7['data']['geonames'][z]['toponymName']);
+
+            // $('#txtZoo').append(result7['data']['geonames'][z]['toponymName'] + ", ");
+            } 
+        }
+    },  //done and working!
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(JSON.stringify(jqXHR));
+        console.log(JSON.stringify(textStatus));
+        console.log(JSON.stringify(errorThrown));
+    }
+}); // end of GEONAMES Zoo's call! 
+/////////////////////////////////////////////////////////////////////////
+// -----------------------------Get Volcanoe's from GEONAMES API ----------------------------//
+// Retrieve VOLCANOE'S info
+
+$.ajax({  //Calls GEONAMES API- Volcanoe's
+
+    url: "libs/php/getVolcanoes.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+        country: iso_a2,
+    },
+    success: function(result8) {
+    
+        console.log(result8['data']);
+    
+        if (result8.status.name == "ok") {  
+
+            var volcanoName = result8['data']['geonames'].length;
+            var volcano = ""
+
+            for(var v=0; v < volcanoName; v++){
+                volcano += volcanoName[v] + ", " 
+
+            // console.log(result8['data']['geonames'][v]['toponymName']);
+
+            // $('#txtVolcano').append(result8['data']['geonames'][v]['toponymName'] + ", ");
+            } 
+        }
+    },  //done and working!
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(JSON.stringify(jqXHR));
+        console.log(JSON.stringify(textStatus));
+        console.log(JSON.stringify(errorThrown));
+    }
+}); // end of GEONAMES Volcanoe's call! 
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+// -------------------------------- Get Capital City Info from GEONAMES API--------------------------------//
+// Retrieve CAPITAL CITY info
+
+$.ajax({  //Calls GEONAMES API- Capital City Info
+
+    url: "libs/php/getCountryCapital.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+        country: iso_a2,
+    },
+    success: function(result11) {
+
+        console.log(result11['data']);
+        
+        if (result11.status.name == "ok") {  
+
+            var capitalName = result11['data']['geonames'].length;
+            var captial = ""
+
+            for(var cc=0; cc < capitalName; cc++){
+                captial += capitalName[cc] + ", " 
+
+             //console.log(result11['data']['geonames'][cc]['toponymName']);
+
+            // $('#txtCapitalName').append(result11['data']['geonames'][cc]['toponymName'] + ", ");
+            } 
+         //   country.marker_capital = [result11['data']['geonames']['0']['name'],result['data']['geonames']['0']['population'],result['data']['geonames']['0']['lat'],result['data']['geonames']['0']['lng']];
+        }
+    },  //done and working!
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(JSON.stringify(jqXHR));
+        console.log(JSON.stringify(textStatus));
+        console.log(JSON.stringify(errorThrown));
+    }
+});  // end of GEONAMES Capital City Info call!  
+/////////////////////////////////////////////////////////////////////////
+// --------------------------------  Get Cities from GEONAMES API--------------------------------//
+// Retrieve CITIES Info
+
+$.ajax({  //Calls GEONAMES API- Cities
+
+    url: "libs/php/getCities.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+        country: iso_a2,
+    },
+    success: function(result12) {
+
+        console.log(result12['data']);
+
+        if (result12.status.name == "ok") {      
+            
+            var cityName = result12['data']['geonames'].length;
+            var city = ""
+
+            for(var c=0; c < cityName; c++){
+                city += cityName[c] + ", " 
+
+             //console.log(result12['data']['geonames'][c]['toponymName']);
+
+            // $('#txtCityName').append(result12['data']['geonames'][c]['toponymName'] + ", ");
+            } 
+         /*   for(let i=0; i < result12['data']['geonames'].length; i++){
+                country.marker_cities.push([result12['data']['geonames'][i]['name'],result['data']['geonames'][i]['population'],result['data']['geonames'][i]['lat'],result['data']['geonames'][i]['lng']]);
+            }  */
+        }
+    },  //done and working!
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(JSON.stringify(jqXHR));
+        console.log(JSON.stringify(textStatus));
+        console.log(JSON.stringify(errorThrown));
+    }
+});  // end of GEONAMES Cities Info call! 
+/////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 
+		
+		
 		
 		
 	
