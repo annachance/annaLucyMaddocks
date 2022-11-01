@@ -293,77 +293,6 @@ $.ajax({  //Calls GeoNames API- Timezone
     }
 });  // end of Timezone- Geonames API call! 
 /////////////////////////////////////////////////////////////////////////
-// -------------------------------- Get Airports from AeroDataBox Rapid API ---------------------------------//
-// Retrieve AIRPORT info
-
-$.ajax({  //Calls GeoNames API- Airports
-
-    url: "libs/php/getAirports1.php",
-    type: 'GET',
-    dataType: 'json',
-    data: {
-        country: $('#country-dropdown').val(),
-    },
-    success: function(result4) {
-
-        console.log(result4['data']);
-
-        if (result4.status.name == "ok") {                
-            
-                var airportsName = result4['data']['geonames'].length;
-                var airports = ""
-
-                for(var a=0; a < airportsName; a++){
-                    airports += airportsName[a] + ", "
-
-                   //console.log(result4['data']['geonames'][a]['toponymName']);
-			
-                    $('#txtAirports').append(result4['data']['geonames'][a]['toponymName'] + ", ");
-                }
-        }
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-        console.log(JSON.stringify(jqXHR));
-        console.log(JSON.stringify(textStatus));
-        console.log(JSON.stringify(errorThrown));
-    }
-}); // end of GEONAMES Airports call!  
-/////////////////////////////////////////////////////////////////////////
-		    // -------------------------------- Universities --------------------------------//
-// Retrieve UNIVERSITIES INFO
-
-$.ajax({  //Calls GEONAMES Universities API
-
-    url: "libs/php/getUniversities.php",
-    type: 'GET',
-    dataType: 'json',
-    data: {
-        country: iso_a2,
-    },
-    success: function(result3) {
-
-        console.log(result3['data']);
-    
-        if (result3.status.name == "ok") {    
-
-            var universityName = result3['data']['geonames'].length;
-            var universities = ""
-
-            for(var u=0; u < universityName; u++){
-                universities += universityName[u] + ", " 
-
-             console.log(result3['data']['geonames'][u]['toponymName']);
-
-             $('#txtUniversities').append(result3['data']['geonames'][u]['toponymName'] + ", ");
-            } 
-        }            
-    }, error: function(jqXHR, textStatus, errorThrown) {
-        // your error code
-        // console.log(jqXHR, textStatus, errorThrown); 
-        console.log(errorThrown),
-        console.log(jqXHR);
-    }
-  }); // end of GEONAMES Universities API call!  
 /////////////////////////////////////////////////////////////////////////
 		    
 		    
@@ -491,6 +420,47 @@ function getCountryInfo(iso_a2) {
               console.log(err);
      }
 }); // end of REST Countries API call!
+/////////////////////////////////////////////////////////////////////////
+// -------------------------------- Get News From NewsAPI  --------------------------------//
+// Retrieve NEWS info
+
+$.ajax({  //Calls News API.org
+        
+    url: "libs/php/getNews.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+        country: iso_a2,
+    },
+    success: function(result) {
+
+        console.log(result['data']);
+
+        if (result.status.name == "ok") {
+
+            var newsArticle = result['data']['articles'].length;
+            // var news = ""
+
+            for(var n=0; n < newsArticle; n++){
+                //   news += newsArticle[n] + ", "
+
+            // console.log(result['data']['articles'][n]['title']);
+            }
+            // [Title] [URL] [Source/Name] [Published/Date])
+            $('#news_article1').append(result['data']['articles']['0']['title'] + ", ", result['data']['articles']['0']['url'] + ", ", result['data']['articles']['0']['source']['Name'] + ", ", result['data']['articles']['0']['publishedAt'] + ", ");
+
+            $('#news_article2').append(result['data']['articles']['1']['title'] + ", ", result['data']['articles']['1']['url'] + ", ", result['data']['articles']['1']['source']['Name'] + ", ", result['data']['articles']['1']['publishedAt'] + ", ");
+
+            $('#news_article3').append(result['data']['articles']['2']['title'] + ", ", result['data']['articles']['2']['url'] + ", ", result['data']['articles']['2']['source']['Name'] + ", ", result['data']['articles']['2']['publishedAt'] + ", ");
+
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(JSON.stringify(jqXHR));
+        console.log(JSON.stringify(textStatus));
+        console.log(JSON.stringify(errorThrown));
+    }
+}); // end of News API call!
 /////////////////////////////////////////////////////////////////////////
 // -------------------------------- Get Airports from GEONAMES API ---------------------------------//
 // Retrieve AIRPORT info
