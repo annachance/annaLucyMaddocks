@@ -1,11 +1,10 @@
 <?php
 
 $curl = curl_init();
-//** needs work!! */
-//Covid-19 Rapid API -- works for all but not a specific country yet!!
+
+//Covid-19 Rapid API 
 curl_setopt_array($curl, [
-	CURLOPT_URL => 'https://covid-193.p.rapidapi.com/statistics'.$_REQUEST['country'],
-	CURLOPT_RETURNTRANSFER => true,
+	CURLOPT_URL => 'https://covid-193.p.rapidapi.com/statistics?country='.$_REQUEST['country'],
 	CURLOPT_FOLLOWLOCATION => true,
 	CURLOPT_ENCODING => "",
 	CURLOPT_MAXREDIRS => 10,
