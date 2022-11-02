@@ -421,6 +421,37 @@ function getCountryInfo(iso_a2) {
      }
 }); // end of REST Countries API call!
 /////////////////////////////////////////////////////////////////////////
+// -------------------------------- Get Covid Info From Covid-19 Rapid API  --------------------------------//
+// Retrieve Covid from Covid-19 Rapid API 
+		
+$.ajax({  //Calls Covid API
+
+	url: "libs/php/covid.php",
+	type: 'POST',
+	dataType: 'json',
+	data: {
+	    countryCode: $('#country-dropdown').val(),
+	   // countryName: $('#country-dropdown').val(),
+	    //country: iso_a3,
+	    //code: country.iso_a2,
+	   // countryCode: $('#country-dropdown').val(),
+
+	},
+	success: function(result) {
+
+	    console.log(result['data']);
+	    console.log("test");
+
+	    if (result.status.name == "ok") {
+
+		}
+	    },
+	error: function(jqXHR, textStatus, errorThrown) {
+	    // your error code
+	    console.log(errorThrown);
+	} 
+}); // end of COVID Info- Covid-19 Rapid API call!  
+/////////////////////////////////////////////////////////////////////////
 // -------------------------------- Get News From NewsAPI  --------------------------------//
 // Retrieve NEWS info
 
