@@ -5,7 +5,7 @@
 
 	$executionStartTime = microtime(true);
 
-    //Geonames API - Captial City -working!!
+        //Geonames API - Captial City -working!!
 	$url='http://api.geonames.org/searchJSON?country='.$_REQUEST['country'].'&featureCode=PPLC'.'&username=anna_chance&style=full';
 
 	$ch = curl_init();
