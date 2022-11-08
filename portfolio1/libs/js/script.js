@@ -13,8 +13,11 @@
 
 // Global Variables
 var countries = [];
+var border = null;
+var marker = null;  
 
-var marker = null;
+var airports = null;
+var airportCluster = null;
 
 ///////////////////////////////////////////////////////////
 
@@ -43,16 +46,109 @@ Esri_WorldGrayCanvas.addTo(map);
 
 ///////////////////////////////////////////////////////////
 
-// Icon
-/*var myIcon = L.icon({
-	iconUrl: 'my-icon.png',
-	iconSize: [40, 40]
-}); */
+// Icons
 
+/*var homeIcon = L.ExtraMarkers.icon({
+    icon: 'fas fa-home',
+    markerColor: 'green',
+    shape: 'penta',
+    prefix: 'fa'
+  }); */
+var airportIcon = L.icon({
+	iconUrl: 'Airports.png',
+	iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -30]
+}); 
+var hospitalIcon = L.icon({
+	iconUrl: 'Hospitals.png',
+	iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -30]
+});
+var universityIcon = L.icon({  
+	iconUrl: 'Universities.png',
+	iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -30]
+});
+var museumIcon = L.icon({  
+	iconUrl: 'Museums.png',
+	iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -30]
+});
+var stadiumIcon = L.icon({  
+	iconUrl: 'Stadiums.png',
+	iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -30]
+});
+var zooIcon = L.icon({  
+	iconUrl: 'Zoo.png',
+	iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -30]
+});
+var volcanoIcon = L.icon({  
+	iconUrl: 'Volcanos.png',
+	iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -30]
+});
+var oceanIcon = L.icon({  
+	iconUrl: 'Oceans.png',
+	iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -30]
+});
+var cityIcon = L.icon({  
+	iconUrl: 'Cities.png',
+	iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -30]
+});
+var capitalIcon = L.icon({   
+	iconUrl: 'CapitalCity.png',
+	iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -30]
+});
+var flagIcon = L.icon({  
+	iconUrl: 'Flag.png',
+	iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -30]
+});
+
+// Markers
+
+ //var airportMarker = L.marker([55.5, 3.5], {icon:airportIcon}).addTo(map).bindPopup('<h4> Airport Name: </h4>' + 'This is my airports marker/popup!!');
+// var hospitalMarker = L.marker([90.5, 70.5], {icon:hospitalIcon}).addTo(map).bindPopup('<h4> Hospital Name: </h4>' + 'This is my hospitals marker/popup!!');
+// var universityMarker = L.marker([53.5, 30.5], {icon:universityIcon}).addTo(map).bindPopup('<h4> Univeristy Name: </h4>' + 'This is my university marker/popup!!');
+// var museumMarker = L.marker([52.5, 24.5], {icon:museumIcon}).addTo(map).bindPopup('<h4> Museum Name: </h4>' + 'This is my museum marker/popup!!');
+ var stadiumMarker = L.marker([52.5, 12.5], {icon:stadiumIcon}).addTo(map).bindPopup('<h4> Sports Stadium Name: </h4>' + 'This is my stadium marker/popup!!');
+// var zooMarker = L.marker([53.5, 12.5], {icon:zooIcon}).addTo(map).bindPopup('<h4> Zoo Name: </h4>' + 'This is my zoo marker/popup!!');
+// var volcanoMarker = L.marker([51.5, 13.5], {icon:volcanoIcon}).addTo(map).bindPopup('<h4> Volcano Name: </h4>' + 'This is my volcano marker/popup!!');
+ var oceanMarker = L.marker([50.5, 15.5], {icon:oceanIcon}).addTo(map).bindPopup('<h4> Ocean Name: </h4>' + 'This is my ocean marker/popup!!');
+// var cityMarker = L.marker([52.5, 15.5], {icon:cityIcon}).addTo(map).bindPopup('<h4> City Name: </h4>' + 'This is my city marker/popup!!');
+// var capitalMarker = L.marker([51.5, 35.5], {icon:capitalIcon}).addTo(map).bindPopup('<h4> Capital City Name: </h4>' + 'This is my capital city marker/popup!!');
+ var flagMarker = L.marker([51.5, 13.5], {icon:flagIcon}).addTo(map).bindPopup('<h4> Country Flag </h4>' + 'This is my flag marker/popup!!');
 // Marker 
 var singleMarker = L.marker([50.5, 30.5], /*{icon: myIcon}*/ );
 var popup = singleMarker.bindPopup('This is my marker/popup!!').openPopup();
 popup.addTo(map); 
+
+// Markers Cluster
+var markerClusters = L.markerClusterGroup({
+    showCoverageOnHover: false,
+});
+var ClusterIcon = L.Icon.extend({
+    options: {
+        iconSize:     [30, 30],
+        popupAnchor:  [0, -20]
+    }
+});
 
 // Layer control
 var baseMaps = {
