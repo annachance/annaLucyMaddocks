@@ -5,9 +5,8 @@
 
 	$executionStartTime = microtime(true);
 
-	//News API - not working just yet!!! 
+	//News API.org - works!!
 	$url='https://newsapi.org/v2/top-headlines?country='.$_REQUEST['country'] . '&apiKey=b30dd253037d4a969314a58deaa7c04d';
-    //$url='https://newsapi.org/v2/top-headlines?country=us'.'&apiKey=b30dd253037d4a969314a58deaa7c04d';
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
