@@ -5,7 +5,7 @@
 
 	$executionStartTime = microtime(true);
 
-    //Geonames API - Cities  -working!!
+        //Geonames API - Cities  -working!!
 	$url='http://api.geonames.org/searchJSON?country=' . $_REQUEST['country'] . '&featureCode=PPLA&featureCode=PPLA2&maxRows=60'.'&username=anna_chance&style=full';
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
