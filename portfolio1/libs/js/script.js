@@ -55,67 +55,67 @@ Esri_WorldGrayCanvas.addTo(map);
     prefix: 'fa'
   }); */
 var airportIcon = L.icon({
-	iconUrl: 'Airports.png',
+	iconUrl: 'png/Airports.png',
 	iconSize: [40, 40],
     iconAnchor: [20, 20],
     popupAnchor: [0, -30]
 }); 
 var hospitalIcon = L.icon({
-	iconUrl: 'Hospitals.png',
+	iconUrl: 'png/Hospitals.png',
 	iconSize: [40, 40],
     iconAnchor: [20, 20],
     popupAnchor: [0, -30]
 });
 var universityIcon = L.icon({  
-	iconUrl: 'Universities.png',
+	iconUrl: 'png/Universities.png',
 	iconSize: [40, 40],
     iconAnchor: [20, 20],
     popupAnchor: [0, -30]
 });
 var museumIcon = L.icon({  
-	iconUrl: 'Museums.png',
+	iconUrl: 'png/Museums.png',
 	iconSize: [40, 40],
     iconAnchor: [20, 20],
     popupAnchor: [0, -30]
 });
 var stadiumIcon = L.icon({  
-	iconUrl: 'Stadiums.png',
+	iconUrl: 'png/Stadiums.png',
 	iconSize: [40, 40],
     iconAnchor: [20, 20],
     popupAnchor: [0, -30]
 });
 var zooIcon = L.icon({  
-	iconUrl: 'Zoo.png',
+	iconUrl: 'png/Zoo.png',
 	iconSize: [40, 40],
     iconAnchor: [20, 20],
     popupAnchor: [0, -30]
 });
 var volcanoIcon = L.icon({  
-	iconUrl: 'Volcanos.png',
+	iconUrl: 'png/Volcanos.png',
 	iconSize: [40, 40],
     iconAnchor: [20, 20],
     popupAnchor: [0, -30]
 });
 var oceanIcon = L.icon({  
-	iconUrl: 'Oceans.png',
+	iconUrl: 'png/Oceans.png',
 	iconSize: [40, 40],
     iconAnchor: [20, 20],
     popupAnchor: [0, -30]
 });
 var cityIcon = L.icon({  
-	iconUrl: 'Cities.png',
+	iconUrl: 'png/Cities.png',
 	iconSize: [40, 40],
     iconAnchor: [20, 20],
     popupAnchor: [0, -30]
 });
 var capitalIcon = L.icon({   
-	iconUrl: 'CapitalCity.png',
+	iconUrl: 'png/CapitalCity.png',
 	iconSize: [40, 40],
     iconAnchor: [20, 20],
     popupAnchor: [0, -30]
 });
 var flagIcon = L.icon({  
-	iconUrl: 'Flag.png',
+	iconUrl: 'png/Flag.png',
 	iconSize: [40, 40],
     iconAnchor: [20, 20],
     popupAnchor: [0, -30]
@@ -401,6 +401,8 @@ $.ajax({  //Calls GeoNames API- Timezone
 
 
 };  // end of function everything() call!
+/////////////////////////////////////////////////////////////////////////
+
 
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
@@ -825,6 +827,34 @@ $.ajax({  //Calls GEONAMES API- Volcanoe's
         console.log(JSON.stringify(errorThrown));
     }
 }); // end of GEONAMES Volcanoe's call! 
+/////////////////////////////////////////////////////////////////////////
+// -----------------------------Get Wiki City from GEONAMES API ----------------------------//
+// Retrieve WIKI CITY info
+
+$.ajax({  //Calls GEONAMES API- Wiki City
+
+    url: "libs/php/getWikiCity.php",
+    type: 'POST',
+    dataType: 'json',
+    data: {
+      //  country: $('#country-dropdown').val(),
+        country: iso_a2,
+    },
+    success: function(result10) {
+
+        console.log(result10);
+        console.log(result10['data']); // not sure on this! its bringing other country cities in but might be because its not working properly yet!
+        console.log("test");
+
+        if (result10.status.name == "ok") {
+            //citySummary
+            $('#citySynopsis').html(result10['data']['geonames'][0]['summary']);		
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log("somethings gone wrong");
+    }
+}); // end of GEONAMES Wiki City call!  
 /////////////////////////////////////////////////////////////////////////
 // --------------------------------  Get Cities from GEONAMES API--------------------------------//
 // Retrieve CITIES Info
