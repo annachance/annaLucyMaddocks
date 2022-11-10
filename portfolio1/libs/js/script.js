@@ -830,40 +830,12 @@ $.ajax({  //Calls GEONAMES API- Volcanoe's
     }
 }); // end of GEONAMES Volcanoe's call! 
 /////////////////////////////////////////////////////////////////////////
-// -----------------------------Get Wiki City from GEONAMES API ----------------------------//
-// Retrieve WIKI CITY info
-
-$.ajax({  //Calls GEONAMES API- Wiki City
-
-    url: "libs/php/getWikiCity.php",
-    type: 'POST',
-    dataType: 'json',
-    data: {
-      //  country: $('#country-dropdown').val(),
-        country: iso_a2,
-    },
-    success: function(result10) {
-
-        console.log(result10);
-        console.log(result10['data']); // not sure on this! its bringing other country cities in but might be because its not working properly yet!
-        console.log("test");
-
-        if (result10.status.name == "ok") {
-            //citySummary
-            $('#citySynopsis').html(result10['data']['geonames'][0]['summary']);		
-        }
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-        console.log("somethings gone wrong");
-    }
-}); // end of GEONAMES Wiki City call!  
-/////////////////////////////////////////////////////////////////////////
 // --------------------------------  Get Cities from GEONAMES API--------------------------------//
 // Retrieve CITIES Info
 
 $.ajax({  //Calls GEONAMES API- Cities
 
-    url: "libs/php/getCities.php",
+    url: "libs/php/getCountryCities.php",
     type: 'GET',
     dataType: 'json',
     data: {
@@ -874,7 +846,7 @@ $.ajax({  //Calls GEONAMES API- Cities
         console.log(result12['data']);
 
         if (result12.status.name == "ok") {      
-            
+
             for(let c=0; c < result12['data']['geonames'].length; c++){
             
             // console.log(result12['data']['geonames'][c]['name']);
@@ -884,13 +856,51 @@ $.ajax({  //Calls GEONAMES API- Cities
             var cityName = result12['data']['geonames'][c]['name'];
             var cityPopulation = result12['data']['geonames'][c]['population'];
            // var citySummary = result12['data']['geonames'][0]['population']; //get summary of captial ?! needs altering!!
-            var cityMarker = L.marker([latCity, lngCity], {icon:cityIcon}).addTo(map).bindPopup('<h6> City Name: </h6>' + cityName + '<h6> Population: </h6>' + cityPopulation)
+		    
+           var cityMarker = L.marker([latCity, lngCity], {icon:cityIcon}).bindPopup(
+            '<h6> City Name: </h6>' + cityName + 
+            '<h6> Population: </h6>' + cityPopulation);
+           //+ '<h6> About City: </h6>' + citySummary);
 
-            markerClusters.addLayer(cityMarker);
-            map.addLayer(markerClusters);
+           markerClusters.addLayers(cityMarker);
+           map.addLayer(markerClusters);
           } 
+        }  //done and working!
+    /////////////////////////////////////////////////////////////////////////
+    // -----------------------------Get Wiki City from GEONAMES API ----------------------------//
+    // Retrieve WIKI CITY info
+/*
+    $.ajax({  //Calls GEONAMES API- Wiki City
+
+        url: "libs/php/getWikiCity.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            //country: $('#country-dropdown').val(cityName),
+            // country: iso_a2,
+            city: cityName,
+        },
+        success: function(result10) {
+
+            console.log(result10);
+            console.log(result10['data']); // not sure on this! its bringing other country cities in but might be because its not working properly yet!
+            console.log("test");
+
+            if (result10.status.name == "ok") {
+                //citySummary
+            //  $('#citySynopsis').html(result10['data']['geonames'][0]['summary']);		
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log("somethings gone wrong");
         }
-    },  //done and working!
+    }); // end of GEONAMES Wiki City call!  */
+/////////////////////////////////////////////////////////////////////////
+	    
+	    
+	    
+     
+    }, // end of GEONAMES Cities Info SUCCESS callback!  
     error: function(jqXHR, textStatus, errorThrown) {
         console.log(JSON.stringify(jqXHR));
         console.log(JSON.stringify(textStatus));
@@ -921,14 +931,17 @@ $.ajax({  //Calls GEONAMES API- Capital City Info
             var capPopulation = result11['data']['geonames'][0]['population'];
            // var capitalSummary = result11['data']['geonames'][0]['population']; //get summary of captial ?! needs altering!!
 	
-	    var capitalMarker = L.marker([latCapital, lngCapital], {icon:capitalIcon}).addTo(map).bindPopup(
+	    var capitalMarker = L.marker([latCapital, lngCapital], {icon:capitalIcon}).bindPopup(
                 '<h6> Capital City Name: </h6>' + capitalName + 
                 '<h6> Population: </h6>' + capPopulation);
                 //+ '<h6> About Capital: </h6>' + capitalSummary);
 		
+		if (markerClusters) {
+                markerClusters.clearLayers();
+                }
 		markerClusters.addLayer(capitalMarker);
                 map.addLayer(markerClusters); 
-        }
+                }
     },  //done and working!
     error: function(jqXHR, textStatus, errorThrown) {
         console.log(JSON.stringify(jqXHR));
