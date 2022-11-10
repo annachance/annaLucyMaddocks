@@ -120,6 +120,12 @@ var flagIcon = L.icon({
     iconAnchor: [20, 20],
     popupAnchor: [0, -30]
 });
+var nasaIcon = L.icon({  
+	iconUrl: 'png/Rocket.png',
+	iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -30]
+});
 
 // Markers
 
@@ -134,6 +140,10 @@ var flagIcon = L.icon({
 // var cityMarker = L.marker([52.5, 15.5], {icon:cityIcon}).addTo(map).bindPopup('<h4> City Name: </h4>' + 'This is my city marker/popup!!');
 // var capitalMarker = L.marker([51.5, 35.5], {icon:capitalIcon}).addTo(map).bindPopup('<h4> Capital City Name: </h4>' + 'This is my capital city marker/popup!!');
  var flagMarker = L.marker([51.5, 13.5], {icon:flagIcon}).addTo(map).bindPopup('<h4> Country Flag </h4>' + 'This is my flag marker/popup!!');
+
+// NASA Johnson Space Center
+var nasaMarker = L.marker([29.56088, -95.08834], {icon:nasaIcon}).addTo(map).bindPopup('<h6>NASA Johnson Space Center</h6>');
+
 // Marker 
 var singleMarker = L.marker([50.5, 30.5], /*{icon: myIcon}*/ );
 var popup = singleMarker.bindPopup('This is my marker/popup!!').openPopup();
@@ -602,6 +612,8 @@ $.ajax({  //Calls GeoNames API- Airports
 	    
 	if (result4.status.name == "ok") {                
 
+	      var airportMarkerArray = [];
+
             for(let a=0; a < result4['data']['geonames'].length; a++){
 
                 // console.log(result4['data']['geonames'][a]['name']);
@@ -610,12 +622,12 @@ $.ajax({  //Calls GeoNames API- Airports
                 latAirport = result4['data']['geonames'][a]['lat']
                 lngAirport = result4['data']['geonames'][a]['lng']
                 var airportsName  = result4['data']['geonames'][a]['name'];
-                var airportMarker = L.marker([latAirport, lngAirport], {icon:airportIcon}).addTo(map).bindPopup('<h6> Airport Name: </h6>' + airportsName);
+                airportMarkerArray.push(L.marker([latAirport, lngAirport], {icon:airportIcon}).bindPopup('<h6> Airport Name: </h6>' + airportsName));
 
 		if (markerClusters) {
                     markerClusters.clearLayers();
 		} 
-                markerClusters.addLayer(airportMarker);
+                markerClusters.addLayers(airportMarkerArray);
                 map.addLayer(markerClusters);
                 }
         }
@@ -654,9 +666,6 @@ $.ajax({  //Calls GEONAMES Universities API
                 var universityName  = result3['data']['geonames'][u]['name'];
                 var universityMarker = L.marker([latUniversity, lngUniversity], {icon:universityIcon}).addTo(map).bindPopup('<h6> Univeristy Name: </h6>' + universityName);
 
-		if (markerClusters) {
-                    markerClusters.clearLayers();
-                } 
                 markerClusters.addLayer(universityMarker);
                 map.addLayer(markerClusters);
           }  
@@ -695,9 +704,6 @@ $.ajax({  //Calls GEONAMES API- Museums
                 var museumName  = result5['data']['geonames'][m]['name'];
                 var museumMarker = L.marker([latMuseum, lngMuseum], {icon:museumIcon}).addTo(map).bindPopup('<h6> Museum Name: </h6>' + museumName);
          
-		if (markerClusters) {
-                    markerClusters.clearLayers();
-                } 
                 markerClusters.addLayer(museumMarker);
                 map.addLayer(markerClusters);
             } 
@@ -735,10 +741,7 @@ $.ajax({  //Calls GEONAMES API- Hospitals
                     lngHospital = result6['data']['geonames'][h]['lng']
                     var hospitalName  = result6['data']['geonames'][h]['name'];
                     var hospitalMarker = L.marker([latHospital, lngHospital], {icon:hospitalIcon}).addTo(map).bindPopup('<h6> Hospital Name: </h6>' + hospitalName);
-
-	            if (markerClusters) {
-                    markerClusters.clearLayers();
-                    } 
+			
                     markerClusters.addLayer(hospitalMarker);
                     map.addLayer(markerClusters);
             } 
@@ -776,10 +779,7 @@ $.ajax({  //Calls GEONAMES API- Zoo's
                 lngZoo = result7['data']['geonames'][z]['lng']
                 var zooName  = result7['data']['geonames'][z]['name'];
                 var zooMarker = L.marker([latZoo, lngZoo], {icon:zooIcon}).addTo(map).bindPopup('<h6> Zoo Name: </h6>' + zooName);
-
-		if (markerClusters) {
-                    markerClusters.clearLayers();
-                } 
+		    
                 markerClusters.addLayer(zooMarker);
                 map.addLayer(markerClusters);
             }  
@@ -817,10 +817,7 @@ $.ajax({  //Calls GEONAMES API- Volcanoe's
                 lngVolcano = result8['data']['geonames'][v]['lng']
                 var volcanoName = result8['data']['geonames'][v]['name'];
                 var volcanoMarker = L.marker([latVolcano, lngVolcano], {icon:volcanoIcon}).addTo(map).bindPopup('<h6> Volcano Name: </h6>' + volcanoName);
-
-	        if (markerClusters) {
-                    markerClusters.clearLayers();
-                } 
+ 
                 markerClusters.addLayer(volcanoMarker);
                 map.addLayer(markerClusters);
                 } 
@@ -889,9 +886,6 @@ $.ajax({  //Calls GEONAMES API- Cities
            // var citySummary = result12['data']['geonames'][0]['population']; //get summary of captial ?! needs altering!!
             var cityMarker = L.marker([latCity, lngCity], {icon:cityIcon}).addTo(map).bindPopup('<h6> City Name: </h6>' + cityName + '<h6> Population: </h6>' + cityPopulation)
 
-	    if (markerClusters) {
-                    markerClusters.clearLayers();
-            } 
             markerClusters.addLayer(cityMarker);
             map.addLayer(markerClusters);
           } 
@@ -927,14 +921,13 @@ $.ajax({  //Calls GEONAMES API- Capital City Info
             var capPopulation = result11['data']['geonames'][0]['population'];
            // var capitalSummary = result11['data']['geonames'][0]['population']; //get summary of captial ?! needs altering!!
 	
-	    if (capitalMarker) {
-                    capitalMarker.clearLayers();
-            } 
 	    var capitalMarker = L.marker([latCapital, lngCapital], {icon:capitalIcon}).addTo(map).bindPopup(
                 '<h6> Capital City Name: </h6>' + capitalName + 
                 '<h6> Population: </h6>' + capPopulation);
                 //+ '<h6> About Capital: </h6>' + capitalSummary);
-            }  
+		
+		markerClusters.addLayer(capitalMarker);
+                map.addLayer(markerClusters); 
         }
     },  //done and working!
     error: function(jqXHR, textStatus, errorThrown) {
@@ -1020,3 +1013,21 @@ L.easyButton('<img src="libs/svg/plane-departure-solid.svg" style="width:16px">'
         
    }
 }, 'Country Airports').addTo(map); 
+
+// -------------------------------- Button 6 - Country Universities --------------------------------
+
+L.easyButton('<img src="png/University.png" style="width:16px">', function(btn, map) {
+    $('#modal6').modal('show');
+}, 'Universities').addTo(map);
+
+// -------------------------------- Button 7 - Country News --------------------------------
+
+L.easyButton('<img src="png/News.png" style="width:16px">', function(btn, map) {
+    $('#modal7').modal('show');
+}, 'News').addTo(map);
+
+// -------------------------------- Button 8 - Country Flag --------------------------------
+
+L.easyButton('<img src="libs/svg/flag.svg" style="width:16px">', function(btn, map) {
+    $('#modal8').modal('show');
+}, 'Country Flag').addTo(map);
