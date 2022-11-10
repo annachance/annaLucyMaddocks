@@ -14,7 +14,9 @@
 // Global Variables
 var countries = [];
 var border = null;
-var marker = null;  
+var marker = null;
+var capitalMarker = {};
+
 
 var airports = null;
 var airportCluster = null;
@@ -666,6 +668,9 @@ $.ajax({  //Calls GEONAMES Universities API
                 var universityName  = result3['data']['geonames'][u]['name'];
                 var universityMarker = L.marker([latUniversity, lngUniversity], {icon:universityIcon}).addTo(map).bindPopup('<h6> Univeristy Name: </h6>' + universityName);
 
+	        if (markerClusters) {
+		    markerClusters.clearLayers();
+		}
                 markerClusters.addLayer(universityMarker);
                 map.addLayer(markerClusters);
           }  
@@ -704,6 +709,9 @@ $.ajax({  //Calls GEONAMES API- Museums
                 var museumName  = result5['data']['geonames'][m]['name'];
                 var museumMarker = L.marker([latMuseum, lngMuseum], {icon:museumIcon}).addTo(map).bindPopup('<h6> Museum Name: </h6>' + museumName);
          
+	        if (markerClusters) {
+		    markerClusters.clearLayers();
+		}
                 markerClusters.addLayer(museumMarker);
                 map.addLayer(markerClusters);
             } 
@@ -742,6 +750,9 @@ $.ajax({  //Calls GEONAMES API- Hospitals
                     var hospitalName  = result6['data']['geonames'][h]['name'];
                     var hospitalMarker = L.marker([latHospital, lngHospital], {icon:hospitalIcon}).addTo(map).bindPopup('<h6> Hospital Name: </h6>' + hospitalName);
 			
+	            if (markerClusters) {
+		    markerClusters.clearLayers();
+		    }
                     markerClusters.addLayer(hospitalMarker);
                     map.addLayer(markerClusters);
             } 
@@ -780,6 +791,9 @@ $.ajax({  //Calls GEONAMES API- Zoo's
                 var zooName  = result7['data']['geonames'][z]['name'];
                 var zooMarker = L.marker([latZoo, lngZoo], {icon:zooIcon}).addTo(map).bindPopup('<h6> Zoo Name: </h6>' + zooName);
 		    
+		if (markerClusters) {
+		    markerClusters.clearLayers();
+		}
                 markerClusters.addLayer(zooMarker);
                 map.addLayer(markerClusters);
             }  
@@ -818,6 +832,9 @@ $.ajax({  //Calls GEONAMES API- Volcanoe's
                 var volcanoName = result8['data']['geonames'][v]['name'];
                 var volcanoMarker = L.marker([latVolcano, lngVolcano], {icon:volcanoIcon}).addTo(map).bindPopup('<h6> Volcano Name: </h6>' + volcanoName);
  
+	        if (markerClusters) {
+		    markerClusters.clearLayers();
+		}
                 markerClusters.addLayer(volcanoMarker);
                 map.addLayer(markerClusters);
                 } 
@@ -862,6 +879,9 @@ $.ajax({  //Calls GEONAMES API- Cities
             '<h6> Population: </h6>' + cityPopulation);
            //+ '<h6> About City: </h6>' + citySummary);
 
+	   if (markerClusters) {
+		    markerClusters.clearLayers();
+           }
            markerClusters.addLayers(cityMarker);
            map.addLayer(markerClusters);
           } 
@@ -930,18 +950,15 @@ $.ajax({  //Calls GEONAMES API- Capital City Info
             var capitalName = result11['data']['geonames'][0]['name'];
             var capPopulation = result11['data']['geonames'][0]['population'];
            // var capitalSummary = result11['data']['geonames'][0]['population']; //get summary of captial ?! needs altering!!
-	
-	    var capitalMarker = L.marker([latCapital, lngCapital], {icon:capitalIcon}).bindPopup(
+
+	   if (capitalMarker != undefined) {
+            map.removeLayer(capitalMarker);
+           }
+	   var capitalMarker = L.marker([latCapital, lngCapital], {icon:capitalIcon}).addTo(map).bindPopup(
                 '<h6> Capital City Name: </h6>' + capitalName + 
                 '<h6> Population: </h6>' + capPopulation);
                 //+ '<h6> About Capital: </h6>' + capitalSummary);
-		
-		if (markerClusters) {
-                markerClusters.clearLayers();
-                }
-		markerClusters.addLayer(capitalMarker);
-                map.addLayer(markerClusters); 
-                }
+           }
     },  //done and working!
     error: function(jqXHR, textStatus, errorThrown) {
         console.log(JSON.stringify(jqXHR));
