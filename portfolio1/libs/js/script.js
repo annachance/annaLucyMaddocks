@@ -1,13 +1,12 @@
  ///////////////////////////////////////////////////////////
- // Preloader
-   /*  
+ // Preloader 
  $(window).on('load', function () {
 	if ($('#preloader').length) {
 	$('#preloader').delay(1000).fadeOut('slow', function () {
 	$(this).remove();
 	});
 	}
-  });     */
+  });   
 
 ///////////////////////////////////////////////////////////
 
@@ -15,10 +14,6 @@
 var countries = [];
 var border = null;  
 var capitalMarker = null;  
-
-//capitalize 1st letter
-/*function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1); }; */
 
 ///////////////////////////////////////////////////////////
 
@@ -48,12 +43,6 @@ Esri_WorldGrayCanvas.addTo(map);
 ///////////////////////////////////////////////////////////
 
 // Icons
-/*var homeIcon = L.ExtraMarkers.icon({
-    icon: 'fas fa-home',
-    markerColor: 'green',
-    shape: 'penta',
-    prefix: 'fa'
-  }); */
 var airportIcon = L.icon({
 	iconUrl: 'png/Airports.png',
 	iconSize: [40, 40],
@@ -114,12 +103,57 @@ var nasaIcon = L.icon({
     iconAnchor: [20, 20],
     popupAnchor: [0, -30]
 });
+var famousLandmarkIcon = L.icon({  
+	iconUrl: 'png/FamousLandmark.png',
+	iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -30]
+});
 
-// Markers
-var stadiumMarker = L.marker([52.5, 12.5], {icon:stadiumIcon}).addTo(map).bindPopup('<h4> Sports Stadium Name: </h4>' + 'This is my stadium marker/popup!!');
+// Markers - Famous Landmarks of the World
 
-// NASA Johnson Space Center
-var nasaMarker = L.marker([29.56088, -95.08834], {icon:nasaIcon}).addTo(map).bindPopup('<h6>NASA Johnson Space Center</h6>');
+// NASA Johnson Space Center, USA
+var nasaMarker = L.marker([29.56088, -95.08834], {icon:nasaIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "NASA Johnson Space Center, USA");
+// Eiffel Tower, Paris, France
+var eiffelTowerMarker = L.marker([48.8584, 2.2945], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Eiffel Tower, Paris, France");
+// Empire State Building, New York, USA
+var empireStateMarker = L.marker([40.7484, -73.9857], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Empire State Building, New York, USA");
+// The Statue of Liberty, New York, USA
+var statueOfLibertyMarker = L.marker([40.6892, -74.0445], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "The Statue of Liberty, New York, USA");
+// Great Wall of China, Beijing, China
+var greatWallMarker = L.marker([40.4319, 116.5704], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Great Wall of China, Beijing, China");
+// Taj Mahal, Agra, Uttar Pradesh, India
+var tajMahalMarker = L.marker([27.1751, 78.0421], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Taj Mahal, Agra, Uttar Pradesh, India");
+// The Colosseum, Rome, Italy
+var colosseumMarker = L.marker([41.8902, 12.4922], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "The Colosseum, Rome, Italy");
+// The Pyramids of Giza and The Sphinx, Egypt
+var pyramidsMarker = L.marker([29.9753, 31.1376], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "The Pyramids of Giza and The Sphinx, Egypt");
+// Sydney Opera House, Sydney, Australia
+var sydneyOperaHouseMarker = L.marker([-33.8568, 151.2153], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Sydney Opera House, Sydney, Australia");
+//  Golden Gate Bridge, San Francisco, USA
+var goldenGateBridgeMarker = L.marker([37.8199, -122.4783], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Golden Gate Bridge, San Francisco, USA");
+//  Mount Fuji, Honshu Island, Japan
+var mountFujiMarker = L.marker([35.3606, 138.7274], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Mount Fuji, Honshu Island, Japan");
+//  Christ The Redeemer, Rio de Janeiro, Brazil
+var christTheRedeemerMarker = L.marker([-22.9519, -43.2105], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Christ The Redeemer, Rio de Janeiro, Brazil");
+//  Burj Khalifa, Dubai, United Arab Emirates
+var burjKhalifaMarker = L.marker([25.1972, 55.2744], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Burj Khalifa, Dubai, United Arab Emirates");
+//  Machu Picchu, Machu Picchu Archaeological Park, Peru
+var machuPicchuMarker = L.marker([-13.1631, -72.5450], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Machu Picchu, Machu Picchu Archaeological Park, Peru");
+//  St. Basil's Cathedral, Moscow, Russia
+var stBasilsMarker = L.marker([55.7525, 37.6231], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "St. Basil's Cathedral, Moscow, Russia");
+//  The Acropolis, Athens, Greece
+var acropolisMarker = L.marker([37.9715, 23.7257], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "The Acropolis, Athens, Greece");
+//  Leaning Tower of Pisa, Pisa, Italy
+var leaningTowerMarker = L.marker([43.7230, 10.3966], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Leaning Tower of Pisa, Pisa, Italy");
+//  Giant's Causeway, Portrush, Northern Ireland
+var giantsCausewayMarker = L.marker([55.2408, -6.5116], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Giant's Causeway, Portrush, Northern Ireland");
+//  Buckingham Palace, London, England
+var buckinghamPalaceMarker = L.marker([51.5014, 0.1419], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Buckingham Palace, London, England");
+//  The Grand Palace, Bangkok, Thailand
+var theGrandPalaceMarker = L.marker([13.7499, 100.4916], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the v: </h6>' + "The Grand Palace, Bangkok, Thailand");
+//  Petra, Petra, Jordan
+var petraMarker = L.marker([30.3285, 35.4444], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Petra, Petra, Jordan");
 
 // Marker 
 var singleMarker = L.marker([50.5, 30.5], {icon:hospitalIcon});
@@ -153,7 +187,10 @@ L.control.locate().addTo(map);
 
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
-
+/////////////////////////////////////////////////////////////////////////
+  //capitalize 1st letter
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1); }; 
 /////////////////////////////////////////////////////////////////////////
 // On webpage Load 
 $(document).ready(function () {
@@ -268,7 +305,6 @@ $.ajax({  // Calls OpenCage API
     success: function(result) {
         
         console.log(result);
-        // console.log("test");
             
         if (result.status.name == "ok") {
 
@@ -292,7 +328,6 @@ $.ajax({  // Calls Open Weather API
     success: function(result) {
 
             console.log(result['data']);
-           // console.log("test");
 
         if (result.status.name == "ok") {
 
@@ -302,6 +337,7 @@ $.ajax({  // Calls Open Weather API
             var tempFeels = parseInt(result['data']['main']['feels_like']);
             var midTempFeels = tempFeels - 273.15;
             var newTempFeels = midTempFeels.toFixed(2);
+		
             let iconSrc = "https://openweathermap.org/img/wn/" + result["data"]['weather'][0]["icon"] + "@4x.png";
             $("#txtIcon").attr("src", iconSrc);
             $('#txtDescription').html(result['data']['weather'][0]['description']);
@@ -320,6 +356,24 @@ $.ajax({  // Calls Open Weather API
             
             $('#weatherSunSet2').html(sunriseDate); // change to get todays date!!
             $('#weatherSunRise2').html(sunsetDate); // change to get todays date!!
+/////////////////////////////////////////////////////////////////////////
+
+            let iconSrc2 = "https://openweathermap.org/img/wn/" + result["data"]["daily"][1]['weather'][0]["icon"] + "@4x.png";
+            $('#weatherIcon2').attr("src", iconSrc2);
+      
+            let iconSrc3 = "https://openweathermap.org/img/wn/" + result["data"]["daily"][2]['weather'][0]["icon"] + "@4x.png";
+            $('#weatherIcon3').attr("src", iconSrc3);
+      
+            let iconSrc4 = "https://openweathermap.org/img/wn/" + result["data"]["daily"][3]['weather'][0]["icon"] + "@4x.png";
+            $('#weatherIcon4').attr("src", iconSrc4);
+      
+            let iconSrc5 = "https://openweathermap.org/img/wn/" + result["data"]["daily"][4]['weather'][0]["icon"] + "@4x.png";
+            $('#weatherIcon5').attr("src", iconSrc5);
+      
+            $("#day2Temp").html(`${Math.round(result["data"]["daily"][1]['temp']['day'])}&deg;C`);
+            $("#day3Temp").html(`${Math.round(result["data"]["daily"][2]['temp']['day'])}&deg;C`);
+            $("#day4Temp").html(`${Math.round(result["data"]["daily"][3]['temp']['day'])}&deg;C`);
+            $("#day5Temp").html(`${Math.round(result["data"]["daily"][4]['temp']['day'])}&deg;C`);
             }  
     },  //done and working!
     error: function(jqXHR, textStatus, errorThrown) {
@@ -454,7 +508,7 @@ $.ajax({  //Calls REST Countries API
             $('#txtSubRegion').html(result2['data'][0]['subregion']);  
             $('#cca2').html(result2['data'][0]['cca2']);  
             $('#cca3').html(result2['data'][0]['cca3']);  
-            $('#drivingSide').html(result2['data'][0]['car']['side']); 
+            $('#drivingSide').html(capitalizeFirstLetter(result2['data'][0]['car']['side'])); 
             $('#txtCurrency').html(result2['data'][0]['currencies'][result['data']['geonames'][0]['currencyCode']]['name']);
             $('#currencySymbol').html(result2['data'][0]['currencies'][result['data']['geonames'][0]['currencyCode']]['symbol']); 
 
@@ -751,6 +805,45 @@ $.ajax({  //Calls GEONAMES API- Volcanoe's
     }
 }); // end of GEONAMES Volcanoe's call! 
 /////////////////////////////////////////////////////////////////////////
+// -----------------------------Get Sports Stadiums from GEONAMES API ----------------------------//
+// Retrieve Sports STADIUMS info
+// make sure php routine works!!!!
+
+$.ajax({  //Calls GEONAMES API- Sports Stadiums
+    
+    url: "libs/php/getSportsStadiums.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+        country: iso_a2,
+    },
+    success: function(result9) {
+
+        console.log(result9['data']);
+
+        if (result9.status.name == "ok") {  
+
+            for(let s=0; s < result9['data']['geonames'].length; s++){
+
+             // console.log(result9['data']['geonames'][s]['name']);
+            
+             latStadium = result9['data']['geonames'][s]['lat']
+             lngStadium = result9['data']['geonames'][s]['lng']
+             var stadiumName = result9['data']['geonames'][s]['name'];
+             var stadiumMarker = L.marker([latStadium, lngStadium], {icon:stadiumIcon}).bindPopup('<h6> Sports Stadium Name: </h6>' + stadiumName);
+
+            markerClusters.addLayers(stadiumMarker);
+            map.addLayer(markerClusters); 
+            } 
+        }
+    },  //done and working!
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(JSON.stringify(jqXHR));
+        console.log(JSON.stringify(textStatus));
+        console.log(JSON.stringify(errorThrown));
+    }
+}); // end of GEONAMES Sports Stadiums's call! 
+/////////////////////////////////////////////////////////////////////////
 // --------------------------------  Get Cities from GEONAMES API--------------------------------//
 // Retrieve CITIES Info
 
@@ -859,10 +952,10 @@ $.ajax({  //Calls GEONAMES API- Capital City Info
 
 $('select').on('change', function() {
     
-    //getCountryInfo();
+    //gets CountryInfo()
     getCountryInfo($("#country-dropdown").val());
     
-    //get everything();
+    //gets everything()
     everything($("#country-dropdown").val());
     
   }); 
@@ -928,9 +1021,10 @@ $('select').on('change', function() {
             // your error code
             alert(errorThrown)
         } 
-     })  // end of Open Cage Reverse GeoCode API call! 
+     });  // end of Open Cage Reverse GeoCode API call! 
 
-  }  // end of function OnMapClick 
+  };  // end of function OnMapClick 
+////////////////////////////////////////////////////////////////////
 // Applies mapclick function to map
 map.on('click', onMapClick);
 ////////////////////////////////////////////////////////////////////
@@ -958,33 +1052,27 @@ L.easyButton('<img src="libs/svg/coins.svg" style="width:16px">', function(btn, 
     $('#modal3').modal('show');
 }, 'Currency').addTo(map);
 
-// -------------------------------- Button 4 - Country Covid Info --------------------------------
-
-L.easyButton('<img src="libs/svg/disease-solid.svg" style="width:16px">', function(btn, map) {
-    $('#modal4').modal('show');
-}, 'Covid').addTo(map);
-
-// -------------------------------- Button 5 - Country Airports --------------------------------
+// -------------------------------- Button 4 - Country Airports --------------------------------
 
 L.easyButton('<img src="libs/svg/plane.svg" style="width:16px">', function(btn, map) {
-    $('#modal5').modal('show');
+    $('#modal4').modal('show');
 }, 'Country Airports').addTo(map); 
 
-// -------------------------------- Button 6 - Country Universities --------------------------------
+// -------------------------------- Button 5 - Country Universities --------------------------------
 
 L.easyButton('<img src="png/University.png" style="width:16px">', function(btn, map) {
-    $('#modal6').modal('show');
+    $('#modal5').modal('show');
 }, 'Universities').addTo(map);
 
-// -------------------------------- Button 7 - Country News --------------------------------
+// -------------------------------- Button 6 - Country News --------------------------------
 
 L.easyButton('<img src="png/News.png" style="width:16px">', function(btn, map) {
-    $('#modal7').modal('show');
+    $('#modal6').modal('show');
 }, 'News').addTo(map);
 
-// -------------------------------- Button 8 - Country Flag --------------------------------
+// -------------------------------- Button 7 - Country Flag --------------------------------
 
 L.easyButton('<img src="libs/svg/flag.svg" style="width:16px">', function(btn, map) {
-    $('#modal8').modal('show');
+    $('#modal7').modal('show');
 }, 'Country Flag').addTo(map);
 
