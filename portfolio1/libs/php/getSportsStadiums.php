@@ -1,25 +1,32 @@
 <?php
 
-$curl = curl_init();
+ini_set('display_errors', 'On');
+error_reporting(E_ALL);
 
-// API Football- Sports Stadium 
-curl_setopt_array($curl, array(
-  CURLOPT_URL => 'https://v3.football.api-sports.io/venues/country',
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => '',
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 0,
-  CURLOPT_FOLLOWLOCATION => true,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => 'GET',
-  CURLOPT_HTTPHEADER => array(
-    'x-rapidapi-key: b1be36c737db8d7ff02c87af61c62fdf',
-    'x-rapidapi-host: v3.football.api-sports.io'
-  ),
-));
+$executionStartTime = microtime(true);
 
-$response = curl_exec($curl);
+// Geonames API- Sports Stadiums  - WORKS!!!!
+$url='http://api.geonames.org/searchJSON?country=' . $_REQUEST['country'] . '&featureCode=STDM&maxRows=60'. '&username=anna_chance&style=full';
 
-curl_close($curl);
-echo $response;
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_URL,$url);
+
+$result=curl_exec($ch);
+
+curl_close($ch);
+
+$decode = json_decode($result,true);	
+
+$output['status']['code'] = "200";
+$output['status']['name'] = "ok";
+$output['status']['description'] = "success";
+$output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
+$output['data'] = $decode;
+
+header('Content-Type: application/json; charset=UTF-8');
+
+echo json_encode($output); 
+
 ?>
