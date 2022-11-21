@@ -1,12 +1,12 @@
  ///////////////////////////////////////////////////////////
- // Preloader 
+ // Preloader
  $(window).on('load', function () {
 	if ($('#preloader').length) {
 	$('#preloader').delay(1000).fadeOut('slow', function () {
 	$(this).remove();
 	});
 	}
-  });   
+  });     
 
 ///////////////////////////////////////////////////////////
 
@@ -188,9 +188,14 @@ L.control.locate().addTo(map);
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
-  //capitalize 1st letter
+  // Capitalize first letter
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1); }; 
+
+  // Format large number with commas
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 /////////////////////////////////////////////////////////////////////////
 // On webpage Load 
 $(document).ready(function () {
@@ -242,7 +247,7 @@ $(document).ready(function () {
 
                 if (result.status.name == "ok") {
 
-                    $("#country-dropdown").val(result['data']).change(); //Sets dropdown to current country
+                    $("#country-dropdown").val(result['data']).change(); //Sets dropdown to current country 
                 }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -277,7 +282,7 @@ function everything() {
            if (result.status.name == "ok") {
                 //console.log(result['data'])
                
-             if (border !== null) {  // removes border from map no new country select
+             if (border !== null) {  // removes border from map on new country select
                     map.removeLayer(border);
              }
               border = L.geoJSON(result['data']);
@@ -331,51 +336,86 @@ $.ajax({  // Calls Open Weather API
 
         if (result.status.name == "ok") {
 
-            var temp = parseInt(result['data']['main']['temp']);
+            var temp = parseInt(result['data']['current']['temp']);
             var midTemp = temp - 273.15;
             var newTemp = midTemp.toFixed(2);
-            var tempFeels = parseInt(result['data']['main']['feels_like']);
+            var tempFeels = parseInt(result['data']['current']['feels_like']);
             var midTempFeels = tempFeels - 273.15;
             var newTempFeels = midTempFeels.toFixed(2);
-		
-            let iconSrc = "https://openweathermap.org/img/wn/" + result["data"]['weather'][0]["icon"] + "@4x.png";
-            $("#txtIcon").attr("src", iconSrc);
-            $('#txtDescription').html(result['data']['weather'][0]['description']);
-            $('#txtMain').html(result['data']['weather'][0]['main']);
-            $('#txtTemperature').html(newTemp + '°C');
-            $('#txtFeelsLike').html(newTempFeels + '°C'); 
-            $('#txtLowestTemp').html(result['data']['main']['temp_min'] + '°C');
-            $('#txtHighestTemp').html(result['data']['main']['temp_max'] + '°C');
-            $('#txtHumidity').html(result['data']['main']['humidity'] + '%');
-            $('#txtWind').html(result['data']['wind']['speed'] + 'm/s');
 
-            var unixTimestampSunrise = result['data']['sys']['sunrise'];
-            var unixTimestampSunset = result['data']['sys']['sunset'];
-            var sunriseDate = new Date(unixTimestampSunrise * 1000).toDateString();
-            var sunsetDate = new Date(unixTimestampSunset * 1000).toDateString();
-            
-            $('#weatherSunSet2').html(sunriseDate); // change to get todays date!!
-            $('#weatherSunRise2').html(sunsetDate); // change to get todays date!!
+            let iconSrc = "https://openweathermap.org/img/wn/" + result["data"]['current']['weather'][0]['icon'] + '@4x.png';
+            $('#LargeWeatherIcon').attr("src", iconSrc);
+            $('#txtDescription').html(capitalizeFirstLetter(result['data']['current']['weather'][0]['description']));
+            $('#txtMain').html(result['data']['current']['weather'][0]['main']);
+            $('#txtTemperature').html(`${Math.round(newTemp)}` + '°C');
+            $('#txtFeelsLike').html(`${Math.round(newTempFeels)}` + '°C');
+            $('#txtHumidity').html(result['data']['current']['humidity'] + '%');
+            $('#txtWind').html(`${Math.round(result['data']['current']['wind_speed'])}` + 'm/s');
+
+            const options = {weekday: 'long', year:'numeric', month:'long', day:'numeric'};
+            var unixTimestampSunrise = result['data']['current']['sunrise'];
+            var todaysDate = new Date(unixTimestampSunrise * 1000).toLocaleDateString('en-uk', options);
+            console.log(todaysDate);
+            $('#todaysDate').html(todaysDate); 
 /////////////////////////////////////////////////////////////////////////
 
-            let iconSrc2 = "https://openweathermap.org/img/wn/" + result["data"]["daily"][1]['weather'][0]["icon"] + "@4x.png";
+//var dt = new Date(unixTimestampSunrise * 1000).toLocaleDateString('en-uk', options);
+let newDate = todaysDate.slice(0,3) + todaysDate.slice(7,10);
+console.log(todaysDate);
+console.log(newDate);
+
+//console.log(dt);
+//console.log(dt2);
+
+//console.log(dt.getDate()); 
+//console.log(dt.getDay()); 
+
+          /*  const tomorrowsDate = newDate
+            tomorrowsDate.setDate(todaysDate.getDate() + 1);
+            tomorrowsDate.toLocaleDateString ('en-uk', options);
+            console.log(tomorrowsDate); */
+
+            const date = new Date()
+            date.setDate(date.getDate() + 1);
+           // let tomorrowsDate = date.slice(0,3) + date.slice(7,10);
+
+            console.log(date); 
+
+            const newDate1 = new Date()
+            newDate1.setDate(newDate1.getDate() + 1);
+            newDate1.toLocaleDateString('en-uk', options);
+            console.log(newDate1);
+
+            var datePlus1 = date;
+            $("#day2").html(`${datePlus1.toLocaleDateString('en-uk', options)}`);
+
+            const date2 = new Date()
+            date2.setDate(date2.getDate() + 2);
+            
+            var datePlus2 = date2;
+            $("#day3").html(`${datePlus2.toDateString("ddd d")}`);
+            console.log(datePlus2);
+
+/////////////////////////////////////////////////////////////////////////
+
+            let iconSrc2 = "https://openweathermap.org/img/wn/" + result['data']['daily'][1]['weather'][0]['icon'] + '@4x.png';
             $('#weatherIcon2').attr("src", iconSrc2);
       
-            let iconSrc3 = "https://openweathermap.org/img/wn/" + result["data"]["daily"][2]['weather'][0]["icon"] + "@4x.png";
+            let iconSrc3 = "https://openweathermap.org/img/wn/" + result['data']['daily'][2]['weather'][0]['icon'] + '@4x.png';
             $('#weatherIcon3').attr("src", iconSrc3);
       
-            let iconSrc4 = "https://openweathermap.org/img/wn/" + result["data"]["daily"][3]['weather'][0]["icon"] + "@4x.png";
+            let iconSrc4 = "https://openweathermap.org/img/wn/" + result['data']['daily'][3]['weather'][0]['icon'] + '@4x.png';
             $('#weatherIcon4').attr("src", iconSrc4);
       
-            let iconSrc5 = "https://openweathermap.org/img/wn/" + result["data"]["daily"][4]['weather'][0]["icon"] + "@4x.png";
+            let iconSrc5 = "https://openweathermap.org/img/wn/" + result['data']['daily'][4]['weather'][0]['icon'] + '@4x.png';
             $('#weatherIcon5').attr("src", iconSrc5);
-      
-            $("#day2Temp").html(`${Math.round(result["data"]["daily"][1]['temp']['day'])}&deg;C`);
-            $("#day3Temp").html(`${Math.round(result["data"]["daily"][2]['temp']['day'])}&deg;C`);
-            $("#day4Temp").html(`${Math.round(result["data"]["daily"][3]['temp']['day'])}&deg;C`);
-            $("#day5Temp").html(`${Math.round(result["data"]["daily"][4]['temp']['day'])}&deg;C`);
-            }  
-    },  //done and working!
+ 
+            $('#day2Temp').html(`${Math.round(result['data']['daily'][1]['temp']['day']- 273.15)}` + '°C');
+            $('#day3Temp').html(`${Math.round(result['data']['daily'][2]['temp']['day']- 273.15)}` + '°C');
+            $('#day4Temp').html(`${Math.round(result['data']['daily'][3]['temp']['day']- 273.15)}` + '°C');
+            $('#day5Temp').html(`${Math.round(result['data']['daily'][4]['temp']['day']- 273.15)}` + '°C');
+            }  //done and working!
+    },
     error: function(jqXHR, textStatus, errorThrown) {
         console.log(errorThrown),
         console.log(jqXHR);
@@ -400,11 +440,21 @@ $.ajax({  //Calls GeoNames API- Timezone
 
         if (result.status.name == "ok") {
 
-            $('#txtCountryName').html(result['data']['countryName']);
-            $('#weatherSunSet').html(result['data']['sunset']);
-            $('#weatherSunRise').html(result['data']['sunrise']);
+            $('#txtCountryName').html("Current weather in " + result['data']['countryName']);
+
+            let sunset = result['data']['sunset'];
+            let sunsetTime = sunset.slice(11,16);
+            $('#weatherSunSet').html(sunsetTime);
+
+            let sunrise = result['data']['sunrise'];
+            let sunriseTime = sunrise.slice(11,16);
+            $('#weatherSunRise').html(sunriseTime);
+
             $('#timezoneId').html(result['data']['timezoneId']);
-            $('#currentTime').html(result['data']['time']);
+
+            let timeAndDate = result['data']['time'];
+            let resultTimeAndDate = timeAndDate.slice(11,16);
+            $('#currentTime').html(resultTimeAndDate); 
 
         }  //done and working!
     },
@@ -424,6 +474,11 @@ $.ajax({  //Calls GeoNames API- Timezone
 
 
 }); // end of Forward Geocoding API call!
+
+// ---------------- Stop the PreLoader ----------------
+/*$('#preloader').fadeOut(function(){
+    $(this).remove();
+ }); */
 }; // end of function everything() call!
 
 
@@ -451,15 +506,16 @@ function getCountryInfo(iso_a2) {
                 $('#continentName').html(result['data']['geonames'][0]['continentName']);
                 $('#continentCode').html(result['data']['geonames'][0]['continent']);
                 $('#txtCapital').html(result['data']['geonames'][0]['capital']);
-                $('#txtPopulation').html(result['data']['geonames'][0]['population']);
+                $('#txtPopulation').html(numberWithCommas(result['data']['geonames'][0]['population']));
                 $('#txtCurrencyCode').html(result['data']['geonames'][0]['currencyCode']);
-                $('#area').html(result['data']['geonames'][0]['areaInSqKm'] + ' km2');
+                $('#area').html(numberWithCommas(result['data']['geonames'][0]['areaInSqKm'] + ' km2'));
 
             }  //done and working!
 /////////////////////////////////////////////////////////////////////////
 // -------------------------------- Get Exchange Rate from Open Exchange Rate  --------------------------------//
 // Retrieve CURRENCY INFO
-
+/*  // just muting as at 80% of my usage for the month until 7th dec!! 
+    // take off mute/ uncomment when all finished!!
 $.ajax({  // Calls Open Exchange Rates API
             
     url: "libs/php/countryCurrency.php",
@@ -484,7 +540,7 @@ $.ajax({  // Calls Open Exchange Rates API
         console.log(errorThrown),
         console.log(jqXHR);
     }      //done and working!
-});   // end of Open Exchange Rates API call!   
+});   // end of Open Exchange Rates API call!   */ 
 /////////////////////////////////////////////////////////////////////////
 // -------------------------------- Get REST info from REST Countries API  --------------------------------//
 // Retrieve REST INFO
@@ -511,16 +567,11 @@ $.ajax({  //Calls REST Countries API
             $('#drivingSide').html(capitalizeFirstLetter(result2['data'][0]['car']['side'])); 
             $('#txtCurrency').html(result2['data'][0]['currencies'][result['data']['geonames'][0]['currencyCode']]['name']);
             $('#currencySymbol').html(result2['data'][0]['currencies'][result['data']['geonames'][0]['currencyCode']]['symbol']); 
-
-            var timeszonesArray = result2['data'][0]['timezones']
-                var timezones = ""
-
-            for(var z=0; z<timeszonesArray.length; z++){
-                timezones += timeszonesArray[z] + ", "
-            }
-            $('#txtTimeZones').html(timezones); 
             $('#coatOfArms').attr("src", result2['data'][0]['coatOfArms']['png']);
-            $('#flags').attr("src", result2['data'][0]['flags']['png']);  
+            
+            let flagSrc = result2['data'][0]['flags']['png'];
+            $('#flags').attr("src", flagSrc);  
+            $("#titleFlag").attr("src", flagSrc);
 
                 var bordersArray = result2['data'][0]['borders']
                 var borders = ""
@@ -557,12 +608,12 @@ $.ajax({  //Calls News API.org
             for(var n=0; n < newsArticle; n++){
             
             // Title - URL - Source/Name - Published/Date
-            $('#news_article1').append(result['data']['articles']['0']['title'] + ", ", result['data']['articles']['0']['url'] + ", ", result['data']['articles']['0']['source']['Name'] + ", ", result['data']['articles']['0']['publishedAt'] + ", ");
-            $('#news_article2').append(result['data']['articles']['1']['title'] + ", ", result['data']['articles']['1']['url'] + ", ", result['data']['articles']['1']['source']['Name'] + ", ", result['data']['articles']['1']['publishedAt'] + ", ");
-            $('#news_article3').append(result['data']['articles']['2']['title'] + ", ", result['data']['articles']['2']['url'] + ", ", result['data']['articles']['2']['source']['Name'] + ", ", result['data']['articles']['2']['publishedAt'] + ", ");
+            $('#news_article1').html(result['data']['articles']['0']['title'] + ", " + result['data']['articles']['0']['url'] + ", " + result['data']['articles']['0']['source']['Name'] + ", " + result['data']['articles']['0']['publishedAt']);
+            $('#news_article2').html(result['data']['articles']['1']['title'] + ", " + result['data']['articles']['1']['url'] + ", " + result['data']['articles']['1']['source']['Name'] + ", " + result['data']['articles']['1']['publishedAt']);
+            $('#news_article3').html(result['data']['articles']['2']['title'] + ", " + result['data']['articles']['2']['url'] + ", " + result['data']['articles']['2']['source']['Name'] + ", " + result['data']['articles']['2']['publishedAt']);
         }
       }
-    },   //done and working!
+    },
     error: function(jqXHR, textStatus, errorThrown) {
         console.log(JSON.stringify(jqXHR));
         console.log(JSON.stringify(textStatus));
@@ -592,7 +643,7 @@ $.ajax({  //Calls GeoNames API- Airports
             for(let a=0; a < result4['data']['geonames'].length; a++){
 
                 // console.log(result4['data']['geonames'][a]['name']);
-                $('#txtAirports').append(result4['data']['geonames'][a]['toponymName'] + ", ");
+                // $('#txtAirports').append(result4['data']['geonames'][a]['toponymName'] + ", ");
 
                 latAirport = result4['data']['geonames'][a]['lat']
                 lngAirport = result4['data']['geonames'][a]['lng']
@@ -634,7 +685,7 @@ $.ajax({  //Calls GEONAMES Universities API
             for(let u=0; u < result3['data']['geonames'].length; u++){
         
                 // console.log(result3['data']['geonames'][u]['name']);
-                $('#txtUniversities').append(result3['data']['geonames'][u]['toponymName'] + ", ");
+                // $('#txtUniversities').append(result3['data']['geonames'][u]['toponymName'] + ", ");
 
                 latUniversity = result3['data']['geonames'][u]['lat']
                 lngUniversity = result3['data']['geonames'][u]['lng']
@@ -646,10 +697,9 @@ $.ajax({  //Calls GEONAMES Universities API
         }  //done and working!
      }     
     }, error: function(jqXHR, textStatus, errorThrown) {
-        // your error code
-        // console.log(jqXHR, textStatus, errorThrown); 
-        console.log(errorThrown),
-        console.log(jqXHR);
+        console.log(JSON.stringify(jqXHR));
+        console.log(JSON.stringify(textStatus));
+        console.log(JSON.stringify(errorThrown));
     }
 }); // end of GEONAMES Universities API call!  
 /////////////////////////////////////////////////////////////////////////
@@ -868,7 +918,7 @@ $.ajax({  //Calls GEONAMES API- Cities
             latCity = result12['data']['geonames'][c]['lat']
             lngCity = result12['data']['geonames'][c]['lng']
             var cityName = result12['data']['geonames'][c]['name'];
-            var cityPopulation = result12['data']['geonames'][c]['population'];
+            var cityPopulation = (numberWithCommas(result12['data']['geonames'][c]['population']));
 
             var cityMarker = L.marker([latCity, lngCity], {icon:cityIcon}).bindPopup(
                 '<h6> City Name: </h6>' + cityName + 
@@ -908,7 +958,7 @@ $.ajax({  //Calls GEONAMES API- Capital City Info
             lngCapital = result11['data']['geonames'][0]['lng']
             var capitalName = result11['data']['geonames'][0]['name'];
             var capitalOfCountry = result11['data']['geonames'][0]['countryName'];
-            var capPopulation = result11['data']['geonames'][0]['population'];
+            var capPopulation = (numberWithCommas(result11['data']['geonames'][0]['population']));
            
            if (capitalMarker !== null) {
               map.removeLayer(capitalMarker);
@@ -943,7 +993,6 @@ $.ajax({  //Calls GEONAMES API- Capital City Info
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
@@ -952,10 +1001,10 @@ $.ajax({  //Calls GEONAMES API- Capital City Info
 
 $('select').on('change', function() {
     
-    //gets CountryInfo()
+    // gets CountryInfo()
     getCountryInfo($("#country-dropdown").val());
     
-    //gets everything()
+    // gets everything()
     everything($("#country-dropdown").val());
     
   }); 
@@ -1023,7 +1072,7 @@ $('select').on('change', function() {
         } 
      });  // end of Open Cage Reverse GeoCode API call! 
 
-  };  // end of function OnMapClick 
+  }; // end of function OnMapClick 
 ////////////////////////////////////////////////////////////////////
 // Applies mapclick function to map
 map.on('click', onMapClick);
@@ -1052,27 +1101,14 @@ L.easyButton('<img src="libs/svg/coins.svg" style="width:16px">', function(btn, 
     $('#modal3').modal('show');
 }, 'Currency').addTo(map);
 
-// -------------------------------- Button 4 - Country Airports --------------------------------
-
-L.easyButton('<img src="libs/svg/plane.svg" style="width:16px">', function(btn, map) {
-    $('#modal4').modal('show');
-}, 'Country Airports').addTo(map); 
-
-// -------------------------------- Button 5 - Country Universities --------------------------------
-
-L.easyButton('<img src="png/University.png" style="width:16px">', function(btn, map) {
-    $('#modal5').modal('show');
-}, 'Universities').addTo(map);
-
-// -------------------------------- Button 6 - Country News --------------------------------
+// -------------------------------- Button 4 - Country News --------------------------------
 
 L.easyButton('<img src="png/News.png" style="width:16px">', function(btn, map) {
-    $('#modal6').modal('show');
+    $('#modal4').modal('show');
 }, 'News').addTo(map);
 
-// -------------------------------- Button 7 - Country Flag --------------------------------
+// -------------------------------- Button 5 - Country Flag --------------------------------
 
 L.easyButton('<img src="libs/svg/flag.svg" style="width:16px">', function(btn, map) {
-    $('#modal7').modal('show');
+    $('#modal5').modal('show');
 }, 'Country Flag').addTo(map);
-
