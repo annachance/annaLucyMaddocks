@@ -6,9 +6,10 @@
 	$executionStartTime = microtime(true) / 1000;
         //4d5ab8a2e54f4fc6266e34bcf9c514ab
         
-        //OpenWeather API
-	$url='https://api.openweathermap.org/data/2.5/weather?lat='.$_REQUEST['lat'].'&lon='.$_REQUEST['lon'].'&appid=4d5ab8a2e54f4fc6266e34bcf9c514ab';
-    
+        //OpenWeather API-- works!
+	//$url='https://api.openweathermap.org/data/2.5/weather?lat='.$_REQUEST['lat'].'&lon='.$_REQUEST['lon'].'&appid=4d5ab8a2e54f4fc6266e34bcf9c514ab';
+    	$url='https://api.openweathermap.org/data/2.5/onecall?lat='.$_REQUEST['lat'].'&lon='.$_REQUEST['lon'].'&appid=4d5ab8a2e54f4fc6266e34bcf9c514ab';
+
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
