@@ -20,12 +20,12 @@
                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
       
                <!-- Leaflet Map Initialization -->
-	       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
+			   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
 
                <!-- Leaflet L.easyButton --> 
                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
-		   
-	       <!-- Leaflet MarkerCluster --> 
+
+			   <!-- Leaflet MarkerCluster --> 
                <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
                <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
 
@@ -33,6 +33,9 @@
                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.css" />
     
+				<!-- FontAwesome Kit Initialization -->
+			   <script src="https://kit.fontawesome.com/13f9671840.js" crossorigin="anonymous"></script>
+
            </head>
       
 <!--///////////////////////////////////////////////////////////////////////////////-->
@@ -40,22 +43,23 @@
            <body>
     
                <header>
+                   
                    <!-- Not sure if needed yet!! -->
-                   <!-- <div id="preloader"></div> -->
+                    <div id="preloader"></div> 
       
                    <!--   NavBar/ dropdown menu!   -->
                    <nav class="navbar navbar-dark bg-primary navbar-fixed-top" role="navigation">
-                       <form>
-                           <div class="form-group navbar-form">
-    
-                               <select form="form-control" id="country-dropdown" name="country-dropdown"> 
-                               <option value="">--Select a country of the world--</option>
-							   
-                               </select>
-      
-                           </div>
-                       </form>
-                   </nav>
+					<form>
+						<div class="form-group navbar-form">
+ 
+							<select form="form-control" id="country-dropdown" name="country-dropdown"> 
+							<option value="">--Select a country of the world--</option>
+							
+							</select>
+   
+						</div>
+					</form>
+				</nav>
 
                </header>
       
@@ -80,6 +84,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Country Information</h4>
+		  <img id="titleFlag" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
 		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           
         </div>
@@ -103,8 +108,8 @@
 				<td id="continentCode"></td>
 			</tr>
 			<tr>
-				<td>Subregion: </td>
-				<td id="txtSubregion"></td>
+				<td>Sub Region: </td>
+				<td id="txtSubRegion"></td>
 			</tr>
 			<tr>
 				<td>ISO Code (Alpha2): </td>
@@ -115,11 +120,9 @@
 				<td id="cca3"></td>
 			</tr> 
             <tr>
-				<td>
-					<i class="fas fa-city fa-2x"></i>
-				</td>
             	<td>Capital: </td>
             	<td id="txtCapital"></td>
+				<td><i class="fas fa-city fa-2x"></i></td>
         	</tr>
         	<tr>
          		<td>Languages: </td>
@@ -138,8 +141,8 @@
 				<td id="drivingSide"></td>
 			</tr> 
 			<tr>
-				<td>Time Zones: </td>
-				<td id="txtTimeZones"></td>
+				<td>Time Zone: </td>
+				<td id="timezoneId"></td>
 			</tr> 
   			<tr>
 				<td>Land Area: </td>
@@ -147,12 +150,8 @@
 			</tr> 
 			<tr>
 				<td>Coat of Arms: </td>
-				<td><img id="coatOfArms" src='' style="width:100px;height:100px;"></td>
+				<td><img id="coatOfArms" src="" alt="" style="width:100px;height:100px;"></td>
 			</tr> 
-			<tr>
-				<td>Flags: </td>
-				<td><img id="flags" src='' style="width:100px;height:100px;"></td>
-		        </tr>
         </tbody>
         </table>
         </div>
@@ -164,9 +163,6 @@
     </div>
   </div>
 
-
-				<!-- <a href="#" data-toggle="modal" data-target="countryInfoModal">Open Modal</a> -->
-
 <!--///////////////////////////////////////////////////////////////////////////////-->
 
 					<!-- Modal 2 - Country Weather -->
@@ -177,82 +173,103 @@
 	<!-- Modal content-->
 	<div class="modal-content">
 		<div class="modal-header">
-			<h4 class="modal-title">Current Weather</h4>
+			<h4 class="modal-title" id="txtCountryName"></h4>
+			<img id="titleFlag" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
 			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
 	</div>
     <div class="modal-body">
-        <table class="table" id="table">
+        <table class="table table-responsive table-striped" id="table">
 			<tbody>
 				<tr>
-					<td>Country Name: </td>
-					<td id="txtCountryName"></td>
-				</tr>
-				<tr>
 					<td>Icon: </td>
-					<td><img id="txtIcon" src="" alt="" style="width:100px;height:100px;"></td>
+					<td><img id="LargeWeatherIcon" src="" alt="" style="width:100px;height:100px;"></td>
 				</tr>
 				<tr>
 					<td>Weather: </td>
-					<td id="txtDescription"></td>
+					<td id="txtDescription"  width="100%" colspan="4"></td>
 				</tr>
 				<tr>
 				    <td>Main: </td>
-					<td id="txtMain"></td>
+					<td id="txtMain"  width="100%" colspan="4"></td>
 				</tr>
 				<tr>
 					<td>Current Temperature: </td>
-					<td id="txtTemperature"></td>
+					<td id="txtTemperature"  width="100%" colspan="4"></td>
 			    </tr>
 				<tr>
 					<td>Feels Like: </td>
-					<td id="txtFeelsLike"></td>
-				</tr>
-				<tr>
-				    <td>Lowest Temperature: </td>
-					<td id="txtLowestTemp"></td>
-				</tr>
-				<tr>
-				    <td>Highest Temperature: </td>
-					<td id="txtHighestTemp"></td>
+					<td id="txtFeelsLike"  width="100%" colspan="4"></td>
 				</tr>
 				<tr>
 					<td>Humidity: </td>
-					<td id="txtHumidity"></td>
+					<td id="txtHumidity"  width="100%" colspan="4"></td>
 				</tr>
 				<tr>
 				    <td>Wind Speed: </td>
-					<td id="txtWind"></td>
+					<td id="txtWind"  width="100%" colspan="4"></td>
 				</tr>
-				<tr>
-					<td>Time Zone ID: </td>
-					<td id="timezoneId"></td>
-				</tr> 
 				<tr>
 				    <td>Todays Date: </td>
-					<td id="weatherSunSet2"></td>
+					<td id="todaysDate"  width="100%" colspan="4"></td>
 				</tr>
 				<tr>
-				    <td>Today's Date/Time: </td>
-					<td id="currentTime"></td>
+				    <td>Current Time: </td>
+					<td id="currentTime"  width="100%" colspan="4"></td>
+				</tr>
+<!--///////////////////////////////////////////////////////////////////////////////-->
+				<tr>
+					<td id="day2" width="25%"></td>
+					<td id="day3" width="25%"></td>
+					<td id="day4" width="25%"></td>
+					<td id="day5" width="25%"></td>
 				</tr>
 				<tr>
-				    <td>Today's SunSet: </td>
-					<td id="weatherSunSet"></td>
+					<td width="25%">
+						<img class="smallWeatherIcon" id="weatherIcon2" src="" alt="" style="width:100px;height:100px;">
+					</td>
+					<td width="25%">
+						<img class="smallWeatherIcon" id="weatherIcon3" src="" alt="" style="width:100px;height:100px;">
+					</td>
+					<td width="25%">
+						<img class="smallWeatherIcon" id="weatherIcon4" src="" alt="" style="width:100px;height:100px;">
+					</td>
+					<td width="25%">
+						<img class="smallWeatherIcon" id="weatherIcon5" src="" alt="" style="width:100px;height:100px;">
+					</td>
 				</tr>
 				<tr>
-				    <td>Today's SunRise: </td>
-					<td id="weatherSunRise"></td>
-				</tr>			
+					<td id="day2Temp" width="25%" align="center"></td>
+					<td id="day3Temp" width="25%" align="center"></td>
+					<td id="day4Temp" width="25%" align="center"></td>
+					<td id="day5Temp" width="25%" align="center"></td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<table class="table table-responsive" id="tableA">
+			<tbody>
+			<div class='row'>
+				<div class='col fw-bold' align="center">Sunrise</div>
+				<div class='col fw-bold' align="center">Sunset</div>
+			</div>
+			<div class='row'>
+				<div class='col' align="center" id='weatherSunRise'>Not Available</div>
+				<div class='col' align="center" id='weatherSunSet'>Not Available</div>
+			</div>
+			<div class='row'>
+				<div class='col' align="center"><i class="far fa-sun fa-2x"></i></div>
+				<div class='col' align="center"><i class="far fa-moon fa-2x"></i></div>
+			</div>
 			</tbody>
 		</table>
 	</div>
+
 	<div class="modal-footer">
 		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
 	</div>
-</div>
-							
-</div>
+   </div>				
+ </div>
 </div>
 
 <!--///////////////////////////////////////////////////////////////////////////////-->
@@ -265,7 +282,8 @@
 	<!-- Modal content-->
 	<div class="modal-content">
 		<div class="modal-header">
-			<h4 class="modal-title">Currency</h4>
+			<h4 class="modal-title" >Currency</h4>
+			<img id="titleFlag" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
 			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   
 		</div>
@@ -287,16 +305,18 @@
 					 <tr>
 						<td>Exchange Rate(USD): </td>
 						<td id="exchangeRateUSD"></td>
+						<td><i class="fa-solid fa-dollar-sign"></i></td>
 					</tr>
 					<tr>
 						 <td>Exchange Rate(EUR): </td>
 						 <td id="exchangeRateEUR"></td>
+						 <td><i class="fa-solid fa-euro-sign"></i></td>
 					</tr>
 					 <tr>
 					    <td>Exchange Rate(GBP): </td>
 					    <td id="exchangeRateGBP"></td>
+						<td><i class="fa-solid fa-sterling-sign"></i></td>					
 					</tr>
-							  
 					</tbody>
 				    </table>
 						</div>
@@ -309,114 +329,38 @@
 
 <!--///////////////////////////////////////////////////////////////////////////////-->
 
-					<!-- Modal 4 - Country Covid Information -->
+					<!-- Modal 4 - Country News -->
 <!-- Modal -->
 <div class="modal fade" id="modal4" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
 	<div class="modal-dialog">
 
-  <!-- Modal content-->   <!-- not sure if doing this one?!?! -->
-  <div class="modal-content">
-	<div class="modal-header">
-		<h4 class="modal-title">Covid Information</h4>
-		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	</div>
-	
-	  
-	<div class="modal-footer">
-		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-	</div>
-  </div>
-  </div>
-</div>
-
-<!--///////////////////////////////////////////////////////////////////////////////-->
-
-					<!-- Modal 5 - Country Airports -->
-<!-- Modal -->
-<div class="modal fade" id="modal5" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
-	<div class="modal-dialog">
-
   <!-- Modal content-->  
   <div class="modal-content">
 	<div class="modal-header">
-		<h4 class="modal-title">Airports within this country: </h4>
+		<h4 class="modal-title">Top Headlines</h4>
+		<img id="titleFlag" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
 		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
 	</div>
 	<div class="modal-body" id="graph-container">
-	  <table class="table" id="table2">
-		<tbody>
-		  <tr>
-			<td id="txtAirports"></td>
-		</tr>
-		</tbody>
-	  </table>
-	  
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-	</div>
-  </div>
-  </div>
-</div>
-<!--///////////////////////////////////////////////////////////////////////////////-->
-		       
-					<!-- Modal 6 - Country Universities -->
-<!-- Modal -->
-<div class="modal fade" id="modal6" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
-	<div class="modal-dialog">
-
-  <!-- Modal content-->  
-  <div class="modal-content">
-	<div class="modal-header">
-		<h4 class="modal-title">Universities within this country: </h4>
-		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-	</div>
-	<div class="modal-body" id="graph-container">
-	  <table class="table" id="table2">
-		<tbody>
-		  <tr>
-			  <td id="txtUniversities"></td>
-		  </tr>
-		</tbody>
-	  </table>
-	  
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-	</div>
-  </div>
-  </div>
-</div>
-
-<!--///////////////////////////////////////////////////////////////////////////////-->
-		       
-					<!-- Modal 7 - Country News -->
-<!-- Modal -->
-<div class="modal fade" id="modal7" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
-	<div class="modal-dialog">
-
-  <!-- Modal content-->  
-  <div class="modal-content">
-	<div class="modal-header">
-		<h4 class="modal-title">Country News- Top Headlines : </h4>
-		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-	</div>
-	<div class="modal-body" id="graph-container">
-	  <table class="table" id="table2">
+	  <table class="table table-striped" id="table3">
 		<tbody>
 			<tr>
-				<td>News Article 1: </td>
+				<td><b>News Article 1: </b></td>
+			</tr>
+			<tr>
 				<td id="news_article1"></td>
 			</tr>
 			<tr>
-				<td>News Article 2: </td>
+				<td><b>News Article 2: </b></td>
+			</tr>
+			<tr>
 				<td id="news_article2"></td>
 			</tr>
 			<tr>
-				<td>News Article 3: </td>
+				<td><b>News Article 3: </b></td>
+			</tr>
+			<tr>
 				<td id="news_article3"></td>
 			</tr>
 		</tbody>
@@ -429,23 +373,23 @@
   </div>
   </div>
 </div>
-		       
+
 <!--///////////////////////////////////////////////////////////////////////////////-->
 
-					<!-- Modal 8 - Country Flag -->
+					<!-- Modal 5 - Country Flag -->
 <!-- Modal -->
-<div class="modal fade" id="modal8" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+<div class="modal fade" id="modal5" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
 	<div class="modal-dialog">
 
   <!-- Modal content-->  
   <div class="modal-content">
 	<div class="modal-header">
-		<h4 class="modal-title">Country Flag: </h4>
+		<h4 class="modal-title">Country Flag</h4>
 		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
 	</div>
 	<div class="modal-body" id="graph-container">
-	  <table class="table" id="table2">
+	  <table class="table" id="table4">
 		<tbody>
 			<tr>
 				<img id="flags" src="" alt="" style="width:465px;height:250px;">
@@ -461,8 +405,34 @@
   </div>
   </div>
 </div>
+
 <!--///////////////////////////////////////////////////////////////////////////////-->
-  
+
+					<!-- Modal 8 - User Guide ?!?! not sure whther to have this or have as a pop up onload   -->
+<!-- Modal -->
+<div class="modal fade" id="modal8" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+	<div class="modal-dialog">
+  <div class="modal-content">
+	<div class="modal-header">
+		<h4 class="modal-title">About</h4>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="'Close"></button>
+
+	</div>
+	<div class="modal-body" id="graph-container">
+	  <p>
+		Welcome to the map application. This website will give you information on diffirent countries around the world.
+		select a country from the dropdown list or click the country on the map.
+		Different information can be seen on the other buttons on the left hand side.
+	  </p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+	</div>
+  </div>
+  </div>
+</div>
+
+</main>    
 <!--///////////////////////////////////////////////////////////////////////////////-->
 
 <!-- Script.js -->
@@ -481,9 +451,10 @@
 
 <!-- Leaflet L.easyButton --> 
 <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
-		       
+
 <!-- Leaflet MarkerCluster --> 
 <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
 
 <!-- User Current Location Initialization -->
 <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
