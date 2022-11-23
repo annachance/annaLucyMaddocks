@@ -43,36 +43,28 @@
            <body>
     
                <header>
-                   
-                   <!-- Not sure if needed yet!! -->
                     <div id="preloader"></div> 
       
                    <!--   NavBar/ dropdown menu!   -->
                    <nav class="navbar navbar-fixed-top bg-primary" role="navigation">
 					<form>
 						<div class="form-group navbar-form">
- 
+
 							<select form="form-control" id="country-dropdown" name="country-dropdown"> 
 							<option value="">--Select a country of the world--</option>
 							
 							</select>
-   
 						</div>
 					</form>
-				</nav>
-
+				   </nav>
                </header>
       
 <!--///////////////////////////////////////////////////////////////////////////////-->
     
                <main>
-				   
                <!--   Full-screen sized map   -->
-
                   <div id="map"></div>
     
-<!--///////////////////////////////////////////////////////////////////////////////-->
-
 <!--//////////////////////////// Modals/Overlays ///////////////////////////////// -->
 
                <!-- Modal 1 - Country Information -->
@@ -83,7 +75,7 @@
       <!-- Modal Content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Country Information</h4>
+          <h4 class="modal-title"><b>Country Information</b></h4>
 		  <img id="titleFlag" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
 		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           
@@ -92,71 +84,71 @@
           <table class="table" id="table">
             <tbody>
             <tr>
-                <td>Country Name: </td>
-                <td id="countryName"></td>
+                <th>Country Name: </th>
+                <th id="countryName"></th>
             </tr>
             <tr>
-              <td>Native Name: </td>
+              <th>Native Name: </th>
               <td id="nativeName"></td>
             </tr>
             <tr>
-              <td>Continent Name: </td>
+              <th>Continent Name: </th>
               <td id="continentName"></td>
             </tr>
 			<tr>
-				<td>Continent Code: </td>
+				<th>Continent Code: </th>
 				<td id="continentCode"></td>
 			</tr>
 			<tr>
-				<td>Sub Region: </td>
+				<th>Sub Region: </th>
 				<td id="txtSubRegion"></td>
 			</tr>
 			<tr>
-				<td>ISO Code (Alpha2): </td>
+				<th>ISO Code (Alpha2): </th>
 				<td id="cca2"></td>
 			</tr> 
 			<tr>
-				<td>ISO Code (Alpha3): </td>
+				<th>ISO Code (Alpha3): </th>
 				<td id="cca3"></td>
 			</tr> 
             <tr>
-            	<td>Capital: </td>
+            	<th>Capital: </th>
             	<td id="txtCapital"></td>
         	</tr>
         	<tr>
-         		<td>Languages: </td>
+         		<th>Languages: </th>
          		<td id="languages"></td>
       		</tr>
       		<tr>
-        		<td>Population: </td>
+        		<th>Population: </th>
         		<td id="txtPopulation"></td>
    			</tr>
    			<tr>
-      			<td>Bordering Countries: </td>
+      			<th>Bordering Countries: </th>
       			<td id="txtBorders"></td>
   			</tr> 
 			<tr>
-				<td>Driving Side: </td>
+				<th>Driving Side: </th>
 				<td id="drivingSide"></td>
 			</tr> 
 			<tr>
-				<td>Time Zone: </td>
+				<th>Time Zone: </th>
 				<td id="timezoneId"></td>
 			</tr> 
   			<tr>
-				<td>Land Area: </td>
+				<th>Land Area: </th>
 				<td id="area"></td>
 			</tr> 
 			<tr>
-				<td>Coat of Arms: </td>
+				<th>Coat of Arms: </th>
 				<td><img id="coatOfArms" src="" alt="" style="width:100px;height:100px;"></td>
 			</tr> 
         </tbody>
         </table>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-        </div>
+       <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button> 
+        </div> -->
       </div>
            
     </div>
@@ -172,7 +164,7 @@
 	<!-- Modal content-->
 	<div class="modal-content">
 		<div class="modal-header">
-			<h4 class="modal-title" id="txtCountryName">Current Weather</h4>
+			<h4 class="modal-title"><b>Current Weather</b></h4>
 			<img id="titleFlag2" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
 			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
@@ -181,42 +173,35 @@
         <table class="table table-responsive" id="table">
 			<tbody>
 				<tr>
-					<td width="100%"><img id="LargeWeatherIcon" src="" alt="" style="width:100px;height:100px;"></td>
+					<th id="todaysDate"  width="100%" colspan="4"></th>
 				</tr>
 				<tr>
-					<td>Weather: </td>
+					<th width="25%" id="currentTime" align="center"></th>
+					<td width="50%"><img id="LargeWeatherIcon" src="" alt="" style="width:100px;height:100px;"></td>
+					<td width="25%" id="txtTemperature" align="center"></td>
+				</tr>
+				<tr>
+					<th>Weather: </th>
 					<td id="txtDescription"  width="100%" colspan="4"></td>
 				</tr>
 				<tr>
-				    <td>Main: </td>
+				    <th>Main: </th>
 					<td id="txtMain"  width="100%" colspan="4"></td>
 				</tr>
 				<tr>
-					<td>Current Temperature: </td>
-					<td id="txtTemperature"  width="100%" colspan="4"></td>
-			    </tr>
-				<tr>
-					<td>Feels Like: </td>
+					<th>Feels Like: </th>
 					<td id="txtFeelsLike"  width="100%" colspan="4"></td>
 				</tr>
 				<tr>
-					<td>Humidity: </td>
+					<th>Humidity: </th>
 					<td id="txtHumidity"  width="100%" colspan="4"></td>					
 				</tr>
 				<tr>
-				    <td>Wind Speed: </td>
+				    <th>Wind Speed: </th>
 					<td id="txtWind"  width="100%" colspan="4"></td>
 				</tr>
 				<tr>
-				    <td>Todays Date: </td>
-					<td id="todaysDate"  width="100%" colspan="4"></td>
-				</tr>
-				<tr>
-				    <td>Current Time: </td>
-					<td id="currentTime"  width="100%" colspan="4"></td>
-				</tr>
-					<tr>
-				    <td width="100%" colspan="4" align="center"><h5>Daily Forecast </h5></td>
+				    <td width="100%" colspan="4" align="center"><h5><b>Daily Forecast</b></h5></td>
 				</tr>
 <!--///////////////////////////////////  Daily Forecast  ///////////////////////////////////////////////-->
 				<tr>
@@ -266,9 +251,9 @@
 		</table>
 	</div>
 
-	<div class="modal-footer">
-		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-	</div>
+	<!-- <div class="modal-footer">
+		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button> 
+	</div> -->
    </div>				
  </div>
 </div>
@@ -283,7 +268,7 @@
 	<!-- Modal content-->
 	<div class="modal-content">
 		<div class="modal-header">
-			<h4 class="modal-title" >Currency</h4>
+			<h4 class="modal-title"><b>Currency</b></h4>
 			<img id="titleFlag3" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
 			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   
@@ -292,38 +277,38 @@
 		     <table class="table" id="table2">
 				<tbody>
 				    <tr>
-						<td>Currency Name: </td>
+						<th>Currency Name: </th>
 						<td id="txtCurrency"></td>
 					</tr>
 				    <tr>
-						 <td>Currency Symbol: </td>
+						 <th>Currency Symbol: </th>
 					     <td id="currencySymbol"></td>
 				     </tr>
 					 <tr>
-						<td>Currency Code: </td>
+						<th>Currency Code: </th>
 						<td id="txtCurrencyCode"></td>
 					</tr>
 					 <tr>
-						<td>Exchange Rate(USD): </td>
+						<th>Exchange Rate(USD): </th>
 						<td id="exchangeRateUSD"></td>
 						<td><i class="fa-solid fa-dollar-sign"></i></td>
 					</tr>
 					<tr>
-						 <td>Exchange Rate(EUR): </td>
+						 <th>Exchange Rate(EUR): </th>
 						 <td id="exchangeRateEUR"></td>
 						 <td><i class="fa-solid fa-euro-sign"></i></td>
 					</tr>
 					 <tr>
-					    <td>Exchange Rate(GBP): </td>
+					    <th>Exchange Rate(GBP): </th>
 					    <td id="exchangeRateGBP"></td>
 						<td><i class="fa-solid fa-sterling-sign"></i></td>					
 					</tr>
 					</tbody>
 				    </table>
 						</div>
-						<div class="modal-footer">
+						<!-- <div class="modal-footer">
 							<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-						</div>
+						</div> -->
 				</div>
 			</div>
 		</div>
@@ -338,7 +323,7 @@
   <!-- Modal content-->  
   <div class="modal-content">
 	<div class="modal-header">
-		<h4 class="modal-title">Top Headlines</h4>
+		<h4 class="modal-title"><b>Top Headlines</b></h4>
 		<img id="titleFlag4" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
 		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
@@ -347,19 +332,19 @@
 	  <table class="table table-striped" id="table3">
 		<tbody>
 			<tr>
-				<td><b>News Article 1: </b></td>
+				<th>News Article 1: </th>
 			</tr>
 			<tr>
 				<td id="news_article1"></td>
 			</tr>
 			<tr>
-				<td><b>News Article 2: </b></td>
+				<th>News Article 2: </th>
 			</tr>
 			<tr>
 				<td id="news_article2"></td>
 			</tr>
 			<tr>
-				<td><b>News Article 3: </b></td>
+				<th>News Article 3: </th>
 			</tr>
 			<tr>
 				<td id="news_article3"></td>
@@ -368,9 +353,9 @@
 	  </table>
 	  
 	</div>
-	<div class="modal-footer">
+	<!--<div class="modal-footer">
 		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-	</div>
+	</div>-->
   </div>
   </div>
 </div>
@@ -385,50 +370,20 @@
   <!-- Modal content-->  
   <div class="modal-content">
 	<div class="modal-header">
-		<h4 class="modal-title">Country Flag</h4>
+		<h4 class="modal-title" id="txtCountryName"></h4>
+		<img id="titleFlag5" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
 		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
 	</div>
-	<div class="modal-body" id="graph-container">
-	  <table class="table" id="table4">
+	<div class="modal-body">
 		<tbody>
-			<tr>
-				<img id="flags" src="" alt="" style="width:465px;height:250px;">
-            </tr>
-			</tr>
-		</tbody>
+				<img class="d-block max-auto" id="flags" src="" alt="" style="width:465px;height:250px;">
 	  </table>
 	  
 	</div>
-	<div class="modal-footer">
+	<!--<div class="modal-footer">
 		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-	</div>
-  </div>
-  </div>
-</div>
-
-<!--///////////////////////////////////////////////////////////////////////////////-->
-
-					<!-- Modal 8 - User Guide ?!?! not sure whther to have this or have as a pop up onload   -->
-<!-- Modal -->
-<div class="modal fade" id="modal8" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
-	<div class="modal-dialog">
-  <div class="modal-content">
-	<div class="modal-header">
-		<h4 class="modal-title">About</h4>
-		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="'Close"></button>
-
-	</div>
-	<div class="modal-body" id="graph-container">
-	  <p>
-		Welcome to the map application. This website will give you information on diffirent countries around the world.
-		select a country from the dropdown list or click the country on the map.
-		Different information can be seen on the other buttons on the left hand side.
-	  </p>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-	</div>
+	</div>-->
   </div>
   </div>
 </div>
@@ -461,7 +416,6 @@
 <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 <script type="application/javascript" src="libs/js/script.js"></script>
       
-
 </body>
     
 </html>
