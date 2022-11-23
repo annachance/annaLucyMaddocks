@@ -178,7 +178,7 @@ var baseMaps = {
 	"Esri_WorldGrayCanvas": Esri_WorldGrayCanvas
 };
 var overlayMaps = {
-	"Marker": singleMarker
+	//"Marker": singleMarker
 };
 L.control.layers(baseMaps, overlayMaps).addTo(map);
 
