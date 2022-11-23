@@ -1,3 +1,4 @@
+/* Preloader */
 #preloader {
 	position: fixed;
 	top: 0;
@@ -44,27 +45,32 @@
 	}
 } 
 
-
-/*body {
-	margin: 0;
-	padding: 0;
-}
-*/
+/* Map */
 #map {
 	z-index: 0;
 	width: 100%;
 	height: 100vh;
 	}
-/* Info Modal */
-#titleFlag , #titleFlag2, #titleFlag3, #titleFlag4 {
-    width: auto;
-    height: 17px;
-    margin-left: 8px;
-    border: 1px solid #dee2e6;
-    cursor: pointer;
-    position: relative;
-    top: 3px;
+
+/* Title Flags */
+#titleFlag , #titleFlag2, #titleFlag3, #titleFlag4, #titleFlag5 {
+	width: auto;
+	height: 17px;
+	margin-left: 8px;
+	border: 1px solid #dee2e6;
+	cursor: pointer;
+	position: relative;
+	top: 3px;
 }
+
+/* Info Modal */
+#modal1 .modal-content {
+    background-color: #5483e1; 
+}
+#modal1 table { 
+    color: white; 
+}
+
 /* Weather Modal */
 #modal2 .modal-content {
     background-color: #55abde; 
@@ -72,26 +78,43 @@
 #modal2 table { 
     color: white; 
 }
+#txtTemperature { 
+	font-size: 3.0em; 
+	margin: auto;
+	padding-top: 25px;
+}
+#currentTime { 
+	font-size: 2.5em; 
+	margin: auto;
+	padding-top: 30px;
+}
 
+/* Currency Modal */
+#modal3 .modal-content {
+    background-color: #57dde0; 
+}
+#modal3 table { 
+    color: white; 
+}
 
-/* not sure if needed as of yet */
+/* News Modal */
+#modal4 .modal-content {
+	background-color: #47cbb5; 
+}
+#modal4 table { 
+    color: white; 
+}
+
+/* Flag Modal */
+#modal5 .modal-content {
+    background-color: #aef1e5; 
+
+}
+#modal5 table { 
+    color: white; 
+}
 
 .leaflet-popup-content-wrapper {
 	background-color: black;
 	color: white;
 }	
-
-
-.results-table {
-	font-family: Arial, Helvetica, sans-serif;
-	border-collapse: collapse;
-	width: 100%;
-	background: rgb(18, 136, 116);
-}
-
-.results {
-	font-family: Arial, Helvetica, sans-serif;
-	border-collapse: collapse;
-	width: 100%;
-	background: rgb(218, 33, 140);
-}
