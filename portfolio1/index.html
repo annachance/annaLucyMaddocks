@@ -48,7 +48,7 @@
                     <div id="preloader"></div> 
       
                    <!--   NavBar/ dropdown menu!   -->
-                   <nav class="navbar navbar-dark bg-primary navbar-fixed-top" role="navigation">
+                   <nav class="navbar navbar-fixed-top bg-primary" role="navigation">
 					<form>
 						<div class="form-group navbar-form">
  
@@ -78,7 +78,7 @@
                <!-- Modal 1 - Country Information -->
 <!-- Modal -->
 <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     
       <!-- Modal Content-->
       <div class="modal-content">
@@ -122,7 +122,6 @@
             <tr>
             	<td>Capital: </td>
             	<td id="txtCapital"></td>
-				<td><i class="fas fa-city fa-2x"></i></td>
         	</tr>
         	<tr>
          		<td>Languages: </td>
@@ -168,22 +167,21 @@
 					<!-- Modal 2 - Country Weather -->
 <!-- Modal -->
 <div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 						
 	<!-- Modal content-->
 	<div class="modal-content">
 		<div class="modal-header">
-			<h4 class="modal-title" id="txtCountryName"></h4>
-			<img id="titleFlag" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
+			<h4 class="modal-title" id="txtCountryName">Current Weather</h4>
+			<img id="titleFlag2" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
 			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
 	</div>
     <div class="modal-body">
-        <table class="table table-responsive table-striped" id="table">
+        <table class="table table-responsive" id="table">
 			<tbody>
 				<tr>
-					<td>Icon: </td>
-					<td><img id="LargeWeatherIcon" src="" alt="" style="width:100px;height:100px;"></td>
+					<td width="100%"><img id="LargeWeatherIcon" src="" alt="" style="width:100px;height:100px;"></td>
 				</tr>
 				<tr>
 					<td>Weather: </td>
@@ -203,7 +201,7 @@
 				</tr>
 				<tr>
 					<td>Humidity: </td>
-					<td id="txtHumidity"  width="100%" colspan="4"></td>
+					<td id="txtHumidity"  width="100%" colspan="4"></td>					
 				</tr>
 				<tr>
 				    <td>Wind Speed: </td>
@@ -217,25 +215,28 @@
 				    <td>Current Time: </td>
 					<td id="currentTime"  width="100%" colspan="4"></td>
 				</tr>
-<!--///////////////////////////////////////////////////////////////////////////////-->
+					<tr>
+				    <td width="100%" colspan="4" align="center"><h5>Daily Forecast </h5></td>
+				</tr>
+<!--///////////////////////////////////  Daily Forecast  ///////////////////////////////////////////////-->
 				<tr>
-					<td id="day2" width="25%"></td>
-					<td id="day3" width="25%"></td>
-					<td id="day4" width="25%"></td>
-					<td id="day5" width="25%"></td>
+					<td id="day2" width="25%" align="center"></td>
+					<td id="day3" width="25%" align="center"></td>
+					<td id="day4" width="25%" align="center"></td>
+					<td id="day5" width="25%" align="center"></td>
 				</tr>
 				<tr>
 					<td width="25%">
-						<img class="smallWeatherIcon" id="weatherIcon2" src="" alt="" style="width:100px;height:100px;">
+						<img class="smallWeatherIcon" id="weatherIcon2" src="" alt="" align="center" style="width:100px;height:100px;">
 					</td>
 					<td width="25%">
-						<img class="smallWeatherIcon" id="weatherIcon3" src="" alt="" style="width:100px;height:100px;">
+						<img class="smallWeatherIcon" id="weatherIcon3" src="" alt="" align="center" style="width:100px;height:100px;">
 					</td>
 					<td width="25%">
-						<img class="smallWeatherIcon" id="weatherIcon4" src="" alt="" style="width:100px;height:100px;">
+						<img class="smallWeatherIcon" id="weatherIcon4" src="" alt="" align="center" style="width:100px;height:100px;">
 					</td>
 					<td width="25%">
-						<img class="smallWeatherIcon" id="weatherIcon5" src="" alt="" style="width:100px;height:100px;">
+						<img class="smallWeatherIcon" id="weatherIcon5" src="" alt="" align="center" style="width:100px;height:100px;">
 					</td>
 				</tr>
 				<tr>
@@ -246,7 +247,7 @@
 				</tr>
 			</tbody>
 		</table>
-		
+<!--///////////////////////////////////  Sunrise and Sunset Times  ///////////////////////////////////////////////-->
 		<table class="table table-responsive" id="tableA">
 			<tbody>
 			<div class='row'>
@@ -283,7 +284,7 @@
 	<div class="modal-content">
 		<div class="modal-header">
 			<h4 class="modal-title" >Currency</h4>
-			<img id="titleFlag" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
+			<img id="titleFlag3" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
 			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   
 		</div>
@@ -332,13 +333,13 @@
 					<!-- Modal 4 - Country News -->
 <!-- Modal -->
 <div class="modal fade" id="modal4" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 
   <!-- Modal content-->  
   <div class="modal-content">
 	<div class="modal-header">
 		<h4 class="modal-title">Top Headlines</h4>
-		<img id="titleFlag" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
+		<img id="titleFlag4" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
 		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
 	</div>
