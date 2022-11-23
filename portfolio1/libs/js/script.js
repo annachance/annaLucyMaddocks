@@ -352,6 +352,7 @@ $.ajax({  // Calls Open Weather API
             $('#txtHumidity').html(result['data']['current']['humidity'] + '%');
             $('#txtWind').html(`${Math.round(result['data']['current']['wind_speed'])}` + 'm/s');
 
+	    // Todays date!
             const options = {weekday: 'long', year:'numeric', month:'long', day:'numeric'};
             var unixTimestampSunrise = result['data']['current']['sunrise'];
             var todaysDate = new Date(unixTimestampSunrise * 1000).toLocaleDateString('en-uk', options);
@@ -359,42 +360,49 @@ $.ajax({  // Calls Open Weather API
             $('#todaysDate').html(todaysDate); 
 /////////////////////////////////////////////////////////////////////////
 
-//var dt = new Date(unixTimestampSunrise * 1000).toLocaleDateString('en-uk', options);
-let newDate = todaysDate.slice(0,3) + todaysDate.slice(7,10);
-console.log(todaysDate);
-console.log(newDate);
+            console.log(result['data']['daily'][0]['dt']); // current/ todays date
+            console.log(result['data']['daily'][1]['dt']); // tomorrows/ day 2 date
+            console.log(result['data']['daily'][2]['dt']); // day 3 date
+            console.log(result['data']['daily'][3]['dt']); // day 4 date
+            console.log(result['data']['daily'][4]['dt']); // day 5 date
 
-//console.log(dt);
-//console.log(dt2);
 
-//console.log(dt.getDate()); 
-//console.log(dt.getDay()); 
+            // Tomorrows/ Day 2 date!
+            var day2 = result['data']['daily'][1]['dt'];
+            var todaysDateDt = new Date(day2 * 1000).toLocaleDateString('en-uk', options);
+            console.log(todaysDateDt);
 
-          /*  const tomorrowsDate = newDate
-            tomorrowsDate.setDate(todaysDate.getDate() + 1);
-            tomorrowsDate.toLocaleDateString ('en-uk', options);
-            console.log(tomorrowsDate); */
+            let newDtDate = todaysDateDt.slice(0,3) + ' ,' + todaysDateDt.getDate(); //.getDate() is not working- says error not a function! ask nelson!!!
+            console.log(newDtDate);
+            $("#day2").html(`${newDtDate}`);
 
-            const date = new Date()
-            date.setDate(date.getDate() + 1);
-           // let tomorrowsDate = date.slice(0,3) + date.slice(7,10);
-
-            console.log(date); 
-
-            const newDate1 = new Date()
-            newDate1.setDate(newDate1.getDate() + 1);
-            newDate1.toLocaleDateString('en-uk', options);
-            console.log(newDate1);
-
-            var datePlus1 = date;
-            $("#day2").html(`${datePlus1.toLocaleDateString('en-uk', options)}`);
-
-            const date2 = new Date()
-            date2.setDate(date2.getDate() + 2);
             
-            var datePlus2 = date2;
-            $("#day3").html(`${datePlus2.toDateString("ddd d")}`);
-            console.log(datePlus2);
+            // Day 3 date!
+            var day3 = result['data']['daily'][2]['dt'];
+            var date3Dt = new Date(day3 * 1000).toLocaleDateString('en-uk', options);
+            console.log(date3Dt);
+
+            let newDay3Date = date3Dt.slice(0,3) + date3Dt.slice(9,13);
+            console.log(newDay3Date);
+            $("#day3").html(`${date3Dt}`);
+
+            // Day 4 date!
+            var day4 = result['data']['daily'][3]['dt'];
+            var date4Dt = new Date(day4 * 1000).toLocaleDateString('en-uk', options);
+            console.log(date4Dt);
+
+            let newDay4Date = date4Dt.slice(0,3) + date4Dt.slice(7,10);
+            console.log(newDay4Date);
+            $("#day4").html(`${date4Dt}`);
+
+            // Day 5 date!
+            var day5 = result['data']['daily'][4]['dt'];
+            var date5Dt = new Date(day5 * 1000).toLocaleDateString('en-uk', options);
+            console.log(date5Dt);
+
+            let newDay5Date = date5Dt.slice(0,3) + date5Dt.slice(9,12);
+            console.log(newDay5Date);
+            $("#day5").html(`${date5Dt}`);
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -440,7 +448,7 @@ $.ajax({  //Calls GeoNames API- Timezone
 
         if (result.status.name == "ok") {
 
-            $('#txtCountryName').html("Current weather in " + result['data']['countryName']);
+            //$('#txtCountryName').html("Current weather in " + result['data']['countryName']);
 
             let sunset = result['data']['sunset'];
             let sunsetTime = sunset.slice(11,16);
