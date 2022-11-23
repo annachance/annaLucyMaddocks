@@ -154,9 +154,9 @@ var petraMarker = L.marker([30.3285, 35.4444], {icon:famousLandmarkIcon}).addTo(
 
 ///////////////////////////////////////////////////////////////////////////
 // Marker 
-var singleMarker = L.marker([50.5, 30.5], {icon:hospitalIcon});
-var popup = singleMarker.bindPopup('This is my marker/popup!!').openPopup();
-popup.addTo(map); 
+//var singleMarker = L.marker([50.5, 30.5], {icon:hospitalIcon});
+//var popup = singleMarker.bindPopup('This is my marker/popup!!').openPopup();
+//popup.addTo(map); 
 
 ///////////////////////////////////////////////////////////////////////////
 // Markers Cluster
