@@ -286,7 +286,15 @@ function everything() {
              if (border !== null) {  // removes border from map on new country select
                     map.removeLayer(border);
              }
-              border = L.geoJSON(result['data']);
+		const borderStyle = {  // styles border highlight layer
+		color: "red",
+		weight: 1.5,
+		fillColor: "red",
+		fillOpacity: 0.1,
+		}
+              border = L.geoJSON(result['data'], {
+		 style: borderStyle
+	      }):
               border.addTo(map);
                 map.fitBounds(border.getBounds());
             }
