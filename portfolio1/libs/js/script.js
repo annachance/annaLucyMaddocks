@@ -12,188 +12,66 @@
 // Global Variables
 var countries = [];
 var border = null;  
-var capitalMarker = null;  
+var captialMarkerArray = null;  
 
 ///////////////////////////////////////////////////////////////////////////
+// Street Tile layer
+var streetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'
+});
+// Satellite
+var SatelliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+});
 // Map initialization
 var map = L.map('map').setView([51.505, -0.09], 3);
-
-// OSM/ Tile layer
-var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-});
-osm.addTo(map);
-
- // World terrain
-var Esri_WorldTerrain = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
-	maxZoom: 13
-});
-Esri_WorldTerrain.addTo(map); 
-
-// World gray canvas
-var Esri_WorldGrayCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
-	maxZoom: 16
-});
-Esri_WorldGrayCanvas.addTo(map); 
+streetMap.addTo(map);
 
 ///////////////////////////////////////////////////////////////////////////
-// Icons
-var airportIcon = L.icon({
-	iconUrl: 'png/Airports.png',
-	iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -30]
-}); 
-var hospitalIcon = L.icon({
-	iconUrl: 'png/Hospitals.png',
-	iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -30]
-});
-var universityIcon = L.icon({  
-	iconUrl: 'png/Universities.png',
-	iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -30]
-});
-var museumIcon = L.icon({  
-	iconUrl: 'png/Museums.png',
-	iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -30]
-});
-var stadiumIcon = L.icon({  
-	iconUrl: 'png/Stadiums.png',
-	iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -30]
-});
-var zooIcon = L.icon({  
-	iconUrl: 'png/Zoo.png',
-	iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -30]
-});
-var volcanoIcon = L.icon({  
-	iconUrl: 'png/Volcanos.png',
-	iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -30]
-});
-var cityIcon = L.icon({  
-	iconUrl: 'png/Cities.png',
-	iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -30]
-});
-var capitalIcon = L.icon({   
-	iconUrl: 'png/CapitalCity.png',
-	iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -30]
-});
-var nasaIcon = L.icon({  
-	iconUrl: 'png/Rocket.png',
-	iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -30]
-});
-var famousLandmarkIcon = L.icon({  
-	iconUrl: 'png/FamousLandmark.png',
-	iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -30]
-});
-///////////////////////////////////////////////////////////////////////////
-// Markers - Famous Landmarks of the World
-
-// NASA Johnson Space Center, USA
-var nasaMarker = L.marker([29.56088, -95.08834], {icon:nasaIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "NASA Johnson Space Center, USA");
-// Eiffel Tower, Paris, France
-var eiffelTowerMarker = L.marker([48.8584, 2.2945], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Eiffel Tower, Paris, France");
-// Empire State Building, New York, USA
-var empireStateMarker = L.marker([40.7484, -73.9857], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Empire State Building, New York, USA");
-// The Statue of Liberty, New York, USA
-var statueOfLibertyMarker = L.marker([40.6892, -74.0445], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "The Statue of Liberty, New York, USA");
-// Great Wall of China, Beijing, China
-var greatWallMarker = L.marker([40.4319, 116.5704], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Great Wall of China, Beijing, China");
-// Taj Mahal, Agra, Uttar Pradesh, India
-var tajMahalMarker = L.marker([27.1751, 78.0421], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Taj Mahal, Agra, Uttar Pradesh, India");
-// The Colosseum, Rome, Italy
-var colosseumMarker = L.marker([41.8902, 12.4922], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "The Colosseum, Rome, Italy");
-// The Pyramids of Giza and The Sphinx, Egypt
-var pyramidsMarker = L.marker([29.9753, 31.1376], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "The Pyramids of Giza and The Sphinx, Egypt");
-// Sydney Opera House, Sydney, Australia
-var sydneyOperaHouseMarker = L.marker([-33.8568, 151.2153], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Sydney Opera House, Sydney, Australia");
-//  Golden Gate Bridge, San Francisco, USA
-var goldenGateBridgeMarker = L.marker([37.8199, -122.4783], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Golden Gate Bridge, San Francisco, USA");
-//  Mount Fuji, Honshu Island, Japan
-var mountFujiMarker = L.marker([35.3606, 138.7274], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Mount Fuji, Honshu Island, Japan");
-//  Christ The Redeemer, Rio de Janeiro, Brazil
-var christTheRedeemerMarker = L.marker([-22.9519, -43.2105], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Christ The Redeemer, Rio de Janeiro, Brazil");
-//  Burj Khalifa, Dubai, United Arab Emirates
-var burjKhalifaMarker = L.marker([25.1972, 55.2744], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Burj Khalifa, Dubai, United Arab Emirates");
-//  Machu Picchu, Machu Picchu Archaeological Park, Peru
-var machuPicchuMarker = L.marker([-13.1631, -72.5450], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Machu Picchu, Machu Picchu Archaeological Park, Peru");
-//  St. Basil's Cathedral, Moscow, Russia
-var stBasilsMarker = L.marker([55.7525, 37.6231], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "St. Basil's Cathedral, Moscow, Russia");
-//  The Acropolis, Athens, Greece
-var acropolisMarker = L.marker([37.9715, 23.7257], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "The Acropolis, Athens, Greece");
-//  Leaning Tower of Pisa, Pisa, Italy
-var leaningTowerMarker = L.marker([43.7230, 10.3966], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Leaning Tower of Pisa, Pisa, Italy");
-//  Giant's Causeway, Portrush, Northern Ireland
-var giantsCausewayMarker = L.marker([55.2408, -6.5116], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Giant's Causeway, Portrush, Northern Ireland");
-//  Buckingham Palace, London, England
-var buckinghamPalaceMarker = L.marker([51.5014, 0.1419], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Buckingham Palace, London, England");
-//  The Grand Palace, Bangkok, Thailand
-var theGrandPalaceMarker = L.marker([13.7499, 100.4916], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the v: </h6>' + "The Grand Palace, Bangkok, Thailand");
-//  Petra, Petra, Jordan
-var petraMarker = L.marker([30.3285, 35.4444], {icon:famousLandmarkIcon}).addTo(map).bindPopup('<h6>Famous Landmarks of the World: </h6>' + "Petra, Petra, Jordan");
-
-///////////////////////////////////////////////////////////////////////////
-// Marker 
-//var singleMarker = L.marker([50.5, 30.5], {icon:hospitalIcon});
-//var popup = singleMarker.bindPopup('This is my marker/popup!!').openPopup();
-//popup.addTo(map); 
-
-///////////////////////////////////////////////////////////////////////////
-// Markers Cluster
-var markerClusters = L.markerClusterGroup({
+// Layer and Cluster groups
+let markerClusters = L.markerClusterGroup({
+    spiderfyOnMaxZoom: false,
     showCoverageOnHover: false,
-});
-var ClusterIcon = L.Icon.extend({
-    options: {
-        iconSize:     [30, 30],
-        popupAnchor:  [0, -20]
+    zoomToBoundsOnClick: true,
+    removeOutsideVisibleBounds: true,
+    maxClusterRadius: 50,
+      iconCreateFunction: function (cluster) {
+      var childCount = cluster.getChildCount();
+      var c = ' marker-cluster-';
+      if (childCount < 10) {
+        c += 'small';
+      }
+      else if (childCount < 100) {
+        c += 'medium';
+      }
+      else {
+        c += 'large';
+      }
+  
+      return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>',
+       className: 'POIs marker-cluster' + c, iconSize: new L.Point(40, 40) });
     }
-});
+  });
+  let capitalMarkerClusters = L.markerClusterGroup({
+    spiderfyOnMaxZoom: false,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: true,
+    removeOutsideVisibleBounds: true
+  });
 
 ///////////////////////////////////////////////////////////////////////////
-// Layer control
-var baseMaps = {
-	"OSM": osm,
-	"Esri_WorldTerrain": Esri_WorldTerrain,
-	"Esri_WorldGrayCanvas": Esri_WorldGrayCanvas
-};
-var overlayMaps = {
-	//"Marker": singleMarker
-};
-L.control.layers(baseMaps, overlayMaps).addTo(map);
-
-///////////////////////////////////////////////////////////////////////////
-// Current user location marker clickbutton
-L.control.locate().addTo(map);
-
 ///////////////////////////////////////////////////////////////////////////
 // Capitalize first letter
 function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1); }; 
-
+    return string.charAt(0).toUpperCase() + string.slice(1); 
+}
 // Format large number with commas
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+// Change m/s to km/h
+function ms2km(num) {
+    return Math.round((num / 1000) * 60 * 60);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -263,10 +141,7 @@ $(document).ready(function () {
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-//$('select').on('change', function() {
-
 // Retrieve COUNTRY BORDERS from geojson file
-//$('#country-dropdown').change(function() { //(potentially get everything() !!)
 function everything() {
 
     $.ajax({  // Calls countryBorders.geo.json file
@@ -286,19 +161,19 @@ function everything() {
              if (border !== null) {  // removes border from map on new country select
                     map.removeLayer(border);
              }
-		const borderStyle = {  // styles border highlight layer
-		color: "red",
-		weight: 1.5,
-		fillColor: "red",
-		fillOpacity: 0.1,
-		}
+            const borderStyle = {  // styles border highlight layer
+                color: "red",
+                weight: 1.5,
+                fillColor: "red",
+                fillOpacity: 0.1,
+            }
               border = L.geoJSON(result['data'], {
-		 style: borderStyle
-	      }):
+                style: borderStyle
+              });
               border.addTo(map);
                 map.fitBounds(border.getBounds());
             }
-            },  //done and working!
+            }, 
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR, textStatus, errorThrown);
             } 
@@ -352,68 +227,29 @@ $.ajax({  // Calls Open Weather API
             var midTempFeels = tempFeels - 273.15;
             var newTempFeels = midTempFeels.toFixed(2);
 
+            var lowestTemp = parseInt(result['data']['daily'][0]['temp']['min']);
+            var midLowestTemp = lowestTemp - 273.15;
+            var newLowestTemp = midLowestTemp.toFixed(2);
+
+
+            var highestTemp = parseInt(result['data']['daily'][0]['temp']['max']);
+            var midHighestTemp = highestTemp - 273.15;
+            var newHighestTemp = midHighestTemp.toFixed(2);
+
             let iconSrc = "https://openweathermap.org/img/wn/" + result["data"]['current']['weather'][0]['icon'] + '@4x.png';
             $('#LargeWeatherIcon').attr("src", iconSrc);
             $('#txtDescription').html(capitalizeFirstLetter(result['data']['current']['weather'][0]['description']));
-            $('#txtMain').html(result['data']['current']['weather'][0]['main']);
+            // $('#txtMain').html(result['data']['current']['weather'][0]['main']);
             $('#txtTemperature').html(`${Math.round(newTemp)}` + '°C');
-            $('#txtFeelsLike').html(`${Math.round(newTempFeels)}` + '°C');
-            $('#txtHumidity').html(result['data']['current']['humidity'] + '%');
-            $('#txtWind').html(`${Math.round(result['data']['current']['wind_speed'])}` + 'm/s');
+            $('#highestAndLowestTemp').html('H:' + `${Math.round(newHighestTemp)}` + '°C <br>' + 'L:' + `${Math.round(newLowestTemp)}` + '°C');
+            //$('#txtLowestTemp').html(`${Math.round(newLowestTemp)}` + '°C');
+            //$('#txtFeelsLike').html(`${Math.round(newTempFeels)}` + '°C');
+            // $('#txtHumidity').html(result['data']['current']['humidity'] + '%');
+            //$('#txtWind').html(`${Math.round(result['data']['current']['wind_speed'])}` + 'm/s');
 
-            // Todays date!
-            const options = {weekday: 'long', year:'numeric', month:'long', day:'numeric'};
-            var unixTimestampSunrise = result['data']['current']['sunrise'];
-            var todaysDate = new Date(unixTimestampSunrise * 1000).toLocaleDateString('en-uk', options);
-            // console.log(todaysDate);
-            $('#todaysDate').html(todaysDate); 
 ///////////////////////////////////////////////////////////////////////////
-// Get daily weather forecast for next 4 days
-// Get the dates
 
-          //  console.log(result['data']['daily'][0]['dt']); // current/ todays date
-          //  console.log(result['data']['daily'][1]['dt']); // tomorrows/ day 2 date
-          //  console.log(result['data']['daily'][2]['dt']); // day 3 date
-          //  console.log(result['data']['daily'][3]['dt']); // day 4 date
-          //  console.log(result['data']['daily'][4]['dt']); // day 5 date
-
-            // Tomorrows/ Day 2 date!
-            var day2 = result['data']['daily'][1]['dt'];
-            var todaysDateDt = new Date(day2 * 1000);
-            // console.log(todaysDateDt);
-
-            let newDtDate = todaysDateDt.toLocaleDateString('en-uk', options).slice(0,3) + ' ' + todaysDateDt.getDate(); //.getDate() is not working- says error not a function! ask nelson!!!
-            // console.log(newDtDate);
-            $("#day2").html(`${newDtDate}`);
-
-            // Day 3 date!
-            var day3 = result['data']['daily'][2]['dt'];
-            var date3Dt = new Date(day3 * 1000);
-            // console.log(date3Dt);
-
-            let newDay3Date = date3Dt.toLocaleDateString('en-uk', options).slice(0,3) + ' ' + date3Dt.getDate();
-            // console.log(newDay3Date);
-            $("#day3").html(`${newDay3Date}`);
-
-            // Day 4 date!
-            var day4 = result['data']['daily'][3]['dt'];
-            var date4Dt = new Date(day4 * 1000);
-            // console.log(date4Dt);
-
-            let newDay4Date = date4Dt.toLocaleDateString('en-uk', options).slice(0,3) + ' ' + date4Dt.getDate();
-            // console.log(newDay4Date);
-            $("#day4").html(`${newDay4Date}`);
-
-            // Day 5 date!
-            var day5 = result['data']['daily'][4]['dt'];
-            var date5Dt = new Date(day5 * 1000);
-            // console.log(date5Dt);
-
-            let newDay5Date = date5Dt.toLocaleDateString('en-uk', options).slice(0,3) + ' ' + date5Dt.getDate();
-            // console.log(newDay5Date);
-            $("#day5").html(`${newDay5Date}`);
-
-// Get the icons
+// Get the icons for weather forecast
 
             let iconSrc2 = "https://openweathermap.org/img/wn/" + result['data']['daily'][1]['weather'][0]['icon'] + '@4x.png';
             $('#weatherIcon2').attr("src", iconSrc2);
@@ -427,7 +263,7 @@ $.ajax({  // Calls Open Weather API
             let iconSrc5 = "https://openweathermap.org/img/wn/" + result['data']['daily'][4]['weather'][0]['icon'] + '@4x.png';
             $('#weatherIcon5').attr("src", iconSrc5);
  
-// Get the temps
+// Get the temps for weather forecast
 
             $('#day2Temp').html(`${Math.round(result['data']['daily'][1]['temp']['day']- 273.15)}` + '°C');
             $('#day3Temp').html(`${Math.round(result['data']['daily'][2]['temp']['day']- 273.15)}` + '°C');
@@ -439,7 +275,7 @@ $.ajax({  // Calls Open Weather API
         console.log(errorThrown),
         console.log(jqXHR);
      } 
- });  // end of WEATHER- OpenWeather API call!
+ });  // end of WEATHER- OpenWeather API call! 
 ///////////////////////////////////////////////////////////////////////////
 // -------------------------------- Get Timezone from GeoNames --------------------------------
 // Retrieve TIMEZONE info
@@ -459,21 +295,41 @@ $.ajax({  //Calls GeoNames API- Timezone
 
         if (result.status.name == "ok") {
 
-            $('#txtCountryName').html(result['data']['countryName'] + " Flag");
+            $('#txtCountryName').html(result['data']['countryName']);
 
             let sunset = result['data']['sunset'];
             let sunsetTime = sunset.slice(11,16);
-            $('#weatherSunSet').html(sunsetTime);
+            $('#weatherSunSetTime').html(sunsetTime);
 
             let sunrise = result['data']['sunrise'];
             let sunriseTime = sunrise.slice(11,16);
-            $('#weatherSunRise').html(sunriseTime);
+            $('#weatherSunRiseTime').html(sunriseTime);
 
             $('#timezoneId').html(result['data']['timezoneId']);
 
-            let timeAndDate = result['data']['time'];
-            let resultTimeAndDate = timeAndDate.slice(11,16);
-            $('#currentTime').html(resultTimeAndDate); 
+            // Get dates for weather forecast
+            let parsedDate = Date.parse(result['data']['time']);
+            
+            // Todays date!
+            $("#todaysDate").html(`${parsedDate.toString("dddd d MMMM, HH:mmtt")}`);
+            //$("#currentTime").html(`${parsedDate.toString("HH:mmtt")}`); 
+      
+            // Tomorrows/ Day 2 date!
+            let datePlus1 = parsedDate.add(1).days();
+            //console.log(`${datePlus1.toString('ddd dS')}`);
+            $("#day2").html(`${datePlus1.toString('ddd dS')}`);
+      
+            // Day 3 date!
+            let datePlus2 = datePlus1.add(1).days();
+            $('#day3').html(`${datePlus2.toString('ddd dS')}`);
+      
+            // Day 4 date!
+            let datePlus3 = datePlus2.add(1).days();
+            $('#day4').html(`${datePlus3.toString('ddd dS')}`);
+      
+             // Day 5 date!
+            let datePlus4 = datePlus3.add(1).days();
+            $('#day5').html(`${datePlus4.toString('ddd dS')}`);
 
         }  
     },
@@ -481,7 +337,7 @@ $.ajax({  //Calls GeoNames API- Timezone
         console.log(JSON.stringify(jqXHR));
         console.log(JSON.stringify(textStatus));
         console.log(JSON.stringify(errorThrown));
-    }
+    } 
 });  // end of Timezone- Geonames API call! 
 ///////////////////////////////////////////////////////////////////////////
     
@@ -515,8 +371,7 @@ function getCountryInfo(iso_a2) {
                 $('#txtCapital').html(result['data']['geonames'][0]['capital']);
                 $('#txtPopulation').html(numberWithCommas(result['data']['geonames'][0]['population']));
                 $('#txtCurrencyCode').html(result['data']['geonames'][0]['currencyCode']);
-                $('#area').html(numberWithCommas(result['data']['geonames'][0]['areaInSqKm'] + ' km2'));
-
+                $('#area').html(numberWithCommas(result['data']['geonames'][0]['areaInSqKm'] + 'km2'));
             }  
 ///////////////////////////////////////////////////////////////////////////
 // -------------------------------- Get Exchange Rate from Open Exchange Rate  --------------------------------//
@@ -546,7 +401,7 @@ $.ajax({  // Calls Open Exchange Rates API
         console.log(errorThrown),
         console.log(jqXHR);
     }     
-});   // end of Open Exchange Rates API call!   
+});   // end of Open Exchange Rates API call!     
 ///////////////////////////////////////////////////////////////////////////
 // -------------------------------- Get REST info from REST Countries API  --------------------------------//
 // Retrieve REST INFO
@@ -566,10 +421,10 @@ $.ajax({  //Calls REST Countries API
         if (result2.status.name == "ok") {
 
             $('#languages').html(result2['data'][0]['languages'][Object.keys(result2['data'][0]['languages'])[0]]);
-            $('#nativeName').html(result2['data'][0]['name']['official']);  
-            $('#txtSubRegion').html(result2['data'][0]['subregion']);  
-            $('#cca2').html(result2['data'][0]['cca2']);  
-            $('#cca3').html(result2['data'][0]['cca3']);  
+            $('#nativeName').html("Also known as " + result2['data'][0]['name']['official']);  
+            // $('#txtSubRegion').html(result2['data'][0]['subregion']);  
+            $('#cca2and3').html(result2['data'][0]['cca2'] + " & " + result2['data'][0]['cca3']);  
+            // $('#cca3').html(result2['data'][0]['cca3']);  
             $('#drivingSide').html(capitalizeFirstLetter(result2['data'][0]['car']['side'])); 
             $('#txtCurrency').html(result2['data'][0]['currencies'][result['data']['geonames'][0]['currencyCode']]['name']);
             $('#currencySymbol').html(result2['data'][0]['currencies'][result['data']['geonames'][0]['currencyCode']]['symbol']); 
@@ -578,10 +433,10 @@ $.ajax({  //Calls REST Countries API
             let flagSrc = result2['data'][0]['flags']['png'];
             $('#flags').attr("src", flagSrc);  
             $("#titleFlag").attr("src", flagSrc);
-            $("#titleFlag2").attr("src", flagSrc);
+            // $("#titleFlag2").attr("src", flagSrc);
             $("#titleFlag3").attr("src", flagSrc);
             $("#titleFlag4").attr("src", flagSrc);
-            $("#titleFlag5").attr("src", flagSrc);
+            // $("#titleFlag5").attr("src", flagSrc);
 
                 var bordersArray = result2['data'][0]['borders']
                 var borders = ""
@@ -595,7 +450,7 @@ $.ajax({  //Calls REST Countries API
         console.log(errorThrown),
         console.log(jqXHR);
     }
-}); // end of REST Countries API call!
+}); // end of REST Countries API call! 
 ///////////////////////////////////////////////////////////////////////////
 // -------------------------------- Get News From NewsAPI  --------------------------------
 // Retrieve NEWS info
@@ -614,22 +469,66 @@ $.ajax({  //Calls News API.org
 
         if (result.status.name == "ok") {
 
-            var newsArticle = result['data']['articles'].length;
-            for(var n=0; n < newsArticle; n++){
-            
-            // Title - URL - Source/Name - Published/Date
-            $('#news_article1').html(result['data']['articles']['0']['title'] + ", " + result['data']['articles']['0']['url'] + ", " + result['data']['articles']['0']['source']['Name'] + ", " + result['data']['articles']['0']['publishedAt']);
-            $('#news_article2').html(result['data']['articles']['1']['title'] + ", " + result['data']['articles']['1']['url'] + ", " + result['data']['articles']['1']['source']['Name'] + ", " + result['data']['articles']['1']['publishedAt']);
-            $('#news_article3').html(result['data']['articles']['2']['title'] + ", " + result['data']['articles']['2']['url'] + ", " + result['data']['articles']['2']['source']['Name'] + ", " + result['data']['articles']['2']['publishedAt']);
+            const articles = result['data']['articles'];
+
+            const tbody = document.getElementById('tbodyNews');
+
+            const fragment = document.createDocumentFragment();
+
+            function removeAllChildNodes(parent) {
+                while (parent.firstChild) {
+                    parent.removeChild(parent.firstChild);
+                }
+              }
+              removeAllChildNodes(tbody);
+
+            if (result['data']['articles'] === 0 || result['data']['status'] === "error") {
+                
+                const tr = document.createElement('tr');
+
+                const td = document.createElement('td');
+        
+                td.appendChild(document.createTextNode("No headlines available"));
+        
+                tr.appendChild(td);
+        
+                fragment.appendChild(tr);
+
+            } else {
+
+                var newsArticle = result['data']['articles'].length;
+                for(let n=0; n < newsArticle; n++){
+
+                    let parsedPublishedDate = Date.parse(result['data']['articles'][n]['publishedAt']);
+                    let publishNameAndDate = " Published by " + result['data']['articles'][n]['source']['Name'] + ", " + `${parsedPublishedDate.toString("ddd dS MMM yyyy")}`;
+
+                    const tr = document.createElement('tr');
+
+                    const td1 = document.createElement('td');
+                    const td2 = document.createElement('td');
+                    const td3 = document.createElement('td');
+
+                    // URL - Title - Source/Name & Published/Date
+                    td1.appendChild(document.createTextNode(articles[n]['title']));
+                    td2.insertAdjacentHTML('beforeend', `<a id="readMore1" href=${articles[n]['url']} target="_blank" rel="noopener"><i class="fas fa-long-arrow-alt-right fa-2x"></i></a>`);
+                    td3.insertAdjacentHTML('beforeend', `<i class="fi fi-rr-calendar-clock"></i><br>${publishNameAndDate}`);
+
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    tr.appendChild(td3);
+
+                    fragment.appendChild(tr);
         }
       }
+      tbody.appendChild(fragment);
+    }
     },
     error: function(jqXHR, textStatus, errorThrown) {
         console.log(JSON.stringify(jqXHR));
         console.log(JSON.stringify(textStatus));
         console.log(JSON.stringify(errorThrown));
     }
-}); // end of News API call!
+}); // end of News API call! 
 ///////////////////////////////////////////////////////////////////////////
 // -------------------------------- Get Airports from GEONAMES API ---------------------------------//
 // Retrieve AIRPORT info
@@ -646,27 +545,34 @@ $.ajax({  //Calls GeoNames API- Airports
 
         console.log(result4['data']);
 
-        if (result4.status.name == "ok") {                
-            
-              var airportMarkerArray = [];
+        if (result4.status.name == "ok") { 
+
+             var airportMarkerArray = [];
 
             for(let a=0; a < result4['data']['geonames'].length; a++){
-
                 // console.log(result4['data']['geonames'][a]['name']);
-                // $('#txtAirports').append(result4['data']['geonames'][a]['toponymName'] + ", ");
+                
+                 // Creates a cyan marker with the plane icon
+                 var airportMarker = L.ExtraMarkers.icon({
+                    icon: 'fa-plane',
+                    markerColor: 'cyan',
+                    shape: 'circle',
+                    prefix: 'fa',
+                    shadow: 'none'
+                });
 
                 latAirport = result4['data']['geonames'][a]['lat']
                 lngAirport = result4['data']['geonames'][a]['lng']
                 var airportsName  = result4['data']['geonames'][a]['name'];
-                airportMarkerArray.push(L.marker([latAirport, lngAirport], {icon:airportIcon}).bindPopup('<h6> Airport Name: </h6>' + airportsName));
+                airportMarkerArray.push(L.marker([latAirport, lngAirport], {icon:airportMarker}).bindPopup(airportsName));
 
                 if (markerClusters) {
                     markerClusters.clearLayers();
                 } 
                 markerClusters.addLayers(airportMarkerArray);
                 map.addLayer(markerClusters);
-                }
-        }
+              } 
+        } 
     },  
     error: function(jqXHR, textStatus, errorThrown) {
         console.log(JSON.stringify(jqXHR));
@@ -692,17 +598,26 @@ $.ajax({  //Calls GEONAMES Universities API
     
         if (result3.status.name == "ok") {    
 
+            var universityMarkerArray = [];
+
             for(let u=0; u < result3['data']['geonames'].length; u++){
-        
                 // console.log(result3['data']['geonames'][u]['name']);
-                // $('#txtUniversities').append(result3['data']['geonames'][u]['toponymName'] + ", ");
+
+                 // Creates a violet marker with the university icon
+                 var universityMarker = L.ExtraMarkers.icon({
+                    icon: 'fa-graduation-cap',
+                    markerColor: 'violet',
+                    shape: 'circle',
+                    prefix: 'fa',
+                    shadow: 'none'
+                });
 
                 latUniversity = result3['data']['geonames'][u]['lat']
                 lngUniversity = result3['data']['geonames'][u]['lng']
                 var universityName  = result3['data']['geonames'][u]['name'];
-                var universityMarker = L.marker([latUniversity, lngUniversity], {icon:universityIcon}).bindPopup('<h6> Univeristy Name: </h6>' + universityName);
+                universityMarkerArray.push(L.marker([latUniversity, lngUniversity], {icon:universityMarker}).bindPopup(universityName));
 
-                markerClusters.addLayers(universityMarker);
+                markerClusters.addLayers(universityMarkerArray);
                 map.addLayer(markerClusters);
         }  
      }     
@@ -730,16 +645,26 @@ $.ajax({  //Calls GEONAMES API- Museums
 
         if (result5.status.name == "ok") {  
 
+            var museumMarkerArray = [];
+
             for(let m=0; m < result5['data']['geonames'].length; m++){
-        
                 // console.log(result5['data']['geonames'][m]['name']);
     
+                 // Creates a light green marker with the museum icon
+                 var museumMarker = L.ExtraMarkers.icon({
+                    icon: 'fa-building-columns',
+                    markerColor: 'green-light',
+                    shape: 'circle',
+                    prefix: 'fa',
+                    shadow: 'none'
+                });
+
                 latMuseum = result5['data']['geonames'][m]['lat']
                 lngMuseum = result5['data']['geonames'][m]['lng']
                 var museumName  = result5['data']['geonames'][m]['name'];
-                var museumMarker = L.marker([latMuseum, lngMuseum], {icon:museumIcon}).bindPopup('<h6> Museum Name: </h6>' + museumName);
+                museumMarkerArray.push(L.marker([latMuseum, lngMuseum], {icon:museumMarker}).bindPopup(museumName));
         
-                markerClusters.addLayers(museumMarker);
+                markerClusters.addLayers(museumMarkerArray);
                 map.addLayer(markerClusters);
             } 
         }
@@ -768,16 +693,26 @@ $.ajax({  //Calls GEONAMES API- Hospitals
 
         if (result6.status.name == "ok") {  
 
+            var hospitalMarkerArray = [];
+
             for(let h=0; h < result6['data']['geonames'].length; h++){
-    
                 // console.log(result6['data']['geonames'][h]['name']);
     
+                // Creates a red marker with the hospital icon
+                var hospitalMarker = L.ExtraMarkers.icon({
+                icon: 'fa-hospital',
+                markerColor: 'red-dark',
+                shape: 'circle',
+                prefix: 'fa',
+                shadow: 'none'
+                });
+
                 latHospital = result6['data']['geonames'][h]['lat']
                 lngHospital = result6['data']['geonames'][h]['lng']
                 var hospitalName  = result6['data']['geonames'][h]['name'];
-                var hospitalMarker = L.marker([latHospital, lngHospital], {icon:hospitalIcon}).bindPopup('<h6> Hospital Name: </h6>' + hospitalName);
+                hospitalMarkerArray.push(L.marker([latHospital, lngHospital], {icon:hospitalMarker}).bindPopup(hospitalName));
 
-                markerClusters.addLayers(hospitalMarker);
+                markerClusters.addLayers(hospitalMarkerArray);
                 map.addLayer(markerClusters);
             } 
         }
@@ -806,16 +741,26 @@ $.ajax({  //Calls GEONAMES API- Zoo's
 
         if (result7.status.name == "ok") {  
 
+            var zooMarkerArray = [];
+
             for(let z=0; z < result7['data']['geonames'].length; z++){
-        
                 // console.log(result7['data']['geonames'][z]['name']);
     
+                 // Creates a pink marker with the zoo icon
+                var zooMarker = L.ExtraMarkers.icon({
+                icon: 'fa-cow',
+                markerColor: 'pink',
+                shape: 'circle',
+                prefix: 'fa',
+                shadow: 'none'
+                });
+
                 latZoo = result7['data']['geonames'][z]['lat']
                 lngZoo = result7['data']['geonames'][z]['lng']
                 var zooName  = result7['data']['geonames'][z]['name'];
-                var zooMarker = L.marker([latZoo, lngZoo], {icon:zooIcon}).bindPopup('<h6> Zoo Name: </h6>' + zooName);
+                zooMarkerArray.push(L.marker([latZoo, lngZoo], {icon:zooMarker}).bindPopup(zooName));
 
-                markerClusters.addLayers(zooMarker);
+                markerClusters.addLayers(zooMarkerArray);
                 map.addLayer(markerClusters);
             } 
         }
@@ -844,16 +789,26 @@ $.ajax({  //Calls GEONAMES API- Volcanoe's
     
         if (result8.status.name == "ok") {  
 
+            var volcanoMarkerArray = [];
+
             for(let v=0; v < result8['data']['geonames'].length; v++){
-            
                 // console.log(result8['data']['geonames'][v]['name']);
     
+                  // Creates a yellow marker with the volcano icon
+                  var volcanoMarker = L.ExtraMarkers.icon({
+                    icon: 'fa-volcano',
+                    markerColor: 'yellow',
+                    shape: 'circle',
+                    prefix: 'fa',
+                    shadow: 'none'
+                    });
+
                 latVolcano = result8['data']['geonames'][v]['lat']
                 lngVolcano = result8['data']['geonames'][v]['lng']
-               var volcanoName = result8['data']['geonames'][v]['name'];
-               var volcanoMarker = L.marker([latVolcano, lngVolcano], {icon:volcanoIcon}).bindPopup('<h6> Volcano Name: </h6>' + volcanoName);
+                var volcanoName = result8['data']['geonames'][v]['name'];
+                volcanoMarkerArray.push(L.marker([latVolcano, lngVolcano], {icon:volcanoMarker}).bindPopup(volcanoName));
 
-               markerClusters.addLayers(volcanoMarker);
+               markerClusters.addLayers(volcanoMarkerArray);
                map.addLayer(markerClusters);
               } 
         }
@@ -880,18 +835,28 @@ $.ajax({  //Calls GEONAMES API- Sports Stadiums
 
         console.log(result9['data']);
 
-        if (result9.status.name == "ok") {  
+        if (result9.status.name == "ok") { 
+
+            var stadiumMarkerArray = []; 
 
             for(let s=0; s < result9['data']['geonames'].length; s++){
-
              // console.log(result9['data']['geonames'][s]['name']);
             
+             // Creates a dark blue marker with the stadium icon
+             var stadiumMarker = L.ExtraMarkers.icon({
+                icon: 'fa-futbol',
+                markerColor: 'blue-dark',
+                shape: 'circle',
+                prefix: 'fa',
+                shadow: 'none'
+                });
+
              latStadium = result9['data']['geonames'][s]['lat']
              lngStadium = result9['data']['geonames'][s]['lng']
              var stadiumName = result9['data']['geonames'][s]['name'];
-             var stadiumMarker = L.marker([latStadium, lngStadium], {icon:stadiumIcon}).bindPopup('<h6> Sports Stadium Name: </h6>' + stadiumName);
+             stadiumMarkerArray.push(L.marker([latStadium, lngStadium], {icon:stadiumMarker}).bindPopup(stadiumName));
 
-            markerClusters.addLayers(stadiumMarker);
+            markerClusters.addLayers(stadiumMarkerArray);
             map.addLayer(markerClusters); 
             } 
         }
@@ -918,23 +883,31 @@ $.ajax({  //Calls GEONAMES API- Cities
 
         console.log(result12['data']);
 
-        if (result12.status.name == "ok") {      
+        if (result12.status.name == "ok") {  
 
-            for(let c=0; c < result12['data']['geonames'].length; c++){
+            var cityMarkerArray = []; 
             
+            for(let c=0; c < result12['data']['geonames'].length; c++){
             // console.log(result12['data']['geonames'][c]['name']);
+
+            // Creates a orange marker with the city icon
+            var cityMarker = L.ExtraMarkers.icon({
+            icon: 'fa-city',
+            markerColor: 'orange',
+            shape: 'circle',
+            prefix: 'fa',
+            shadow: 'none'
+            });
 
             latCity = result12['data']['geonames'][c]['lat']
             lngCity = result12['data']['geonames'][c]['lng']
             var cityName = result12['data']['geonames'][c]['name'];
             var cityPopulation = (numberWithCommas(result12['data']['geonames'][c]['population']));
 
-            var cityMarker = L.marker([latCity, lngCity], {icon:cityIcon}).bindPopup(
-                '<h6> City Name: </h6>' + cityName + 
-                '<h6> Population: </h6>' + cityPopulation);
+            cityMarkerArray.push(L.marker([latCity, lngCity], {icon:cityMarker}).bindPopup(`<b>${cityName}</b><br> population ${cityPopulation}`));
     
-               markerClusters.addLayers(cityMarker);
-               map.addLayer(markerClusters);
+               markerClusters.addLayers(cityMarkerArray);
+               map.addLayer(markerClusters);  
           } 
         } 
     }, // end of GEONAMES Cities Info SUCCESS callback!  
@@ -961,22 +934,36 @@ $.ajax({  //Calls GEONAMES API- Capital City Info
         console.log(result11['data']);
         
         if (result11.status.name == "ok") {  
-            // console.log(result11['data']['geonames'][cc]['name']);
+            // console.log(result11['data']['geonames'][cc]['name']);            
+
+            // Creates a black marker with the capital icon
+            var capitalMarker = L.ExtraMarkers.icon({
+            icon: 'fa-landmark-dome',
+            markerColor: 'black',
+            shape: 'circle',
+            prefix: 'fa',
+            shadow: 'none'
+            });
 
             latCapital = result11['data']['geonames'][0]['lat']
             lngCapital = result11['data']['geonames'][0]['lng']
+            $('#txtCapitalName').html(result11['data']['geonames'][0]['name']);
+
             var capitalName = result11['data']['geonames'][0]['name'];
             var capitalOfCountry = result11['data']['geonames'][0]['countryName'];
             var capPopulation = (numberWithCommas(result11['data']['geonames'][0]['population']));
            
-           if (capitalMarker !== null) {
-              map.removeLayer(capitalMarker);
+           if (captialMarkerArray !== null) {
+              map.removeLayer(captialMarkerArray);
         }
-           capitalMarker = L.marker([latCapital, lngCapital], {icon:capitalIcon}).addTo(map).bindPopup(
-            '<h6> Capital of ' + capitalOfCountry + ': </h6>' + capitalName + 
-            '<h6> Population: </h6>' + capPopulation);
-            }
-        },  
+            captialMarkerArray = (L.marker([latCapital, lngCapital], {icon:capitalMarker}).addTo(map).bindPopup(
+            `<b>${capitalName}</b>, capital of ${capitalOfCountry} <br>
+            population ${capPopulation}`));
+
+            capitalMarkerClusters.addLayers(captialMarkerArray);
+            map.addLayer(capitalMarkerClusters);
+        }
+}, 
     error: function(jqXHR, textStatus, errorThrown) {
         console.log(JSON.stringify(jqXHR));
         console.log(JSON.stringify(textStatus));
@@ -984,7 +971,6 @@ $.ajax({  //Calls GEONAMES API- Capital City Info
     }
 });  // end of GEONAMES Capital City Info call! 
 ///////////////////////////////////////////////////////////////////////////
-
         },  // end of the success callback of geonames api call!
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(errorThrown),
@@ -994,9 +980,8 @@ $.ajax({  //Calls GEONAMES API- Capital City Info
     })  // end of geonames api call!
 };  // end of function getCountryInfo(iso_a2) call!
 ///////////////////////////////////////////////////////////////////////////
-
 ///////////////////////////////////////////////////////////////////////////
-//Changing the select dropdown- call everything function
+// Changing the select dropdown- call everything function
 
 $('select').on('change', function() {
     
@@ -1008,7 +993,6 @@ $('select').on('change', function() {
     
   }); 
 ///////////////////////////////////////////////////////////////////////////
-
 ///////////////////////////////////////////////////////////////////////////
  
  // Allows clicking on oceans to get the name (on the map!)
@@ -1054,7 +1038,7 @@ $('select').on('change', function() {
                     if (result13.status.name == "ok" && result13["data"]["ocean"]) {
 
                        var oceanName = result13["data"]["ocean"]["name"]
-                       oceanPopup.setLatLng(L.latLng(lat, lng)).setContent('<h6> Ocean name: </h6>' + oceanName).openOn(map);
+                       oceanPopup.setLatLng(L.latLng(lat, lng)).setContent(oceanName).openOn(map);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -1072,6 +1056,20 @@ $('select').on('change', function() {
     });  // end of Open Cage Reverse GeoCode API call! 
 
   }; // end of function OnMapClick 
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Layer control
+var baseMaps = {
+	"Street Map": streetMap,
+    "Satellite Map": SatelliteMap
+};
+var overlayMaps = {
+    "POIs": markerClusters,
+    "Capital City": capitalMarkerClusters
+};
+
+L.control.layers(baseMaps, overlayMaps).addTo(map);
+
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // Applies mapclick function to map
