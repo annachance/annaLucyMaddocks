@@ -66,14 +66,40 @@
 }
 
 /* Title Flags */
-#titleFlag , #titleFlag3, #titleFlag4 {
+#titleFlag {
 	width: auto;
 	height: 40px;
-	margin-left: 180px;
 	border: 1px solid #dee2e6;
 	cursor: pointer;
+	display: block;
+  	margin: 0 auto;
+	margin-left: 27%;
 	position: relative;
 	top: 3px;
+	align: right;
+}
+#titleFlag3 {
+	width: auto;
+	height: 40px;
+	border: 1px solid #dee2e6;
+	cursor: pointer;
+	display: block;
+  	margin: 0 auto;
+	margin-left: 43%;
+	position: relative;
+	top: 3px;
+	align: right;
+}
+#titleFlag4 {
+	width: auto;
+	height: 40px;
+	border: 1px solid #dee2e6;
+	cursor: pointer;
+	top: 3px;
+	display: block;
+	margin: 0 auto;
+	margin-left: 30%;
+	position: relative;
 	align: right;
 }
 
@@ -92,7 +118,8 @@
 #coatOfArms {
 	width: 100px;
 	height: 100px;
-	margin-left: 170px;
+	margin: 0;
+	margin-right: 38%;
 	cursor: pointer;
 	position: relative;
 }
