@@ -52,15 +52,29 @@
 	height: 100vh;
 	}
 
+/* Country Selector/ Dropdown */
+#country-dropdown {
+    position: absolute;
+    top: 12px;
+    left: 22%;
+    z-index: 500;
+    width: 59%;
+}
+
+#modal1, #modal2, #modal3, #modal4, #modal5 .modal-title {
+    color: black; 
+}
+
 /* Title Flags */
-#titleFlag , #titleFlag2, #titleFlag3, #titleFlag4, #titleFlag5 {
+#titleFlag , #titleFlag3, #titleFlag4 {
 	width: auto;
-	height: 17px;
-	margin-left: 8px;
+	height: 40px;
+	margin-left: 180px;
 	border: 1px solid #dee2e6;
 	cursor: pointer;
 	position: relative;
 	top: 3px;
+	align: right;
 }
 
 /* Info Modal */
@@ -70,6 +84,18 @@
 #modal1 table { 
     color: white; 
 }
+#modal1 td {
+	vertical-align: middle; 
+	width: 90px;
+	text-align: right;
+}
+#coatOfArms {
+	width: 100px;
+	height: 100px;
+	margin-left: 170px;
+	cursor: pointer;
+	position: relative;
+}
 
 /* Weather Modal */
 #modal2 .modal-content {
@@ -78,15 +104,22 @@
 #modal2 table { 
     color: white; 
 }
+#modal2 th { 
+	vertical-align: middle; 
+}
 #txtTemperature { 
 	font-size: 3.0em; 
 	margin: auto;
 	padding-top: 25px;
 }
-#currentTime { 
-	font-size: 2.5em; 
+#highestAndLowestTemp { 
+	font-size: 1.5em; 
 	margin: auto;
-	padding-top: 30px;
+	padding-top: 27px;
+}
+#txtDescription { 
+	margin: auto;
+	padding-top: 35px;
 }
 
 /* Currency Modal */
@@ -96,6 +129,42 @@
 #modal3 table { 
     color: white; 
 }
+#modal3 h5 { 
+    color: black; 
+	vertical-align: middle; 
+	text-align: center; 
+}
+#modal3 th { 
+	vertical-align: middle; 
+}
+#modal3 td {
+	 vertical-align: middle; 
+	 width: 90px;
+}
+#currencyImg { 
+	vertical-align: middle; 
+	padding-bottom: 10px;
+	align: right;
+}
+#currencySymbol { 
+	font-size: 2.0em; 
+}
+#txtCurrency { 
+	font-size: 1.15em; 
+}
+#txtCurrencyCode { 
+	font-size: 1.5em; 
+}
+#exchangeRateUSD { 
+	text-align: right; 
+}
+#exchangeRateEUR { 
+	text-align: right; 
+}
+#exchangeRateGBP { 
+	text-align: right; 
+}
+
 
 /* News Modal */
 #modal4 .modal-content {
@@ -104,17 +173,74 @@
 #modal4 table { 
     color: white; 
 }
+#modal4 th { 
+    color: black;
+	background-color: rgb(155, 250, 237);
+	font-size: 1.0em;
+	vertical-align: middle; 
+	width: 150px;  
+}
+#modal4 td { 
+    color: black;
+	vertical-align: middle; 
+}
+.fi-rr-calendar-clock {
+    font-size: 1.8em;
+    color: black;
+}
+.fa-long-arrow-alt-right:hover { color: black; }
 
 /* Flag Modal */
 #modal5 .modal-content {
-    background-color: #aef1e5; 
-
-}
-#modal5 table { 
-    color: white; 
+    width: auto !important;
+    margin: 0 auto;
+	background-color: #aef1e5; 
 }
 
 .leaflet-popup-content-wrapper {
 	background-color: black;
 	color: white;
 }	
+
+/* Map Markers */
+.POIs,
+.POIs div {
+    color: white;
+}
+.fa-plane {
+    position: relative;
+    left: 1px;
+    top: 1px;
+}
+.fa-graduation-cap {
+    position: relative;
+    left: 1px;
+}
+.fa-building-columns{
+    position: relative;
+    left: 1px;
+}
+.fa-hospital {
+    position: relative;
+    left: 1px;
+	top: 1px;
+}
+.fa-cow {
+    position: relative;
+    left: 1px;
+	top: 1px;
+}
+.fa-volcano {
+    position: relative;
+    left: 1px;
+    top: 1px;
+}
+.fa-futbol {
+    position: relative;
+    top: 1px;
+}
+.fa-city {
+    position: relative;
+    left: 1px;
+    top: 1px;
+}
