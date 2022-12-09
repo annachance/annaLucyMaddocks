@@ -133,20 +133,29 @@
 }
 #modal2 th { 
 	vertical-align: middle; 
+
+}
+#modal2 td { 
+	vertical-align: middle; 
+	text-align: center; 
 }
 #txtTemperature { 
 	font-size: 3.0em; 
 	margin: auto;
-	padding-top: 25px;
+	padding-top: 13px;
 }
 #highestAndLowestTemp { 
 	font-size: 1.5em; 
 	margin: auto;
-	padding-top: 27px;
+	padding-top: 13px;
 }
 #txtDescription { 
 	margin: auto;
-	padding-top: 35px;
+	padding-top: 16px;
+}
+.smallWeatherIcon { 
+	height: 59px; 
+	align: center; 
 }
 
 /* Currency Modal */
