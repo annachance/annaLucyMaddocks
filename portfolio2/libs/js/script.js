@@ -23,9 +23,7 @@ $(document).ready(function () {
     success: function(result) {
 
         console.log(result);
-
-            const t=result.data;
-            updateEmployeeTable(t) 
+ 
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
