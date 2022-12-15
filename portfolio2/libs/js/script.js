@@ -19,11 +19,21 @@ $(document).ready(function () {
         url:"libs/php/getAll.php",
         type:"POST",
         dataType:"json",
-
-    success: function(result) {
+	    
+   	success: function(result) {
 
         console.log(result);
- 
+
+        if (result.status.name == "ok") {
+
+            console.log(result['data']);
+
+            for(var i = 0; i < result['data'].length; i++){
+
+                $("#employeeResultsData").append(result[data]);
+
+            }
+          }
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
