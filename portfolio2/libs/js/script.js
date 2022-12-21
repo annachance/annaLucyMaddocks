@@ -31,7 +31,7 @@ $(document).ready(function () {
 
             console.log(result['data']);
 
-            const t = result.data;
+            const t = result['data'];
             updateEmployeeTable(t);
 
             }
@@ -42,6 +42,7 @@ $(document).ready(function () {
         }
         }),
 	
+    // Retrieve DEPARTMENTS DATABASE to application/ table
     $.ajax({
 
         url:"libs/php/getAllDepartments.php",
@@ -54,7 +55,7 @@ $(document).ready(function () {
 
             console.log(result['data']);
 
-            const t = result.data;
+            const t = result['data'];
             updateDepartmentTable(t)
         }
         },
@@ -63,6 +64,7 @@ $(document).ready(function () {
         }
 	}),
 	
+     // Retrieve LOCATIONS DATABASE to application/ table
      $.ajax({
 	
         url:"libs/php/getAllLocations.php",
@@ -75,7 +77,7 @@ $(document).ready(function () {
 
             console.log(result['data']);
 
-            const t = result.data;
+            const t = result['data'];
             updateLocationTable(t)
         }
         },
@@ -144,3 +146,29 @@ const updateEmployeeTable = e => {
         return`<tr class="locationRow" data-location-id="${e.id}">${n}${dl}</tr>`
     };
 
+
+
+    $("#navEmployee").click(function() {
+
+        updateEmployeeTable(t);
+    }),
+     $("#navDepartment").click(function() {
+                                                                        
+        updateDepartmentTable(t);
+    }),
+    $("#navLocation").click(function() {
+        updateLocationTable(t);
+    });
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Page scrolls back to up to top of page when click the toTopButton
+
+    const btn=$("#toTopButton");
+
+    btn.on("click",function(e) {
+        e.preventDefault(),
+        $("html, body").animate({scrollTop:0
+        },
+        "300")
+    });
