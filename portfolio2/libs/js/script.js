@@ -95,7 +95,7 @@ const updateEmployeeTable = e => {
         const a = getEmployeeRow(e);
         t += a
     }),
-        $("#nav-employees").html(t)
+        $("#employeeResultsData").html(t)
     },
         getEmployeeRow = e => {
 
@@ -117,7 +117,7 @@ const updateEmployeeTable = e => {
         const a = getDepartmentRow(e);
         t += a
     }),
-        $("#nav-departments").html(t)
+        $("#departmentResultsData").html(t)
     },
         getDepartmentRow = e => {
 
@@ -136,7 +136,7 @@ const updateEmployeeTable = e => {
     const a = getLocationRow(e);
     t += a
 }),
-    $("#nav-locations").html(t)
+    $("#locationResultsData").html(t)
 },
     getLocationRow = e => {
 
@@ -153,17 +153,14 @@ const updateEmployeeTable = e => {
     $("#nav-employees-tab").click(function() {
 
         updateEmployeeTable(t);
-        $("#employeeResultsData").html(t);
-
     }),
      $("#navDepartment").click(function() {
                                                                         
         updateDepartmentTable(t);
-        $("#nav-departments-tab").html(t);
     }),
     $("#navLocation").click(function() {
+	    
         updateLocationTable(t);
-        $("#nav-locations-tab").html(t);
     });
 
 ///////////////////////////////////////////////////////////////////////////
