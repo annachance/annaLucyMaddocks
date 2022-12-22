@@ -95,7 +95,7 @@ const updateEmployeeTable = e => {
         const a = getEmployeeRow(e);
         t += a
     }),
-        $("#employeeResultsData").html(t)
+        $("#nav-employees").html(t)
     },
         getEmployeeRow = e => {
 
@@ -117,7 +117,7 @@ const updateEmployeeTable = e => {
         const a = getDepartmentRow(e);
         t += a
     }),
-        $("#departmentResultsData").html(t)
+        $("#nav-departments").html(t)
     },
         getDepartmentRow = e => {
 
@@ -136,7 +136,7 @@ const updateEmployeeTable = e => {
     const a = getLocationRow(e);
     t += a
 }),
-    $("#locationResultsData").html(t)
+    $("#nav-locations").html(t)
 },
     getLocationRow = e => {
 
@@ -150,7 +150,7 @@ const updateEmployeeTable = e => {
 // Nav Buttons- Update Tables for Employee/Department/Location 
 
 
-    $("#navEmployee").click(function() {
+    $("#nav-employees-tab").click(function() {
 
         updateEmployeeTable(t);
         $("#employeeResultsData").html(t);
@@ -159,11 +159,11 @@ const updateEmployeeTable = e => {
      $("#navDepartment").click(function() {
                                                                         
         updateDepartmentTable(t);
-        $("#departmentResultsData").html(t);
+        $("#nav-departments-tab").html(t);
     }),
     $("#navLocation").click(function() {
         updateLocationTable(t);
-        $("#locationResultsData").html(t);
+        $("#nav-locations-tab").html(t);
     });
 
 ///////////////////////////////////////////////////////////////////////////
