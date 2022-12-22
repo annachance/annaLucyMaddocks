@@ -145,19 +145,25 @@ const updateEmployeeTable = e => {
 
         return`<tr class="locationRow" data-location-id="${e.id}">${n}${dl}</tr>`
     };
-
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Nav Buttons- Update Tables for Employee/Department/Location 
 
 
     $("#navEmployee").click(function() {
 
         updateEmployeeTable(t);
+        $("#employeeResultsData").html(t);
+
     }),
      $("#navDepartment").click(function() {
                                                                         
         updateDepartmentTable(t);
+        $("#departmentResultsData").html(t);
     }),
     $("#navLocation").click(function() {
         updateLocationTable(t);
+        $("#locationResultsData").html(t);
     });
 
 ///////////////////////////////////////////////////////////////////////////
