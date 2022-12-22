@@ -36,23 +36,60 @@
                         <button class="nav-link active" id="nav-employees-tab" data-bs-toggle="tab" data-bs-target="#employeeTable" type="button" role="tab" aria-controls="nav-employees" aria-selected="true">Employees</button>
                         <button class="nav-link" id="nav-departments-tab" data-bs-toggle="tab" data-bs-target="#departmentTable" type="button" role="tab" aria-controls="nav-departments" aria-selected="false">Departments</button>
                         <button class="nav-link" id="nav-locations-tab" data-bs-toggle="tab" data-bs-target="#locationTable" type="button" role="tab" aria-controls="nav-locations" aria-selected="false">Locations</button>
-                        
-                    <!--<a id="navEmployee" class="nav-link active" href="#">Employees</a>-->
-                    <!--<a id="navDepartment" class="nav-link " href="#">Departments</a>-->
-                    <!--<a id="navLocation" class="nav-link" href="#">Locations</a>-->
                     
                     <div id="addButton"><i class="far fa-plus-square fa-2x"></i></div>
                     </div>
                 </nav>
+                
+<!--///////////////////////////////////////////////////////////////////////////////-->
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-employees" role="tabpanel" aria-labelledby="nav-employees-tab" tabindex="0"></div>
-                    <div class="tab-pane fade" id="nav-departments" role="tabpanel" aria-labelledby="nav-departments-tab" tabindex="0"></div>
-                    <div class="tab-pane fade" id="nav-locations" role="tabpanel" aria-labelledby="nav-locations-tab" tabindex="0"></div>
+                    
+                <!-- Populating Table with Results from Database -->
+                <!-- Employee Table -->
+                <div id="employeeTable" class="tab-pane show active container-fluid state">
+                    <!-- Employee Table Row -->
+                        <div class="row">
+                            <table class="table table-hover align-middle">
+                                <tbody id="employeeResultsData">
+                                  
+                                <!-- Dynamically Populated -->
+             
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+    
+                    <!-- Departments Table -->
+                    <div id="departmentTable" class="tab-pane container-fluid state">
+                    <!-- Department Table Row -->
+                        <div class="row">
+                            <table class="table table-hover align-middle">
+                                <tbody id="departmentResultsData">
+                                  
+                                <!-- Dynamically Populated -->
+                                  
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+    
+                    <!-- Locations Table -->
+                    <div id="locationTable" class="tab-pane container-fluid state">
+                    <!-- Location Table Row -->
+                        <div class="row">
+                            <table class="table table-hover align-middle">
+                                <tbody id="locationResultsData">
+                                  
+                                <!-- Dynamically Populated -->
+                                  
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                   </div>
             </header>
 
 <!--///////////////////////////////////////////////////////////////////////////////-->
-
             <main>
                 <!-- Buttons -->
                 <!-- To top -->
@@ -61,50 +98,6 @@
                 <button id="searchButton" class="btn btn-info floatBtn rounded-circle"><i class="fas fa-search fa-lg"></i></button>
                 
 <!--///////////////////////////////////////////////////////////////////////////////-->
-              
-                <!-- Populating Table with Results from database -->
-              
-                <!-- Employee Table -->
-                <div id="employeeTable" class="container-fluid state">
-                <!-- Employee Table Row -->
-                    <div class="row">
-                        <table class="table table-hover align-middle">
-                            <tbody id="employeeResultsData">
-                              
-                            <!-- Dynamically Populated -->
-                              
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Departments Table -->
-                <div id="departmentTable" class="container-fluid state d-none">
-                <!-- Department Table Row -->
-                    <div class="row">
-                        <table class="table table-striped table-hover align-middle">
-                            <tbody id="departmentResultsData">
-                              
-                            <!-- Dynamically Populated -->
-                              
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Locations Table -->
-                <div id="locationTable" class="container-fluid state d-none">
-                <!-- Location Table Row -->
-                    <div class="row">
-                        <table class="table table-striped table-hover align-middle">
-                            <tbody id="locationResultsData">
-                              
-                            <!-- Dynamically Populated -->
-                              
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
 <!--///////////////////////////////////////////////////////////////////////////////-->
 
               
