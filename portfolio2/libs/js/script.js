@@ -122,7 +122,7 @@ const updateEmployeeTable = e => {
         getDepartmentRow = e => {
 
             const n = `<td>${e.name}</td>`,
-            j = `<td>${e.location}</td>`,
+            j = `<td>${e.locationID}</td>`,
             m = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger deleteDepartmentBtn" data-department-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
 
             return `<tr class="departmentRow" data-department-id="${e.id}">${n}${j}${m}</tr>`
@@ -145,6 +145,7 @@ const updateEmployeeTable = e => {
 
         return`<tr class="locationRow" data-location-id="${e.id}">${n}${dl}</tr>`
     };
+
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // Nav Buttons- Update Tables for Employee/Department/Location 
