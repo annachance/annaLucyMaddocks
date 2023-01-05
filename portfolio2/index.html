@@ -1,125 +1,340 @@
-<!DOCTYPE html>
+    ///////////////////////////////////////////////////////////////////////////
+ // Preloader
+ /*$(window).on('load', function () {
+	if ($('#preloader').length) {
+	$('#preloader').delay(1000).fadeOut('slow', function () {
+	$(this).remove();
+	});
+	}
+  }); */
 
-    <html lang="en">
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Global Variables
+
+var data = [];
+let appTable = "Employee";
+
+///////////////////////////////////////////////////////////////////////////
+// On Webpage Load 
+const refreshPersonnel = () => {
+
+    // Retrieve EMPLOYEE DATABASE to application/ table
+    $.ajax({
+
+        url: "libs/php/getAll.php",
+        type: "POST",
+        dataType: "json",
+
+    success: function(result) {
+
+        if (result.status.name == "ok") {
+
+            console.log(result['data']);
+
+            const t = result['data'];
+            updateEmployeeTable(t);
+
+        }
+        },
+        error: function(e, t, a) {
+            console.log("Error getAll"),
+            console.log(e.responseText),
+            console.log(`${t} : ${a}`)
+        }
+    })
+},
+
+refreshDepartments = () => {
+    // Retrieve DEPARTMENTS DATABASE to application/ table
+    $.ajax({
+
+        url: "libs/php/getAllDepartments.php",
+        type: "POST",
+        dataType: "json",
+
+        success: function(result) {
+
+        if (result.status.name == "ok") {
+
+            console.log(result['data']);
+
+            const t = result['data'];
+            populateDepartmentSelects(t),
+            updateDepartmentTable(t)
+        }
+        },
+        error:function(e, t, a) {
+            console.log("Error getAllDepartmentS"),
+            console.log(e.responseText),
+            console.log(`${t} : ${a}`)
+        }
+    })
+},
+
+refreshLocations = () => {
+    // Retrieve LOCATIONS DATABASE to application/ table
+    $.ajax({
+
+        url: "libs/php/getAllLocations.php",
+        type: "POST",
+        dataType: "json",
+
+        success: function(result) {
+
+        if (result.status.name == "ok") {
+
+            console.log(result['data']);
+
+            const t = result['data'];
+            populateLocationSelects(t),
+            updateLocationTable(t)
+        }
+        },
+        error: function(e, t, a) {
+            console.log("Error getAllLocationS"),
+            console.log(e.responseText),
+            console.log(`${t} : ${a}`)
+        }
+    })
+},
+  
+// POPULATE DROPDOWNS IN FORMS
+// DEPARTMENTS   
+populateDepartmentSelects = (e, t) => {
+
+    const a = t ? $(t) : $(".departmentSelect");
+    a.each(function() {
+
+        const t = $(this);
+        t.empty(),
+        id = t.attr("id"),
+
+        "addEmployeeDepartment" == id ? t.append('<option value="">Select Department</option>') : "searchDepartmentSelect" == id && t.append('<option value="">All Departments</option>'),
+
+        e.forEach(e => {
+            t.append(`<option value="${e.id}">${e.name}</option>`)
+        })
+    })
+},
+
+// LOCATIONS    
+populateLocationSelects = e => {
+
+    const t = $(".locationSelect");
+    t.each(function() {
+
+        const t = $(this);
+        t.empty(),
+        id = t.attr("id");
+
+        const a = "searchLocationSelect" == id ? "All Locations" : "addEmployeeLocation" == id ? t.append('<option value="">Select Location</option>') : "Select Location";
+        "editDepartmentLocation" != id && t.append(`<option value="">${a}</option>`),
         
-        <head>
-            <meta charset="UTF-8">
-            <title>Project 2- Company Directory | IT Career Switch</title>
-            <meta name="description" content="IT Career Switch">
-            <meta name="author" content="Anna Maddocks">
-            <meta http-equiv="X-UA-Compatible" content="IE-edge"> 
-            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        e.forEach(e => {
+            t.append(`<option value="${e.id}">${e.name}</option>`)
+        })
+    })
+};
 
-            <!-- Favicon and Stylesheet-->
-            <link href="favicon.ico" rel="icon">
-            <link href="libs/css/style.css" rel="stylesheet" type="text/css"> 
 
-            <!-- Bootstrap Initialization -->
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
-            <!-- FontAwesome Kit Initialization -->
-            <script src="https://kit.fontawesome.com/13f9671840.js" crossorigin="anonymous"></script>
+// **** ?!?!?!?!?!
+ $(".departmentSelect").change(function() {
 
-        </head>
-
- <!--///////////////////////////////////////////////////////////////////////////////-->
-
-        <body>
-            <header>
-                <!--  Preloader  -->
-                <div id="preloader"></div>
-                
-                <!--  Navbar  -->
-                <nav class="navbar navbar-expand navbar-dark sticky-top bg-info container-fluid">
-                    <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
-                        <h1 class="ms-2 me-2"><i class="far fa-folder-open"></i>&nbsp;Company Directory</h1>
-
-                        <button class="nav-link active" id="nav-employees-tab" data-bs-toggle="tab" data-bs-target="#employeeTable" type="button" role="tab" aria-controls="nav-employees" aria-selected="true">Employees</button>
-                        <button class="nav-link" id="nav-departments-tab" data-bs-toggle="tab" data-bs-target="#departmentTable" type="button" role="tab" aria-controls="nav-departments" aria-selected="false">Departments</button>
-                        <button class="nav-link" id="nav-locations-tab" data-bs-toggle="tab" data-bs-target="#locationTable" type="button" role="tab" aria-controls="nav-locations" aria-selected="false">Locations</button>
-                    
-                    </div>
-                    <div id="addButton"><i class="far fa-plus-square fa-2x"></i></div>
-
-                </nav>
-                
-<!--///////////////////////////////////////////////////////////////////////////////-->
-                <div class="tab-content" id="nav-tabContent">
-                    
-                <!-- Populating Table with Results from Database -->
-                <!-- Employee Table -->
-                <div id="employeeTable" class="tab-pane show active container-fluid state">
-                    <!-- Employee Table Row -->
-                        <div class="row">
-                            <table class="table table-hover align-middle">
-                                <tbody id="employeeResultsData">
-                                  
-                                <!-- Dynamically Populated -->
-             
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+    const e = $(this).val(),
+    t = $(this).attr("id"),
+    a = "searchDepartmentSelect" == t ? $("#searchLocationSelect") : "addEmployeeDepartment" == t ? $("#addEmployeeLocation") : $("#editEmployeeLocation");
     
-                    <!-- Departments Table -->
-                    <div id="departmentTable" class="tab-pane container-fluid state">
-                    <!-- Department Table Row -->
-                        <div class="row">
-                            <table class="table table-hover align-middle">
-                                <tbody id="departmentResultsData">
-                                  
-                                <!-- Dynamically Populated -->
-                                  
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-    
-                    <!-- Locations Table -->
-                    <div id="locationTable" class="tab-pane container-fluid state">
-                    <!-- Location Table Row -->
-                        <div class="row">
-                            <table class="table table-hover align-middle">
-                                <tbody id="locationResultsData">
-                                  
-                                <!-- Dynamically Populated -->
-                                  
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                  </div>
-            </header>
+                    $.ajax({
+                        url: "libs/php/getLocationByID.php",
+                        type: "POST",
+                        dataType: "json",
+                        data: {id:e},
 
-<!--///////////////////////////////////////////////////////////////////////////////-->
-            <main>
-                <!-- Buttons -->
-                <!-- To top -->
-                <button id="toTopButton" class="btn btn-info floatBtn rounded-circle"><i class="fas fa-arrow-up fa-lg"></i></button>
-                <!-- Search -->
-                <button id="searchButton" class="btn btn-info floatBtn rounded-circle"><i class="fas fa-search fa-lg"></i></button>
-                
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!--///////////////////////////////////////////////////////////////////////////////-->
+                        success: function(e) {
 
-              
-              
-              
-              
-              
-            </main>   
- <!--///////////////////////////////////////////////////////////////////////////////-->
+                            a.val(e.data.locationID)
+                        },
+                        error:function(e, t, a) {
+                            console.log("Error getLocationByDepartment"),
+                            console.log(e.responseText),
+                            console.log(`${t} : ${a}`)
+                        }
+            })
+    }),
 
-             <!-- Jquery.js -->
-             <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+$("#searchLocationSelect").change(function() {
+    const e = $(this).val();
+
+    $.ajax({
+        url: "libs/php/getDepartmentByID.php",
+        type: "POST",
+        dataType: "json",
+        data: {id:e},
+
+        success: function(e) {
+
+            const t = e.data;
+            populateDepartmentSelects(t, "#searchDepartmentSelect")
+        },
+        error:function(e, t, a) {
+            console.log("Error getLocationsByDepartment"),
+            console.log(e.responseText),
+            console.log(`${t} : ${a}`)
+        }
+     })
+}); 
+//    **** ?!?!?!?!?!
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// UPDATE/ SHOW TABLES ON APP
+const updateEmployeeTable = e => {
+
+    let t = "";
+    e.forEach(e => {
+
+        const a = getEmployeeRow(e);
+        t += a
+    }),
+        $("#employeeResultsData").html(t)
+    },
+        getEmployeeRow = e => {
+
+            const n = `<td>${e.firstName} ${e.lastName}</td>`,
+            j = `<td class="d-none d-lg-table-cell">${e.jobTitle}</td>`,
+            m = `<td class="d-none d-lg-table-cell">${e.email}</td>`,
+            d = `<td>${e.department}</td>`,
+            l = `<td class="d-none d-md-table-cell">${e.location}</td>`,
+            de = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger deleteEmployeeBtn" data-employee-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
             
-             <!-- Bootstrap Initialization -->
-             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
-             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+            return `<tr class="employeeRow" data-employee-id="${e.id}">${n}${j}${m}${d}${l}${de}</tr>`
+        },
 
-            <!-- Script.js -->
-            <script src="libs/js/script.js"></script>
+updateDepartmentTable = e => {
 
-        </body>
+        let t = "";
+        e.forEach(e => {
 
-    </html>              
+        const a = getDepartmentRow(e);
+        t += a
+    }),
+        $("#departmentResultsData").html(t)
+    },
+        getDepartmentRow = e => {
+
+            const n = `<td>${e.name}</td>`,
+            j = `<td>${e.locationID}</td>`,
+            de = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger deleteDepartmentBtn" data-department-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
+
+            return `<tr class="departmentRow" data-department-id="${e.id}">${n}${j}${de}</tr>`
+},
+            
+updateLocationTable = e => {
+
+        let t = "";
+        e.forEach(e => {
+
+        const a = getLocationRow(e);
+        t += a
+    }),
+        $("#locationResultsData").html(t)
+    },
+        getLocationRow = e => {
+
+        const n = `<td>${e.name}</td>`,
+        de = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger deleteLocationBtn" data-location-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
+
+        return`<tr class="locationRow" data-location-id="${e.id}">${n}${de}</tr>`
+};
+ 
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// ADD BUTTON- Forms for Adding Employees/Departments/Locations
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// SEARCH BUTTON 
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// CLICK ON ROWS TO EDIT 
+
+// EDIT EMPLOYEES (when each row is clicked!!) 
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// DELETE BUTTONS
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Nav Buttons- Update Tables for Employee/Department/Location 
+
+    $("#nav-employees-tab").click(function() {
+
+        updateEmployeeTable(t);
+    }),
+     $("#nav-departments-tab").click(function() {
+                               
+        updateDepartmentTable(t);
+    }),
+    $("#nav-locations-tab").click(function() {
+
+        updateLocationTable(t);
+    });
+
+  
+   
+    
+
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////    
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Page Scrolls Back To Up To Top Of Page When Click The toTopButton
+
+    const btn = $("#toTopButton");
+
+    btn.on("click", function(e) {
+        e.preventDefault(),
+        $("html, body").animate({
+            scrollTop:0
+        },
+        "300")
+    }),
+    refreshPersonnel(),
+    refreshDepartments(),
+    refreshLocations();
