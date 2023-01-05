@@ -37,10 +37,8 @@ const refreshPersonnel = () => {
 
         }
         },
-        error: function(e, t, a) {
-            console.log("Error getAll"),
-            console.log(e.responseText),
-            console.log(`${t} : ${a}`)
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
         }
     })
 },
@@ -64,10 +62,8 @@ refreshDepartments = () => {
             updateDepartmentTable(t)
         }
         },
-        error:function(e, t, a) {
-            console.log("Error getAllDepartmentS"),
-            console.log(e.responseText),
-            console.log(`${t} : ${a}`)
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
         }
     })
 },
@@ -91,10 +87,8 @@ refreshLocations = () => {
             updateLocationTable(t)
         }
         },
-        error: function(e, t, a) {
-            console.log("Error getAllLocationS"),
-            console.log(e.responseText),
-            console.log(`${t} : ${a}`)
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
         }
     })
 },
@@ -137,12 +131,9 @@ populateLocationSelects = e => {
     })
 };
 
-
-
-
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-// UPDATE/ SHOW TABLES ON APP
+// UPDATE/SHOW TABLES ON APP
 const updateEmployeeTable = e => {
 
     let t = "";
@@ -160,7 +151,7 @@ const updateEmployeeTable = e => {
             m = `<td class="d-none d-lg-table-cell">${e.email}</td>`,
             d = `<td>${e.department}</td>`,
             l = `<td class="d-none d-md-table-cell">${e.location}</td>`,
-            de = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger deleteEmployeeBtn" data-employee-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
+            de = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delEmployeeBtn" data-employee-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
             
             return `<tr class="employeeRow" data-employee-id="${e.id}">${n}${j}${m}${d}${l}${de}</tr>`
         },
@@ -179,7 +170,7 @@ updateDepartmentTable = e => {
 
             const n = `<td>${e.name}</td>`,
             j = `<td>${e.locationID}</td>`,
-            de = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger deleteDepartmentBtn" data-department-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
+            de = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delDeptBtn" data-department-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
 
             return `<tr class="departmentRow" data-department-id="${e.id}">${n}${j}${de}</tr>`
 },
@@ -197,7 +188,7 @@ updateLocationTable = e => {
         getLocationRow = e => {
 
         const n = `<td>${e.name}</td>`,
-        de = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger deleteLocationBtn" data-location-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
+        de = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delLocationBtn" data-location-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
 
         return`<tr class="locationRow" data-location-id="${e.id}">${n}${de}</tr>`
 };
@@ -227,9 +218,7 @@ updateLocationTable = e => {
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-// CLICK ON ROWS TO EDIT 
-
-// EDIT EMPLOYEES (when each row is clicked!!) 
+// EDIT EMPLOYEES 
 
 
 
@@ -242,33 +231,192 @@ updateLocationTable = e => {
 ///////////////////////////////////////////////////////////////////////////
 // DELETE BUTTONS
 
+$("body").on("click", ".delEmployeeBtn", function(e) {
 
+    const t = $(this),
+    a = t[0].dataset.employeeId;
+
+    showConfirmDeleteModal(a, "this employee", "employee")
+}),
+$("body").on("click", ".delDeptBtn", function(e) {
+	
+    const t = $(this),
+    a = t[0].dataset.departmentId;
+
+    showConfirmDeleteModal(a, "this department", "department")
+}),
+$("body").on("click", ".delLocationBtn", function(e) {
+
+    const t = $(this),
+    a = t[0].dataset.locationId;
+
+    showConfirmDeleteModal(a, "this location", "location")
+});
+
+const showConfirmDeleteModal = (e, t, a) => {
+
+    $("#confirmDeleteButton").data("deletion-type", a),
+    $("#confirmDeleteButton").val(e),
+    $("#confirmDeletionName").text(t),
+    $("#confirmDelete").modal("toggle")
+};
+
+// CONFIRMS DELETE (when delete button is clicked!!)
+
+$("#confirmDeleteButton").click(function() {
+
+    const e = $("#confirmDeleteButton").val(),
+    t = $("#confirmDeleteButton").data("deletion-type");
+
+    "employee" == t ? deleteEmployee(e) : "department" == t ? deleteDepartment(e) : "location" == t && deleteLocation(e)
+});
+
+const deleteEmployee = e => {
+
+    $.ajax ({
+
+        url: "libs/php/deletePersonnelByID.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: e
+        },
+        success: function(e) {
+
+            const t = {
+                title: "Delete Successful",
+                type: "success",
+                message: "You have successfully deleted this employee."
+            };
+            displayFeedbackModal(t),
+            refreshPersonnel()
+        },
+        error: function(e ,t, a) {
+            console.log("Error deletePersonnelByID"),
+            console.log(e.responseText),
+            console.log(`${t} : ${a}`)
+        }
+    })
+},
+deleteDepartment = e => {
+
+    $.ajax ({
+        
+        url: "libs/php/deleteDepartmentByID.php",
+        type: "POST",
+        dataType: "json"
+        ,data: {
+            id: e
+        },
+        success: function(e) {
+
+            const t = {
+                 title:"Delete Successful",
+                 type:"success",
+                 message:"You have successfully deleted this department."
+                };
+
+                displayFeedbackModal(t),
+                refreshDepartments()
+            },
+            error: function(e, t, a) {
+                console.log("Error deleteDepartmentByID"),
+                console.log(e.responseText),
+                console.log(`${t} : ${a}`)
+            }
+        })
+},
+deleteLocation = e => {
+        
+        $.ajax ({
+            url: "libs/php/deleteLocationByID.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+                id: e
+            },
+            success: function(e) {
+                
+                const t = {
+                    title:"Delete Successful",
+                    type:"success",
+                    message:"You have successfully deleted this location."
+                };
+
+                displayFeedbackModal(t),
+                refreshLocations()
+            },
+            error: function(e, t, a) {
+                console.log("Error deleteLocationByID"),
+                console.log(e.responseText),
+                console.log(`${t} : ${a}`)
+            }
+        })
+};
 
 
 
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
+clearFeedback=()=> {
 
+    $(".feedbackMessage").empty()
+};
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // Nav Buttons- Update Tables for Employee/Department/Location 
 
     $("#nav-employees-tab").click(function() {
 
+        setActiveTables("#employeeTable"),
         updateEmployeeTable(t);
     }),
      $("#nav-departments-tab").click(function() {
                                
+        setActiveTables("#departmentTable"),
         updateDepartmentTable(t);
     }),
     $("#nav-locations-tab").click(function() {
 
+        setActiveTables("#locationTable"),
         updateLocationTable(t);
     });
 
-  
-   
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// DELETION Feedback Message Modal 
+
+    const displayFeedbackModal = e => {
+                                                                        
+        $(".modal").modal("hide"),
+        $("#feedbackModalTitle").text(e.title);
+        const t =`<div class="alert alert-${e.type}" role="alert">${e.message}</div>`;
+        $("#feedbackMessage").html(t),
+        $("#feedbackModal").modal("show")
+    },
+    displayFeedback = e => {
+        
+        $("feedbackModalTitle").text=e.title;
+        const t =`<div class="alert alert-${e.type}" role="alert">${e.message}</div>`;
+        $(e.id).html(t)
+    },
+///////////////////////////////////////////////////////////////////////////
+ 
+    setActiveTables = e => {
+
+        clearFeedback();
+
+        let t = "";
+        "#employeeTable" == e ? (t = "#nav-employees-tab",
+        $("#searchButton").removeClass("d-none"),
+        appTable = "Employee") : "#departmentTable" == e ? (t = "#nav-departments-tab",
+        $("#searchButton").addClass("d-none"),
+        appTable = "Department") : "#locationTable" == e && (t = "#nav-locations-tab",
+        $("#searchButton").addClass("d-none"),
+        appTable = "Location") 
+
+    };
     
 
 
