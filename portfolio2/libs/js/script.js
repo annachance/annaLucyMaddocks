@@ -139,53 +139,6 @@ populateLocationSelects = e => {
 
 
 
-// **** ?!?!?!?!?!
- $(".departmentSelect").change(function() {
-
-    const e = $(this).val(),
-    t = $(this).attr("id"),
-    a = "searchDepartmentSelect" == t ? $("#searchLocationSelect") : "addEmployeeDepartment" == t ? $("#addEmployeeLocation") : $("#editEmployeeLocation");
-    
-                    $.ajax({
-                        url: "libs/php/getLocationByID.php",
-                        type: "POST",
-                        dataType: "json",
-                        data: {id:e},
-
-                        success: function(e) {
-
-                            a.val(e.data.locationID)
-                        },
-                        error:function(e, t, a) {
-                            console.log("Error getLocationByDepartment"),
-                            console.log(e.responseText),
-                            console.log(`${t} : ${a}`)
-                        }
-            })
-    }),
-
-$("#searchLocationSelect").change(function() {
-    const e = $(this).val();
-
-    $.ajax({
-        url: "libs/php/getDepartmentByID.php",
-        type: "POST",
-        dataType: "json",
-        data: {id:e},
-
-        success: function(e) {
-
-            const t = e.data;
-            populateDepartmentSelects(t, "#searchDepartmentSelect")
-        },
-        error:function(e, t, a) {
-            console.log("Error getLocationsByDepartment"),
-            console.log(e.responseText),
-            console.log(`${t} : ${a}`)
-        }
-     })
-}); 
-//    **** ?!?!?!?!?!
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
