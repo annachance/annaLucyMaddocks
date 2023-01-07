@@ -235,7 +235,6 @@ updateLocationTable = e => {
 
 $("body").on("click", ".delEmployeeBtn", function(e) {
 
-    //e.stopPropagation(); // ?!?!?!!
     const t = $(this),
     a = t[0].dataset.employeeId;
 
@@ -243,7 +242,6 @@ $("body").on("click", ".delEmployeeBtn", function(e) {
 }),
 $("body").on("click", ".delDeptBtn", function(e) {
 
-    //e.stopPropagation();
     const t = $(this),
     a = t[0].dataset.departmentId;
 
@@ -251,7 +249,6 @@ $("body").on("click", ".delDeptBtn", function(e) {
 }),
 $("body").on("click", ".delLocationBtn", function(e) {
 
-    //e.stopPropagation();
     const t = $(this),
     a = t[0].dataset.locationId;
 
