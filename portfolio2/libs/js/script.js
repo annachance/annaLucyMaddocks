@@ -133,7 +133,7 @@ populateLocationSelects = e => {
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-// UPDATE/SHOW TABLES ON APP
+// UPDATE/ SHOW TABLES ON APP
 const updateEmployeeTable = e => {
 
     let t = "";
@@ -218,7 +218,9 @@ updateLocationTable = e => {
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-// EDIT EMPLOYEES 
+// CLICK ON ROWS TO EDIT 
+
+// EDIT EMPLOYEES (when each row is clicked!!) 
 
 
 
@@ -233,15 +235,15 @@ updateLocationTable = e => {
 
 $("body").on("click", ".delEmployeeBtn", function(e) {
 
-    //const t = $(this),
-    //a = t[0].dataset.employeeId;
-	
-    const a = $(this).data('employeeId');
+    //e.stopPropagation(); // ?!?!?!!
+    const t = $(this),
+    a = t[0].dataset.employeeId;
 
     showConfirmDeleteModal(a, "this employee", "employee")
 }),
 $("body").on("click", ".delDeptBtn", function(e) {
-	
+
+    //e.stopPropagation();
     const t = $(this),
     a = t[0].dataset.departmentId;
 
@@ -249,6 +251,7 @@ $("body").on("click", ".delDeptBtn", function(e) {
 }),
 $("body").on("click", ".delLocationBtn", function(e) {
 
+    //e.stopPropagation();
     const t = $(this),
     a = t[0].dataset.locationId;
 
@@ -411,8 +414,11 @@ clearFeedback=()=> {
 
         let t = "";
         "#employeeTable" == e ? (t = "#nav-employees-tab",
+        $("#searchButton").removeClass("d-none"),
         appTable = "Employee") : "#departmentTable" == e ? (t = "#nav-departments-tab",
+        $("#searchButton").addClass("d-none"),
         appTable = "Department") : "#locationTable" == e && (t = "#nav-locations-tab",
+        $("#searchButton").addClass("d-none"),
         appTable = "Location") 
 
     };
