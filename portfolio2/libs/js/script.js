@@ -193,22 +193,162 @@ updateLocationTable = e => {
         return`<tr class="locationRow" data-location-id="${e.id}">${n}${de}</tr>`
 };
  
-
-
-
-
-
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // ADD BUTTON- Forms for Adding Employees/Departments/Locations
 
+$("#addButton").click(function() {
 
+    $("#addEmployeeForm").trigger("reset"),
+    $("#addDepartmentForm").trigger("reset"),
+    $("#addLocationForm").trigger("reset"),
+    "Employee" == appTable ? $("#addEmployee").modal("toggle") : "Department" == appTable ? $("#addDepartment").modal("toggle") : "Location" == appTable && $("#addLocation").modal("toggle")
+}),
 
+    $("#addEmployeeForm").submit(function() {
 
+        const e = {
+
+            firstName: $("#addEmployeeFirstName").val(),
+            lastName: $("#addEmployeeLastName").val(),
+            jobTitle: $("#addEmployeeJobTitle").val(),
+            email: $("#addEmployeeEmail").val(),
+            departmentId: $("#addEmployeeDepartment").val()
+        };
+
+            return showConfirmAddModal(e, "this employee", "employee"),
+!1}),
+
+$("#addDepartmentForm").submit(function() {
+
+    const e = {
+
+        departmentName: $("#departmentName").val(),
+        locationID: $("#locationSelectForAddDept").val()
+    };
+
+        return showConfirmAddModal(e, "this department", "department"),
+!1}),
+
+$("#addLocationForm").submit(function() {
+
+    const e = {
+
+        locationName: $("#addLocationName").val()
+    };
+        return showConfirmAddModal(e, "this location", "location"),
+    !1
+});
+
+const showConfirmAddModal = (e, t, a) => {
+
+    $("#confirmAddButton").data("creation-type", a),
+    $("#confirmAddButton").data("new-item", t),
+    $("#confirmAddName").text(e),
+    $("#confirmAdd").modal("toggle")
+};  
+///////////////////////////////////////////////////////////////////////////
+// CONFIRM ADD (when ADD button is clicked!!)
+
+$("#confirmAddButton").click(function() {
+
+    const e = $("#confirmAddButton").data("new-item"),
+    t = $("#confirmAddButton").data("creation-type");
+
+    $("#confirmAdd").modal("toggle"),
+    "employee" == t ? insertEmployee(e) : "department" == t ? insertDepartment(e) : "location" == t && insertLocation(e)
+});
+
+const insertEmployee = e => {
+
+    $.ajax ({
+        url: "libs/php/insertPersonnel.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: e
+        },
+
+        success: function(e) {
+
+            const a = {
+                title: "Add Success",
+                type: "success",
+                message: `You have successfully added ${e.firstName} ${e.lastName}`
+            };
+
+            displayFeedbackModal(a),
+            refreshPersonnel()
+        },
+            error: function(e, t, a) { 
+                console.log("Error insertPersonnel"),
+                console.log(e.responseText),
+                console.log(`${t} : ${a}`)
+            }
+        })
+    },
+
+insertDepartment = e => {
+
+    $.ajax ({
+        url: "libs/php/insertDepartment.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: e
+        },
+
+        success: function(e) {
+
+            const a = {
+                title: "Add Successful",
+                type: "success",
+                message: `You have successfully added ${e.departmentName}`
+            };
+
+            displayFeedbackModal(a),
+            refreshDepartments()
+        },
+        error: function(e, t, a) {
+            console.log("Error insertDepartment"),
+            console.log(e.responseText),
+            console.log(`${t} : ${a}`)
+        }
+        })
+    },
+
+insertLocation = e => {
+
+    $.ajax ({
+        url: "libs/php/insertLocation.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            locationName: e
+         },
+        success: function(e) {
+
+            feedback = {
+                title: "Add Successful",
+                type: "success",
+                message: `You have successfully added ${e}`
+            },
+                displayFeedbackModal(feedback),
+                refreshLocations()
+            },
+            error: function(e, t, a) {
+                console.log("Error insertLocation"),
+                console.log(e.responseText),
+                console.log(`${t} : ${a}`)
+            }
+            })
+        };
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // SEARCH BUTTON 
+
+
 
 
 
