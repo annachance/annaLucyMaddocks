@@ -44,9 +44,9 @@
                 </nav>
                 
 <!--///////////////////////////////////////////////////////////////////////////////-->
+<!-- POPULATING Table with Results from Database -->
                 <div class="tab-content" id="nav-tabContent">
 
-                    <!-- POPULATING Table with Results from Database -->
                     <!-- EMPLOYEE TABLE -->
                     <div id="employeeTable" class="tab-pane show active container-fluid state">
                         <!-- Employee Table Row -->
@@ -102,115 +102,87 @@
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!-- ADD BUTTON- Employee/Department/Location Modals -->
+         
+                <!-- ADD EMPLOYEE MODAL -->
+                <div id="addEmployee" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                        <div class="modal-header bg-info text-light">
 
-                    <!-- ADD EMPLOYEE MODAL -->
-                    <div id="addEmployee" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                            <div class="modal-header bg-info text-light">
+                        <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;Add New Employee</h4>
+                        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                            <form id="addEmployeeForm">
+                                <div id="addEmployeeModalBody" class="modal-body">
+                                    <div class="container">
+                                        <div id="addEmployeeFeedback" class="feedbackMessage"></div>
+                                        
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="addEmployeeFirstName" placeholder="First Name" required>
+                                            <label for="addEmployeeFirstName">First Name</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="addEmployeeLastName" placeholder="Last Name" required>
+                                            <label for="addEmployeeLastName">Last Name</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="addEmployeeJobTitle" name="jobTitle" placeholder="Enter Name" required>
+                                            <label for="addEmployeeJobTitle">Job Title</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="email" class="form-control" id="addEmployeeEmail" name="email" placeholder="Enter Name" required>
+                                            <label for="addEmployeeEmail">Email Address</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select departmentSelect" id="addEmployeeDepartment" required>
+                                           
+                                                <!-- Dynamically Populated -->
 
-                            <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;Add New Employee</h4>
-                            <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                                <form id="addEmployeeForm">
-                                    <div id="addEmployeeModalBody" class="modal-body">
-                                        <div class="container">
-                                            <div id="addEmployeeFeedback" class="feedbackMessage"></div>
-
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="addEmployeeFirstName" placeholder="First Name" required>
-                                                <label for="addEmployeeFirstName">First Name</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="addEmployeeLastName" placeholder="Last Name" required>
-                                                <label for="addEmployeeLastName">Last Name</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="addEmployeeJobTitle" name="jobTitle" placeholder="Enter Name" required>
-                                                <label for="addEmployeeJobTitle">Job Title</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="email" class="form-control" id="addEmployeeEmail" name="email" placeholder="Enter Name" required>
-                                                <label for="addEmployeeEmail">Email Address</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <select class="form-select departmentSelect" id="addEmployeeDepartment" required>
-
-                                                    <!-- Dynamically Populated -->
-
-                                                </select>
-                                                <label for="addEmployeeDepartment">Department</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <select class="form-select locationSelect" id="addEmployeeLocation" required>
-
-                                                    <!-- Dynamically Populated -->
-
-                                                </select>
-                                                <label for="addEmployeeLocation">Location</label>
-                                            </div>
+                                            </select>
+                                            <label for="addEmployeeDepartment">Department</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select locationSelect" id="addEmployeeLocation" disabled read-only>
+                                            
+                                                <!-- Dynamically Populated -->
+                                                
+                                            </select>
+                                            <label for="addEmployeeLocation">Location</label>
                                         </div>
                                     </div>
-                                    <div class="modal-footer justify-content-center">
-                                    <button type="submit" class="btn btn-info text-light">Add</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-<!--///////////////////////////////////////////////////////////////////////////////-->
-
-                    <!-- ADD DEPARTMENT MODAL -->
-                    <div id="addDepartment" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header bg-info text-light">
-                                    <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-briefcase"></i>&nbsp;&nbsp;Add New Department</h4>
-                                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                    <form id="addDepartmentForm">
-                                        <div class="modal-body">
-                                            <div class="container">
-                                            <div id="addDepartmentFeedback" class="feedbackMessage"></div>
-                                                <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" id="departmentName" name="departmentName" placeholder="Enter Name" required>
-                                                    <label for="departmentName">Name</label>
-                                                </div>
-                                                <div class="form-floating mb-3">
-                                                    <select class="form-select locationSelect" id="locationSelectForAddDept" required></select>
-
-                                                    <!-- Dynamically Populated -->
-
-                                                    <label for="locationSelectForAddDept">Location</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer justify-content-center">
-                                            <button type="submit" class="btn btn-info text-light">Add</button>
-                                        </div>
-                                    </form>
-                            </div>
+                                <div class="modal-footer justify-content-center">
+                                <button type="submit" class="btn btn-info text-light">Add</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
+                </div>
 
 <!--///////////////////////////////////////////////////////////////////////////////-->
 
-                    <!-- ADD LOCATION MODAL -->
-                    <div id="addLocation" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
+                <!-- ADD DEPARTMENT MODAL -->
+                <div id="addDepartment" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
                             <div class="modal-header bg-info text-light">
-                                <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-location-pin"></i>&nbsp;&nbsp;Add New Location</h4>
+                                <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-briefcase"></i>&nbsp;&nbsp;Add New Department</h4>
                                 <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                                <form id="addLocationForm">
+                                <form id="addDepartmentForm">
                                     <div class="modal-body">
                                         <div class="container">
-                                            <div id="addLocationFeedback" class="feedbackMessage"></div>
+                                        <div id="addDepartmentFeedback" class="feedbackMessage"></div>
                                             <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="addLocationName" name="locationName" placeholder="Enter Name" required>
-                                            <label for="addLocationName">Name</label>
+                                                <input type="text" class="form-control" id="addDepartmentName" name="departmentName" placeholder="Enter Name" required>
+                                                <label for="addDepartmentName">Name</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <select class="form-select locationSelect" id="locationSelectForAddDept" required></select>
+                                               
+                                                <!-- Dynamically Populated -->
+
+                                                <label for="locationSelectForAddDept">Location</label>
                                             </div>
                                         </div>
                                     </div>
@@ -218,40 +190,71 @@
                                         <button type="submit" class="btn btn-info text-light">Add</button>
                                     </div>
                                 </form>
-                            </div>
-                        </div>
-                    </div>
-
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!-- ADD Confirmation Feedback Message Model-->
-
-                    <div id="confirmAdd" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header bg-info text-light">
-                                <h4 class="fs-4 text-center modal-title w-100">Confirm Add</h4>
-                                <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p class="fs-5 text-center">Please confirm you wish to add <span id="confirmAddName">.</span></p>
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <button id="confirmAddButton" type="button" class="btn btn-info btn text-light">Add</button>
-                            </div>
                         </div>
                     </div>
                 </div>
-                      
+
+<!--///////////////////////////////////////////////////////////////////////////////-->
+
+                <!-- ADD LOCATION MODAL -->
+                <div id="addLocation" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                        <div class="modal-header bg-info text-light">
+                            <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-location-pin"></i>&nbsp;&nbsp;Add New Location</h4>
+                            <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                            <form id="addLocationForm">
+                                <div class="modal-body">
+                                    <div class="container">
+                                        <div id="addLocationFeedback" class="feedbackMessage"></div>
+                                        <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="addLocationName" name="locationName" placeholder="Enter Name" required>
+                                        <label for="addLocationName">Name</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button type="submit" class="btn btn-info text-light">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+              
+<!--///////////////////////////////////////////////////////////////////////////////-->
+<!--///////////////////////////////////////////////////////////////////////////////-->
+ <!-- ADD Confirmation Feedback Message Model-->
+               
+                <div id="confirmAdd" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-light">
+                            <h4 class="fs-4 text-center modal-title w-100">Confirm Add</h4>
+                            <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="fs-5 text-center">Please confirm you wish to add<span id="confirmAddName">.</span></p>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button id="confirmAddButton" type="button" class="btn btn-info btn text-light">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+              
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!-- EDIT Employee/Department/Location Modals When ROW Clicked-->
 
 
 
-                    
-                    
-                    
+
+
+
+
+
+
 
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!--///////////////////////////////////////////////////////////////////////////////-->
@@ -266,7 +269,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <div id="deleteFeedback" class="feedbackMessage"></div>
-                                    <p class="fs-5 text-center">This action CANNOT be undone!<br>Do you still wish to DELETE <span id="confirmDeletionName"></span>?</p>
+                                    <p class="fs-5 text-center">This action CANNOT be undone!<br>Do you still wish to DELETE <span id="confirmDeleteName"></span>?</p>
                                 </div>
                                     <div class="modal-footer justify-content-center">
                                     <button id="confirmDeleteButton" type="button" class="btn btn-info text-light">Delete</button>
@@ -277,13 +280,13 @@
 
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!--///////////////////////////////////////////////////////////////////////////////-->
-<!-- DELETION Feedback Message Modal -->
+<!-- DELETE Confirmaton Feedback Message Modal -->
 
                     <div id="feedbackModal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header bg-info text-light">
-                                    <h4 class="fs-4 text-center modal-title w-100"><span id="feedbackModalTitle">Confirm Deletion</span></h4>
+                                    <h4 class="fs-4 text-center modal-title w-100"><span id="feedbackModalTitle">Confirm Delete</span></h4>
                                     <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -307,6 +310,11 @@
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!-- SEARCH BUTTON Modal -->
+
+
+
+
+
 
 
             </main>   
