@@ -125,9 +125,6 @@ populateLocationSelects = e => {
         const t = $(this);
         t.empty(),
         id = t.attr("id");
-
-        //const a = "searchLocationSelect" == id ? "All Locations" : "addEmployeeLocation" == id ? t.append('<option value="">Select Location</option>') : "Select Location";
-        //"editDepartmentLocation" != id && t.append(`<option value="">${a}</option>`),
         
         const a = "searchLocationSelect" == id ? "All Locations" : "addEmployeeLocation" == id ? "" : "Select Location";
         "editDepartmentLocation" != id && t.append(`<option value="">${a}</option>`),
@@ -137,9 +134,6 @@ populateLocationSelects = e => {
         })
     })
 };
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -387,7 +381,6 @@ insertLocation = e => {
 
 $("body").on("click", ".delEmployeeBtn", function(e) {
 
-    //e.stopPropagation(); // ?!?!?!!
     const t = $(this),
     a = t[0].dataset.employeeId;
 
@@ -395,7 +388,6 @@ $("body").on("click", ".delEmployeeBtn", function(e) {
 }),
 $("body").on("click", ".delDeptBtn", function(e) {
 
-    //e.stopPropagation();
     const t = $(this),
     a = t[0].dataset.departmentId;
 
@@ -403,7 +395,6 @@ $("body").on("click", ".delDeptBtn", function(e) {
 }),
 $("body").on("click", ".delLocationBtn", function(e) {
 
-    //e.stopPropagation();
     const t = $(this),
     a = t[0].dataset.locationId;
 
