@@ -138,9 +138,6 @@ populateLocationSelects = e => {
     })
 };
 
-
-
-
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // UPDATE/ SHOW TABLES ON APP
@@ -252,7 +249,7 @@ $("#addLocationForm").submit(function() {
 
 
 
-showConfirmAddModal = (e, t, a) => {
+const showConfirmAddModal = (e, t, a) => {
 
     clearFeedback(),
     $("#confirmAddButton").data("creation-type", a),
@@ -289,13 +286,13 @@ const insertEmployee = () => {
 
         success: function(result) {
 
-            const addSuccessMessage = {
+            const addSuccessMessage1 = {
                 title: "Addition Success",
                 type: "success",
                 message: `Successfully added ${result['firstName']} ${result['lastName']}`
             };
 
-            displayFeedbackModal(addSuccessMessage),
+            displayFeedbackModal(addSuccessMessage1),
             refreshPersonnel()
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -311,18 +308,18 @@ insertDepartment = () => {
         type: "POST",
         dataType: "json",
         data: {
-            departmentName: $("#departmentName").val(),
+            name: $("#addDepartmentName").val(),
             locationID: $("#locationSelectForAddDept").val()
         },
 
         success: function(result) {
 
-            const addSuccessMessage = {
+            const addSuccessMessage2 = {
                 title: "Addition Successful",
                 type: "success",
                 message: `Successfully added ${result['name']}`
             };
-            displayFeedbackModal(addSuccessMessage),
+            displayFeedbackModal(addSuccessMessage2),
             refreshDepartments()
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -338,17 +335,17 @@ insertLocation = () => {
         type: "POST",
         dataType: "json",
         data: {
-            locationName: $("#addLocationName").val()
+            name: $("#addLocationName").val()
         },
 
         success: function(result) {
 
-            const addSuccessMessage = {
+            const addSuccessMessage3 = {
                 title: "Addition Successful",
                 type: "success",
                 message: `Successfully added ${result['locationName']}`
             };
-                displayFeedbackModal(addSuccessMessage),
+                displayFeedbackModal(addSuccessMessage3),
                 refreshLocations()
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -437,12 +434,12 @@ const deleteEmployee = () => {
         },
         success: function(result) {
 
-            const deleteSuccessMessage = {
+            const deleteSuccessMessage1 = {
                 title: "Delete Successful",
                 type: "success",
                 message: "You have successfully deleted this employee."
             };
-            displayFeedbackModal(deleteSuccessMessage),
+            displayFeedbackModal(deleteSuccessMessage1),
             refreshPersonnel()
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -462,13 +459,13 @@ deleteDepartment = () => {
         },
         success: function(result) {
 
-            const deleteSuccessMessage = {
+            const deleteSuccessMessage2 = {
                  title: "Delete Successful",
                  type: "success",
                  message: "You have successfully deleted this department."
                 };
 
-                displayFeedbackModal(deleteSuccessMessage),
+                displayFeedbackModal(deleteSuccessMessage2),
                 refreshDepartments()
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -487,13 +484,13 @@ deleteLocation = () => {
             },
             success: function(result) {
                 
-                const deleteSuccessMessage = {
+                const deleteSuccessMessage3 = {
                     title: "Delete Successful",
                     type: "success",
                     message: "You have successfully deleted this location."
                 };
 
-                displayFeedbackModal(deleteSuccessMessage),
+                displayFeedbackModal(deleteSuccessMessage3),
                 refreshLocations()
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -547,15 +544,15 @@ clearFeedback=()=> {
                                                                         
         $(".modal").modal("hide"),
         $("#feedbackModalTitle").text(e.title);
-        const t =`<div class="alert alert-${e.type}" role="alert">${e.message}</div>`;
-        $("#feedbackMessage").html(t),
+        const message =`<div class="alert alert-${e.type}" role="alert">${e.message}</div>`;
+        $("#feedbackMessage").html(message),
         $("#feedbackModal").modal("show")
     },
     displayFeedback = e => {
         
         $("feedbackModalTitle").text=e.title;
-        const t =`<div class="alert alert-${e.type}" role="alert">${e.message}</div>`;
-        $(e.id).html(t)
+        const message2 =`<div class="alert alert-${e.type}" role="alert">${e.message}</div>`;
+        $(e.id).html(message2)
     },
 ///////////////////////////////////////////////////////////////////////////
  
@@ -563,13 +560,10 @@ clearFeedback=()=> {
 
         clearFeedback();
 
-        let t = "";
-        "#employeeTable" == e ? (t = "#nav-employees-tab",
-        $("#searchButton").removeClass("d-none"),
-        appTable = "Employee") : "#departmentTable" == e ? (t = "#nav-departments-tab",
-        $("#searchButton").addClass("d-none"),
-        appTable = "Department") : "#locationTable" == e && (t = "#nav-locations-tab",
-        $("#searchButton").addClass("d-none"),
+        let data = "";
+        "#employeeTable" == e ? (data = "#nav-employees-tab",
+        appTable = "Employee") : "#departmentTable" == e ? (data = "#nav-departments-tab",
+        appTable = "Department") : "#locationTable" == e && (data = "#nav-locations-tab",
         appTable = "Location") 
 
     };
@@ -583,9 +577,9 @@ clearFeedback=()=> {
 ///////////////////////////////////////////////////////////////////////////
 // Page Scrolls Back To Up To Top Of Page When Click The toTopButton
 
-    const btn = $("#toTopButton");
+    const toTopBtn = $("#toTopButton");
 
-    btn.on("click", function(e) {
+    toTopBtn.on("click", function(e) {
         e.preventDefault(),
         $("html, body").animate({
             scrollTop:0
