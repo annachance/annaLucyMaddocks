@@ -91,8 +91,9 @@ refreshLocations = () => {
             console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
         }
     })
-},
-  
+},  // WORKS!!
+
+///////////////////////////////////////////////////////////////////////////
 // POPULATE DROPDOWNS IN FORMS
 // DEPARTMENTS   
 populateDepartmentSelects = (e, t) => {
@@ -198,7 +199,7 @@ updateLocationTable = e => {
         de = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delLocationBtn" data-location-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
 
         return`<tr class="locationRow" data-location-id="${e.id}">${n}${de}</tr>`
-};
+};  // WORKS!!
  
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -352,25 +353,13 @@ insertLocation = () => {
                 console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
             }
             })
-        };
-
-
-
-
-
-
-
+        };  // WORKS!!
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // CLICK ON ROWS TO EDIT 
 
 // EDIT EMPLOYEES (when each row is clicked!!) 
-
-
-
-
-
 
 
 
@@ -497,7 +486,7 @@ deleteLocation = () => {
                 console.log(jqXHR, textStatus, errorThrown);
             } 
         })
-};
+};  // WORKS!!
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
