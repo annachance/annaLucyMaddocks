@@ -425,7 +425,7 @@ $("#confirmDeleteButton").click(function() {
     "employee" == deleteBtnDataType ? deleteEmployee(deleteBtnId) : "department" == deleteBtnDataType ? deleteDepartment(deleteBtnId) : "location" == deleteBtnDataType && deleteLocation(deleteBtnId)
 });
 
-const deleteEmployee = e => {
+const deleteEmployee = () => {
 
     $.ajax ({
 
@@ -433,7 +433,7 @@ const deleteEmployee = e => {
         type: "POST",
         dataType: "json",
         data: {
-            id: e
+            id: $("#confirmDeleteButton").val(),
         },
         success: function(result) {
 
@@ -450,7 +450,7 @@ const deleteEmployee = e => {
         } 
     })
 },
-deleteDepartment = e => {
+deleteDepartment = () => {
 
     $.ajax ({
         
@@ -458,7 +458,7 @@ deleteDepartment = e => {
         type: "POST",
         dataType: "json"
         ,data: {
-            id: e
+            id: $("#confirmDeleteButton").val(),
         },
         success: function(result) {
 
@@ -476,14 +476,14 @@ deleteDepartment = e => {
             } 
         })
 },
-deleteLocation = e => {
+deleteLocation = () => {
         
         $.ajax ({
             url: "libs/php/deleteLocationByID.php",
             type: "POST",
             dataType: "json",
             data: {
-                id: e
+            id: $("#confirmDeleteButton").val(),
             },
             success: function(result) {
                 
