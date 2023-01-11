@@ -32,8 +32,8 @@ const refreshPersonnel = () => {
 
             console.log(result['data']);
 
-            const tt = result['data'];
-            updateEmployeeTable(tt);
+            const empolyeeData = result['data'];
+            updateEmployeeTable(empolyeeData);
 
         }
         },
@@ -57,9 +57,9 @@ refreshDepartments = () => {
 
             console.log(result['data']);
 
-            const tt = result['data'];
-            populateDepartmentSelects(tt),
-            updateDepartmentTable(tt)
+            const departmentData = result['data'];
+            populateDepartmentSelects(departmentData),
+            updateDepartmentTable(departmentData)
         }
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -82,9 +82,9 @@ refreshLocations = () => {
 
             console.log(result['data']);
 
-            const tt = result['data'];
-            populateLocationSelects(tt),
-            updateLocationTable(tt)
+            const locationData = result['data'];
+            populateLocationSelects(locationData),
+            updateLocationTable(locationData)
         }
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -97,21 +97,21 @@ refreshLocations = () => {
 // DEPARTMENTS   
 populateDepartmentSelects = (e, t) => {
 
-    const a = t ? $(t) : $(".departmentSelect");
-    a.each(function() {
+    const departmentSelect = t ? $(t) : $(".departmentSelect");
+    departmentSelect.each(function() {
 
-        const t = $(this);
-        t.empty(),
-        id = t.attr("id"),
+        const thisD = $(this);
+        thisD.empty(),
+        id = thisD.attr("id"),
 
-        "addEmployeeDepartment" == id ? t.append('<option value="">Select Department</option>') : "searchDepartmentSelect" == id && t.append('<option value="">All Departments</option>'),
+        "addEmployeeDepartment" == id ? thisD.append('<option value="">Select Department</option>') : "searchDepartmentSelect" == id && thisD.append('<option value="">All Departments</option>'),
 
-        "addEmployeeLocation" == id ? t.append('<option value="">Select Location</option>') : "searchLocationSelect" == id ? "All Locations" : 
-        "editDepartmentLocation" != id && t.append(`<option value="">${a}</option>`),
+        "addEmployeeLocation" == id ? thisD.append('<option value="">Select Location</option>') : "searchLocationSelect" == id ? "All Locations" : 
+        "editDepartmentLocation" != id && thisD.append(`<option value="">${departmentSelect}</option>`),
         "Select Location"; 
         
         e.forEach(e => {
-            t.append(`<option value="${e.id}">${e.name}</option>`)
+            thisD.append(`<option value="${e.id}">${e.name}</option>`)
         })
     })
 },
@@ -119,21 +119,27 @@ populateDepartmentSelects = (e, t) => {
 // LOCATIONS    
 populateLocationSelects = e => {
 
-    const t = $(".locationSelect");
-    t.each(function() {
+    const locationSelect = $(".locationSelect");
+    locationSelect.each(function() {
 
-        const t = $(this);
-        t.empty(),
-        id = t.attr("id");
+        const thisL = $(this);
+        thisL.empty(),
+        id = thisL.attr("id");
+
+        //const a = "searchLocationSelect" == id ? "All Locations" : "addEmployeeLocation" == id ? t.append('<option value="">Select Location</option>') : "Select Location";
+        //"editDepartmentLocation" != id && t.append(`<option value="">${a}</option>`),
         
         const a = "searchLocationSelect" == id ? "All Locations" : "addEmployeeLocation" == id ? "" : "Select Location";
-        "editDepartmentLocation" != id && t.append(`<option value="">${a}</option>`),
+        "editDepartmentLocation" != id && thisL.append(`<option value="">${a}</option>`),
         
         e.forEach(e => {
-            t.append(`<option value="${e.id}">${e.name}</option>`)
+            thisL.append(`<option value="${e.id}">${e.name}</option>`)
         })
     })
 };
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -212,35 +218,35 @@ $("#addButton").click(function() {
 
 $("#addEmployeeForm").submit(function() {
 
-    const e = {
+    const addEmployeeFormMessage = {
 
         firstName: $("#addEmployeeFirstName").val(),
         lastName: $("#addEmployeeLastName").val(),
         jobTitle: $("#addEmployeeJobTitle").val(),
         email: $("#addEmployeeEmail").val(),
-        departmentId: $("#addEmployeeDepartment").val()
+        departmentID: $("#addEmployeeDepartment").val()
     };
 
-        return showConfirmAddModal(e, "this employee", "employee"),
+        return showConfirmAddModal(addEmployeeFormMessage, "this employee", "employee"),
 !1}),
 
 $("#addDepartmentForm").submit(function() {
 
-    const e = {
+    const addDepartmentFormMessage = {
 
         departmentName: $("#addDepartmentName").val(),
         locationID: $("#locationSelectForAddDept").val()
     };
-        return showConfirmAddModal(e, "this department", "department"),   
+        return showConfirmAddModal(addDepartmentFormMessage, "this department", "department"),   
 !1}),
 
 $("#addLocationForm").submit(function() {
 
-    const e = {
+    const addLocationFormMessage = {
 
         locationName: $("#addLocationName").val()
     };
-        return showConfirmAddModal(e, "this location", "location"),
+        return showConfirmAddModal(addLocationFormMessage, "this location", "location"),
     !1
 });
 
@@ -250,8 +256,8 @@ showConfirmAddModal = (e, t, a) => {
 
     clearFeedback(),
     $("#confirmAddButton").data("creation-type", a),
-    $("#confirmAddButton").data("new-item", t),
-    $("#confirmAddName").text(e),
+    $("#confirmAddButton").data("new-item", e),
+    $("#confirmAddName").text(t),
     $("#confirmAdd").modal("toggle")
 };  
 
@@ -260,14 +266,14 @@ showConfirmAddModal = (e, t, a) => {
 
 $("#confirmAddButton").click(function() {
 
-    const e = $("#confirmAddButton").data("new-item"),
-    t = $("#confirmAddButton").data("creation-type");
+    const addBtnId = $("#confirmAddButton").data("new-item"),
+    addBtnDataType = $("#confirmAddButton").data("creation-type");
 
     $("#confirmAdd").modal("toggle"),
-    "employee" == t ? insertEmployee(e) : "department" == t ? insertDepartment(e) : "location" == t && insertLocation(e)
+    "employee" == addBtnDataType ? insertEmployee(addBtnId) : "department" == addBtnDataType ? insertDepartment(addBtnId) : "location" == addBtnDataType && insertLocation(addBtnId)
 });
 
-const insertEmployee = e => {
+const insertEmployee = () => {
 
     $.ajax ({
         url: "libs/php/insertPersonnel.php",
@@ -278,18 +284,18 @@ const insertEmployee = e => {
             lastName: $("#addEmployeeLastName").val(),
             jobTitle: $("#addEmployeeJobTitle").val(),
             email: $("#addEmployeeEmail").val(),
-            departmentId: $("#addEmployeeDepartment").val()
+            departmentID: $("#addEmployeeDepartment").val()
         },
 
-        success: function(e) {
+        success: function(result) {
 
-            const a = {
+            const addSuccessMessage = {
                 title: "Addition Success",
                 type: "success",
-                message: `Successfully added ${e.firstName} ${e.lastName}`
+                message: `Successfully added ${result['firstName']} ${result['lastName']}`
             };
 
-            displayFeedbackModal(a),
+            displayFeedbackModal(addSuccessMessage),
             refreshPersonnel()
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -298,7 +304,7 @@ const insertEmployee = e => {
         })
     },
 
-insertDepartment = e => {
+insertDepartment = () => {
 
     $.ajax ({
         url: "libs/php/insertDepartment.php",
@@ -309,14 +315,14 @@ insertDepartment = e => {
             locationID: $("#locationSelectForAddDept").val()
         },
 
-        success: function(e) {
+        success: function(result) {
 
-            const a = {
+            const addSuccessMessage = {
                 title: "Addition Successful",
                 type: "success",
-                message: `Successfully added ${e.departmentName}`
+                message: `Successfully added ${result['name']}`
             };
-            displayFeedbackModal(a),
+            displayFeedbackModal(addSuccessMessage),
             refreshDepartments()
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -325,7 +331,7 @@ insertDepartment = e => {
         })
     },
 
-insertLocation = e => {
+insertLocation = () => {
 
     $.ajax ({
         url: "libs/php/insertLocation.php",
@@ -335,14 +341,14 @@ insertLocation = e => {
             locationName: $("#addLocationName").val()
         },
 
-        success: function(e) {
+        success: function(result) {
 
-            const a = {
+            const addSuccessMessage = {
                 title: "Addition Successful",
                 type: "success",
-                message: `Successfully added ${e.locationName}`
+                message: `Successfully added ${result['locationName']}`
             };
-                displayFeedbackModal(a),
+                displayFeedbackModal(addSuccessMessage),
                 refreshLocations()
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -379,26 +385,26 @@ insertLocation = e => {
 ///////////////////////////////////////////////////////////////////////////
 // DELETE BUTTONS
 
-$("body").on("click", ".delEmployeeBtn", function(e) {
+$("body").on("click", ".delEmployeeBtn", function() {
 
     const t = $(this),
-    a = t[0].dataset.employeeId;
+    employeeIdData = t[0].dataset.employeeId;
 
-    showConfirmDeleteModal(a, "this employee", "employee")
+    showConfirmDeleteModal(employeeIdData, "this employee", "employee")
 }),
-$("body").on("click", ".delDeptBtn", function(e) {
+$("body").on("click", ".delDeptBtn", function() {
 
     const t = $(this),
-    a = t[0].dataset.departmentId;
+    departmentIdData = t[0].dataset.departmentId;
 
-    showConfirmDeleteModal(a, "this department", "department")
+    showConfirmDeleteModal(departmentIdData, "this department", "department")
 }),
-$("body").on("click", ".delLocationBtn", function(e) {
+$("body").on("click", ".delLocationBtn", function() {
 
     const t = $(this),
-    a = t[0].dataset.locationId;
+    locationIdData = t[0].dataset.locationId;
 
-    showConfirmDeleteModal(a, "this location", "location")
+    showConfirmDeleteModal(locationIdData, "this location", "location")
 });
 
 const showConfirmDeleteModal = (e, t, a) => {
@@ -413,10 +419,10 @@ const showConfirmDeleteModal = (e, t, a) => {
 
 $("#confirmDeleteButton").click(function() {
 
-    const e = $("#confirmDeleteButton").val(),
-    t = $("#confirmDeleteButton").data("deletion-type");
+    const deleteBtnId = $("#confirmDeleteButton").val(),
+    deleteBtnDataType = $("#confirmDeleteButton").data("deletion-type");
 
-    "employee" == t ? deleteEmployee(e) : "department" == t ? deleteDepartment(e) : "location" == t && deleteLocation(e)
+    "employee" == deleteBtnDataType ? deleteEmployee(deleteBtnId) : "department" == deleteBtnDataType ? deleteDepartment(deleteBtnId) : "location" == deleteBtnDataType && deleteLocation(deleteBtnId)
 });
 
 const deleteEmployee = e => {
@@ -429,14 +435,14 @@ const deleteEmployee = e => {
         data: {
             id: e
         },
-        success: function(e) {
+        success: function(result) {
 
-            const t = {
+            const deleteSuccessMessage = {
                 title: "Delete Successful",
                 type: "success",
                 message: "You have successfully deleted this employee."
             };
-            displayFeedbackModal(t),
+            displayFeedbackModal(deleteSuccessMessage),
             refreshPersonnel()
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -454,15 +460,15 @@ deleteDepartment = e => {
         ,data: {
             id: e
         },
-        success: function(e) {
+        success: function(result) {
 
-            const t = {
+            const deleteSuccessMessage = {
                  title: "Delete Successful",
                  type: "success",
                  message: "You have successfully deleted this department."
                 };
 
-                displayFeedbackModal(t),
+                displayFeedbackModal(deleteSuccessMessage),
                 refreshDepartments()
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -479,15 +485,15 @@ deleteLocation = e => {
             data: {
                 id: e
             },
-            success: function(e) {
+            success: function(result) {
                 
-                const t = {
+                const deleteSuccessMessage = {
                     title: "Delete Successful",
                     type: "success",
                     message: "You have successfully deleted this location."
                 };
 
-                displayFeedbackModal(t),
+                displayFeedbackModal(deleteSuccessMessage),
                 refreshLocations()
             },
             error: function(jqXHR, textStatus, errorThrown) {
