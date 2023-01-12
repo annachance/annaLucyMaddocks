@@ -360,7 +360,117 @@ insertLocation = () => {
 // CLICK ON ROWS TO EDIT 
 
 // EDIT EMPLOYEES (when each row is clicked!!) 
+$("body").on("click", ".employeeRow", function() {
 
+    clearFeedback();
+    //const thisEmployeeEditRow= $(this),
+    //employeeEditRow = thisEmployeeEditRow[0].dataset.employeeId;
+
+    const employeeEditRow = $(this).data('employeeId');
+
+    $.ajax ({
+
+        url: "libs/php/getPersonnelByID.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: employeeEditRow
+        },
+
+        success: function(result) {
+
+            const employeeIdData = result['data'][0];
+
+            $("#editEmployeeFirstNameLabel").text(employeeEditRow.firstName),
+            $("#editEmployeeLastNameLabel").text(employeeEditRow.lastName),
+
+            $("#editEmployeeOrigDeptId").val(employeeEditRow.departmentID),
+            //$("#editEmployeeOrigLocId").val(employeeEditRow.locationID),
+            $("#editEmployeeOrigJob").val(employeeEditRow.jobTitle),
+            $("#editEmployeeOrigEmail").val(employeeEditRow.email),
+
+            $("#editEmployeeId").val(employeeEditRow.id),
+
+            $("#editEmployeeFirstName").val(employeeEditRow.firstName),
+            $("#editEmployeeLastName").val(employeeEditRow.lastName),
+            $("#editEmployeeDepartment").val(employeeEditRow.departmentID),
+            //$("#editEmployeeLocation").val(employeeEditRow.locationID),
+            $("#editEmployeeJobTitle").val(employeeEditRow.jobTitle),
+            $("#editEmployeeEmail").val(employeeEditRow.email),
+
+            $("#editEmployee").modal("toggle")
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+        }
+    })
+}),
+	
+// EDIT DEPARTMENTS (when each row is clicked!!)
+$("body").on("click", ".departmentRow", function() {
+
+    clearFeedback();
+    const thisDepartmentEditRow = $(this),
+    departmentEditRow = thisDepartmentEditRow[0].dataset.departmentId;
+
+    $.ajax ({
+
+        url: "libs/php/getDepartmentByID.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: departmentEditRow 
+        },
+
+        success: function(result) {
+
+            const departmentIdData = result['data'][0];
+
+            $("#editDepartmentLabel").text(departmentIdData.name),
+            $("#editDepartmentName").val(departmentIdData.name),
+            $("#editDepartmentOrigLocation").val(departmentIdData.locationID),
+            $("#editDepartmentLocation").val(departmentIdData.locationID),
+            $("#editDepartmentId").val(departmentIdData.id),
+
+            $("#editDepartment").modal("toggle")
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+        }
+      })
+    }),
+	
+    // EDIT LOCATIONS (when each row is clicked!!)
+    $("body").on("click", ".locationRow", function() {
+
+        clearFeedback();
+        const thisLocationEditRow = $(this),
+        locationEditRow = thisLocationEditRow[0].dataset.locationId;
+
+    $.ajax ({
+
+        url: "libs/php/getLocationByID.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: locationEditRow
+            },
+
+        success: function(result) {
+
+            const LocationIdData = result['data'][0];
+
+            $("#editLocationLabel").text(LocationIdData.name),
+            $("#editLocationName").val(LocationIdData.name),
+            $("#editLocationId").val(locationEditRow),
+            
+            $("#editLocation").modal("toggle")
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+        }
+      })
+    });
 
 
 
