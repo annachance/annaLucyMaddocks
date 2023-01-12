@@ -247,9 +247,138 @@
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!-- EDIT Employee/Department/Location Modals When ROW Clicked-->
 
+                <!-- EDIT Employee Modal -->
+                <div id="editEmployee" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info text-light">
+                                <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;Edit Employee- <span id="editEmployeeFirstNameLabel"></span> <span id="editEmployeeLastNameLabel"></span></h4>
+                                <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <!-- Edit Employee Form -->
+                            <form id="editEmployeeForm">
+                                <div class="modal-body">
+                                    <div class="container">
+                                        <div id="editEmployeeFeedback" class="feedbackMessage"></div>
+                                            <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="editEmployeeFirstName" placeholder="First Name" required>
+                                            <label for="editEmployeeFirstName">First Name</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="editEmployeeLastName" placeholder="Last Name" required>
+                                                <label for="editEmployeeLastName">Last Name</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <select class="form-select editEmployee departmentSelect" id="editEmployeeDepartment" required>
+                                                
+                                                    <!--Dynamically Populated-->
 
+                                                </select>
+                                                <label for="editEmployeeDepartment">Department</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <select class="form-select locationSelect" id="editEmployeeLocation" disabled read-only>
+                                                
+                                                    <!--Dynamically Populated-->
+                                                    
+                                                </select>
+                                                <label for="editEmployeeLocation">Location</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="editEmployeeJobTitle" name="jobTitle" placeholder="Enter Name" required>
+                                                <label for="editEmployeeJobTitle">Job Title</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="email" class="form-control" id="editEmployeeEmail" name="email" placeholder="Enter Name" required>
+                                                
+                                                <!-- Dynamically Populated -->
+                                                
+                                                <label for="editEmployeeEmail">Email Address</label>
+                                            </div>
+                                        <input type="hidden" id="editEmployeeId">
+                                        <input type="hidden" id="editEmployeeOrigDeptId">
+                                        <input type="hidden" id="editEmployeeOrigLocId">
+                                        <input type="hidden" id="editEmployeeOrigJob">
+                                        <input type="hidden" id="editEmployeeOrigEmail">
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button type="submit" class="btn btn-info text-light">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
+<!--///////////////////////////////////////////////////////////////////////////////-->
 
+                <!-- EDIT Department Modal -->
+                <div id="editDepartment" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info text-light">
+                            <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-briefcase"></i>&nbsp;&nbsp;Edit Dept- <span id="editDepartmentLabel"></span></h4>
+                            <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <!-- Edit Department Form -->
+                            <form id="editDepartmentForm">
+                                <div class="modal-body">
+                                    <div class="container">
+                                        <div id="editDepartmentFeedback" class="feedbackMessage"></div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="editDepartmentName" name="departmentName" placeholder="Enter Name" required>
+                                            <label for="editDepartmentName">Department Name</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select locationSelect" id="editDepartmentLocation" required></select>
+                                            <!-- Dynamically Populated -->
+                                            <label for="editDepartmentLocation">Location</label>
+                                        </div>
+                                            <input type="hidden" id="editDepartmentOrigLocation">
+                                            <input type="hidden" id="editDepartmentId">
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button type="submit" class="btn btn-info text-light">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+<!--///////////////////////////////////////////////////////////////////////////////-->
+
+                <!-- EDIT Location Modal -->
+                <div id="editLocation" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info text-light">
+                                <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-location-pin"></i>&nbsp;&nbsp;Edit Location- <span id="editLocationLabel"></span></h4>
+                                <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <!-- Edit Location Form -->
+                            <form id="editLocationForm">
+                                <div class="modal-body">
+                                    <div class="container">
+                                        <div id="editLocationFeedback" class="feedbackMessage"></div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="editLocationName" name="locationName" placeholder="Enter Name" required>
+                                            <label for="editLocationName">Location Name</label>
+                                        </div>
+                                            <input type="hidden" id="editLocationId">
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button type="submit" class="btn btn-info text-light">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+<!--///////////////////////////////////////////////////////////////////////////////-->
+<!--///////////////////////////////////////////////////////////////////////////////-->
+<!-- UPDATE Confirmaton Feedback Message Modal -->
 
 
 
