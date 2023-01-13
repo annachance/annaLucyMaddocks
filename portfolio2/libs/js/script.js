@@ -376,24 +376,27 @@ $("body").on("click", ".employeeRow", function() {
 
         success: function(result) {
 
-            const employeeIdData = result['data'][0];
+            console.log(result);
 
-            $("#editEmployeeFirstNameLabel").text(employeeEditRow.firstName),
-            $("#editEmployeeLastNameLabel").text(employeeEditRow.lastName),
+            const employeeIdData = result['data']['personnel'][0];
+            console.log(employeeIdData);
 
-            $("#editEmployeeOrigDeptId").val(employeeEditRow.departmentID),
-            //$("#editEmployeeOrigLocId").val(employeeEditRow.locationID),
-            $("#editEmployeeOrigJob").val(employeeEditRow.jobTitle),
-            $("#editEmployeeOrigEmail").val(employeeEditRow.email),
+            //$("#editEmployeeFirstNameLabel").text(employeeIdData.firstName),  // ?!
+            //$("#editEmployeeLastNameLabel").text(employeeIdData.lastName),  // ?!
 
-            $("#editEmployeeId").val(employeeEditRow.id),
+            //$("#editEmployeeOrigDeptId").val(employeeIdData.departmentID),  // ?!
+            //$("#editEmployeeOrigLocId").val(employeeIdData.locationID),  // ?!
+            //$("#editEmployeeOrigJob").val(employeeIdData.jobTitle),  // ?!
+            //$("#editEmployeeOrigEmail").val(employeeIdData.email),  // ?!
 
-            $("#editEmployeeFirstName").val(employeeEditRow.firstName),
-            $("#editEmployeeLastName").val(employeeEditRow.lastName),
-            $("#editEmployeeDepartment").val(employeeEditRow.departmentID),
-            //$("#editEmployeeLocation").val(employeeEditRow.locationID),
-            $("#editEmployeeJobTitle").val(employeeEditRow.jobTitle),
-            $("#editEmployeeEmail").val(employeeEditRow.email),
+            //$("#editEmployeeId").val(employeeIdData.id),  // ?!
+
+            $("#editEmployeeFirstName").val(employeeIdData.firstName),
+            $("#editEmployeeLastName").val(employeeIdData.lastName),
+            $("#editEmployeeDepartment").val(employeeIdData.departmentID),
+            //$("#editEmployeeLocation").val(employeeIdData.locationID),  // ?!
+            $("#editEmployeeJobTitle").val(employeeIdData.jobTitle),
+            $("#editEmployeeEmail").val(employeeIdData.email),
 
             $("#editEmployee").modal("toggle")
         },
