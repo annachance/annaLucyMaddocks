@@ -363,9 +363,6 @@ insertLocation = () => {
 $("body").on("click", ".employeeRow", function() {
 
     clearFeedback();
-    //const thisEmployeeEditRow= $(this),
-    //employeeEditRow = thisEmployeeEditRow[0].dataset.employeeId;
-
     const employeeEditRow = $(this).data('employeeId');
 
     $.ajax ({
@@ -426,11 +423,11 @@ $("body").on("click", ".departmentRow", function() {
 
             const departmentIdData = result['data'][0];
 
-            $("#editDepartmentLabel").text(departmentIdData.name),
+            //$("#editDepartmentLabel").text(departmentIdData.name),  // ?!
             $("#editDepartmentName").val(departmentIdData.name),
-            $("#editDepartmentOrigLocation").val(departmentIdData.locationID),
+            //$("#editDepartmentOrigLocation").val(departmentIdData.locationID), // ?!
             $("#editDepartmentLocation").val(departmentIdData.locationID),
-            $("#editDepartmentId").val(departmentIdData.id),
+            //$("#editDepartmentId").val(departmentIdData.id),  // ?!
 
             $("#editDepartment").modal("toggle")
         },
@@ -439,7 +436,6 @@ $("body").on("click", ".departmentRow", function() {
         }
       })
     }),
-	
     // EDIT LOCATIONS (when each row is clicked!!)
     $("body").on("click", ".locationRow", function() {
 
@@ -460,9 +456,9 @@ $("body").on("click", ".departmentRow", function() {
 
             const LocationIdData = result['data'][0];
 
-            $("#editLocationLabel").text(LocationIdData.name),
+            //$("#editLocationLabel").text(LocationIdData.name),  // ?!
             $("#editLocationName").val(LocationIdData.name),
-            $("#editLocationId").val(locationEditRow),
+            //$("#editLocationId").val(locationEditRow), // ?!
             
             $("#editLocation").modal("toggle")
         },
@@ -470,7 +466,94 @@ $("body").on("click", ".departmentRow", function() {
             console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
         }
       })
-    });
+    }),
+
+///////////////////////////////////////////////////////////////////////////
+//  EDIT FORMS         
+$("#editEmployeeForm").submit(function() {
+
+    const editEmployeeFormData = {
+
+        firstName: $("#editEmployeeFirstName").val(),
+        lastName: $("#editEmployeeLastName").val(),
+        jobTitle: $("#editEmployeeJobTitle").val(),
+        email: $("#editEmployeeEmail").val(),
+        departmentID: $("#editEmployeeDepartment").val()
+    };
+        return showConfirmUpdateModal(editEmployeeFormData, "this employee", "employee"),
+!1}),
+
+$("#editDepartmentForm").submit(function() {
+
+    const editDepartmentFormData = {
+
+        name: $("#editDepartmentName").val(),
+        locationID: $("#editDepartmentLocation").val()
+    };
+        return showConfirmUpdateModal(editDepartmentFormData, "this department", "department"),
+!1}),
+
+$("#editLocationForm").submit(function() {
+
+    const editLocationFormData = {
+
+        name: $("#editLocationName").val()
+    };
+        return showConfirmUpdateModal(editLocationFormData, "this location", "location"),
+!1});
+
+    showConfirmUpdateModal = (e, t, a) => {
+
+        clearFeedback(),
+        $("#confirmUpdateButton").data("update-type",a),
+        $("#confirmUpdateButton").data("update-item",e),
+        $("#confirmUpdateName").text(t),
+        $("#confirmUpdate").modal("toggle")
+    }; 
+
+///////////////////////////////////////////////////////////////////////////
+// CONFIRMS UPDATE BUTTONS
+
+$("#confirmUpdateButton").click(function() {
+
+    const updateBtnId = $("#confirmUpdateButton").data("update-item"),
+    updateBtnDataType = $("#confirmUpdateButton").data("update-type");
+
+    $("#confirmUpdate").modal("toggle"),
+    "employee" == updateBtnDataType ? updateEmployee(updateBtnId) : "department" == updateBtnDataType ? updateDepartment(updateBtnId) : "location" == updateBtnDataType && updateLocation(updateBtnId)
+});
+
+const updateEmployee = () => {
+
+    $.ajax ({
+
+        url: "libs/php/insertPersonnel.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            firstName: $("#editEmployeeFirstName").val(),
+            lastName: $("#editEmployeeLastName").val(),
+            jobTitle: $("#editEmployeeJobTitle").val(),
+            email: $("#editEmployeeEmail").val(),
+            departmentID: $("#editEmployeeDepartment").val(),
+        },
+
+        success: function(result) {
+
+            const editSuccessMessage1 = {
+                title: "Update Successful",
+                type: "success",
+                message: `Successfully updated ${result['firstName']} ${result['lastName']}.`
+            };
+                displayFeedbackModal(editSuccessMessage1),
+                refreshPersonnel()
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+            }
+            })
+    };
+
 
 
 
