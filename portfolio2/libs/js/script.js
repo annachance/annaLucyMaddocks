@@ -530,7 +530,7 @@ const updateEmployee = () => {
 
     $.ajax ({
 
-        url: "libs/php/insertPersonnel.php",
+        url: "libs/php/updatePersonnel.php", 
         type: "POST",
         dataType: "json",
         data: {
@@ -539,15 +539,21 @@ const updateEmployee = () => {
             jobTitle: $("#editEmployeeJobTitle").val(),
             email: $("#editEmployeeEmail").val(),
             departmentID: $("#editEmployeeDepartment").val(),
+            id:$("#editEmployeeId").val()
         },
 
         success: function(result) {
+
+            // Not updating in the app or database (php routine only working through the browser currently!!!)
+
+            console.log(result['data']);
 
             const editSuccessMessage1 = {
                 title: "Update Successful",
                 type: "success",
                 message: `Successfully updated ${result['firstName']} ${result['lastName']}.`
             };
+
                 displayFeedbackModal(editSuccessMessage1),
                 refreshPersonnel()
             },
