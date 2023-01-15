@@ -16,6 +16,8 @@ var data = [];
 let appTable = "Employee";
 
 ///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 // On Webpage Load 
 const refreshPersonnel = () => {
 
@@ -203,6 +205,7 @@ updateLocationTable = e => {
  
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 // ADD BUTTON- Forms for Adding Employees/Departments/Locations
 
 $("#addButton").click(function() {
@@ -216,7 +219,7 @@ $("#addButton").click(function() {
 
 $("#addEmployeeForm").submit(function() {
 
-    const addEmployeeFormMessage = {
+    const addEmployeeFormData = {
 
         firstName: $("#addEmployeeFirstName").val(),
         lastName: $("#addEmployeeLastName").val(),
@@ -225,30 +228,28 @@ $("#addEmployeeForm").submit(function() {
         departmentID: $("#addEmployeeDepartment").val()
     };
 
-        return showConfirmAddModal(addEmployeeFormMessage, "this employee", "employee"),
+        return showConfirmAddModal(addEmployeeFormData, "this employee", "employee"),
 !1}),
 
 $("#addDepartmentForm").submit(function() {
 
-    const addDepartmentFormMessage = {
+    const addDepartmentFormData = {
 
         departmentName: $("#addDepartmentName").val(),
         locationID: $("#locationSelectForAddDept").val()
     };
-        return showConfirmAddModal(addDepartmentFormMessage, "this department", "department"),   
+        return showConfirmAddModal(addDepartmentFormData, "this department", "department"),   
 !1}),
 
 $("#addLocationForm").submit(function() {
 
-    const addLocationFormMessage = {
+    const addLocationFormData = {
 
         locationName: $("#addLocationName").val()
     };
-        return showConfirmAddModal(addLocationFormMessage, "this location", "location"),
+        return showConfirmAddModal(addLocationFormData, "this location", "location"),
     !1
 });
-
-
 
 const showConfirmAddModal = (e, t, a) => {
 
@@ -259,6 +260,7 @@ const showConfirmAddModal = (e, t, a) => {
     $("#confirmAdd").modal("toggle")
 };  
 
+///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // CONFIRM ADD (when add button is clicked!!)
 
@@ -357,6 +359,7 @@ insertLocation = () => {
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 // CLICK ON ROWS TO EDIT 
 
 // EDIT EMPLOYEES (when each row is clicked!!) 
@@ -364,6 +367,8 @@ $("body").on("click", ".employeeRow", function() {
 
     clearFeedback();
     const employeeEditRow = $(this).data('employeeId');
+
+    //console.log(employeeEditRow);
 
     $.ajax ({
 
@@ -389,7 +394,7 @@ $("body").on("click", ".employeeRow", function() {
             //$("#editEmployeeOrigJob").val(employeeIdData.jobTitle),  // ?!
             //$("#editEmployeeOrigEmail").val(employeeIdData.email),  // ?!
 
-            //$("#editEmployeeId").val(employeeIdData.id),  // ?!
+            $("#editEmployeeId").val(employeeIdData.id),  
 
             $("#editEmployeeFirstName").val(employeeIdData.firstName),
             $("#editEmployeeLastName").val(employeeIdData.lastName),
@@ -405,7 +410,6 @@ $("body").on("click", ".employeeRow", function() {
         }
     })
 }),
-	
 // EDIT DEPARTMENTS (when each row is clicked!!)
 $("body").on("click", ".departmentRow", function() {
 
@@ -430,7 +434,7 @@ $("body").on("click", ".departmentRow", function() {
             $("#editDepartmentName").val(departmentIdData.name),
             //$("#editDepartmentOrigLocation").val(departmentIdData.locationID), // ?!
             $("#editDepartmentLocation").val(departmentIdData.locationID),
-            //$("#editDepartmentId").val(departmentIdData.id),  // ?!
+            $("#editDepartmentId").val(departmentIdData.id),  
 
             $("#editDepartment").modal("toggle")
         },
@@ -461,7 +465,7 @@ $("body").on("click", ".departmentRow", function() {
 
             //$("#editLocationLabel").text(LocationIdData.name),  // ?!
             $("#editLocationName").val(LocationIdData.name),
-            //$("#editLocationId").val(locationEditRow), // ?!
+            $("#editLocationId").val(locationEditRow), 
             
             $("#editLocation").modal("toggle")
         },
@@ -481,7 +485,8 @@ $("#editEmployeeForm").submit(function() {
         lastName: $("#editEmployeeLastName").val(),
         jobTitle: $("#editEmployeeJobTitle").val(),
         email: $("#editEmployeeEmail").val(),
-        departmentID: $("#editEmployeeDepartment").val()
+        departmentID: $("#editEmployeeDepartment").val(),
+        //id: $("#editEmployeeId").val()  // ?!?! not sure if need this!!
     };
         return showConfirmUpdateModal(editEmployeeFormData, "this employee", "employee"),
 !1}),
@@ -491,7 +496,8 @@ $("#editDepartmentForm").submit(function() {
     const editDepartmentFormData = {
 
         name: $("#editDepartmentName").val(),
-        locationID: $("#editDepartmentLocation").val()
+        locationID: $("#editDepartmentLocation").val(),
+        //id: $("#editDepartmentId").val()  // ?!?! not sure if need this!!
     };
         return showConfirmUpdateModal(editDepartmentFormData, "this department", "department"),
 !1}),
@@ -500,7 +506,8 @@ $("#editLocationForm").submit(function() {
 
     const editLocationFormData = {
 
-        name: $("#editLocationName").val()
+        name: $("#editLocationName").val(),
+       // id: $("#editLocationId").val()  // ?!?! not sure if need this!!
     };
         return showConfirmUpdateModal(editLocationFormData, "this location", "location"),
 !1});
@@ -514,6 +521,7 @@ $("#editLocationForm").submit(function() {
         $("#confirmUpdate").modal("toggle")
     }; 
 
+///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // CONFIRMS UPDATE BUTTONS
 
@@ -544,9 +552,7 @@ const updateEmployee = () => {
 
         success: function(result) {
 
-            // Not updating in the app or database (php routine only working through the browser currently!!!)
-
-            console.log(result['data']);
+            //console.log(result['data']);
 
             const editSuccessMessage1 = {
                 title: "Update Successful",
@@ -561,19 +567,72 @@ const updateEmployee = () => {
                 console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
             }
             })
-    };
+    },
+updateDepartment = () => {
 
+    $.ajax ({
 
+        url: "libs/php/updateDepartment.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            name: $("#editDepartmentName").val(),
+            locationID: $("#editDepartmentLocation").val(),
+            id: $("#editDepartmentId").val()
+        },
 
+        success: function(result) {
 
+            const editSuccessMessage2 = {
+                title: "Update Sucessful",
+                type: "success",
+                message: `Successfully updated ${result['name']}.`
+            };
+                displayFeedbackModal(editSuccessMessage2),
+                refreshPersonnel(),
+                refreshDepartments()
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+            }
+            })
+    },
+updateLocation = () => {
 
-///////////////////////////////////////////////////////////////////////////
+    $.ajax ({
+
+        url: "libs/php/updateLocation.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            name: $("#editLocationName").val(),
+            id: $("#editLocationId").val() 
+        },
+
+        success: function(result) {
+
+            const editSuccessMessage3 = {
+                title:"Update Successful",
+                type:"success",
+                message:`Successfully updated ${result['name']}.`
+            };
+                displayFeedbackModal(editSuccessMessage3),
+                refreshPersonnel(),
+                refreshDepartments(),
+                refreshLocations()
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+            }
+            })
+    };   // WORKS!!
+
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // DELETE BUTTONS
 
-$("body").on("click", ".delEmployeeBtn", function() {
+$("body").on("click", ".delEmployeeBtn", function(e) {
 
     const t = $(this),
     employeeIdData = t[0].dataset.employeeId;
@@ -692,8 +751,9 @@ deleteLocation = () => {
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-// SEARCH BUTTON 
+///////////////////////////////////////////////////////////////////////////
 
+// SEARCH BUTTON 
 
 
 
@@ -707,6 +767,7 @@ clearFeedback=()=> {
 
     $(".feedbackMessage").empty()
 };
+
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // Nav Buttons- Update Tables for Employee/Department/Location 
