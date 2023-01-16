@@ -36,7 +36,6 @@ const refreshPersonnel = () => {
 
             const empolyeeData = result['data'];
             updateEmployeeTable(empolyeeData);
-
         }
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -118,7 +117,7 @@ populateDepartmentSelects = (e, t) => {
         })
     })
 },
-
+//locationSelectForAddDept
 // LOCATIONS    
 populateLocationSelects = e => {
 
@@ -146,63 +145,70 @@ populateLocationSelects = e => {
 // UPDATE/ SHOW TABLES ON APP
 const updateEmployeeTable = e => {
 
-    let t = "";
+    let eData = "";
     e.forEach(e => {
 
-        const a = getEmployeeRow(e);
-        t += a
+        const eRow = getEmployeeRow(e);
+        eData += eRow
     }),
-        $("#employeeResultsData").html(t)
+        $("#employeeResultsData").html(eData)
     },
         getEmployeeRow = e => {
 
-            const n = `<td>${e.firstName} ${e.lastName}</td>`,
-            j = `<td class="d-none d-lg-table-cell">${e.jobTitle}</td>`,
-            m = `<td class="d-none d-lg-table-cell">${e.email}</td>`,
-            d = `<td>${e.department}</td>`,
-            l = `<td class="d-none d-md-table-cell">${e.location}</td>`,
-            de = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delEmployeeBtn" data-employee-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
+            const eName = `<td>${e.firstName} ${e.lastName}</td>`,
+            eJobTitle = `<td class="d-none d-lg-table-cell">${e.jobTitle}</td>`,
+            eEmail = `<td class="d-none d-lg-table-cell">${e.email}</td>`,
+            eDepartment = `<td>${e.department}</td>`,
+            eLocationName = `<td class="d-none d-md-table-cell">${e.location}</td>`,
+            eDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delEmployeeBtn" data-employee-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
             
-            return `<tr class="employeeRow" data-employee-id="${e.id}">${n}${j}${m}${d}${l}${de}</tr>`
+            return `<tr class="employeeRow" data-employee-id="${e.id}">${eName}${eJobTitle}${eDepartment}${eEmail}${eLocationName}${eDelBtn}</tr>`
         },
 
 updateDepartmentTable = e => {
 
-        let t = "";
+        let dData = "";
         e.forEach(e => {
 
-        const a = getDepartmentRow(e);
-        t += a
+        const dRow = getDepartmentRow(e);
+        dData += dRow
     }),
-        $("#departmentResultsData").html(t)
+        $("#departmentResultsData").html(dData)
     },
         getDepartmentRow = e => {
 
-            const n = `<td>${e.name}</td>`,
-            j = `<td>${e.locationID}</td>`,
-            de = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delDeptBtn" data-department-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
+            const dName = `<td>${e.name}</td>`,
+            dlocationId = `<td>${e.locationID}</td>`, // maybe take out if cant get it to show as location name!!
+            dDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delDeptBtn" data-department-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
 
-            return `<tr class="departmentRow" data-department-id="${e.id}">${n}${j}${de}</tr>`
+            return `<tr class="departmentRow" data-department-id="${e.id}">${dName}${dlocationId}${dDelBtn}</tr>`
 },
             
 updateLocationTable = e => {
 
-        let t = "";
+        let lData = "";
         e.forEach(e => {
 
-        const a = getLocationRow(e);
-        t += a
+        const lRow = getLocationRow(e);
+        lData += lRow
     }),
-        $("#locationResultsData").html(t)
+        $("#locationResultsData").html(lData)
     },
         getLocationRow = e => {
 
-        const n = `<td>${e.name}</td>`,
-        de = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delLocationBtn" data-location-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
+        const lName = `<td>${e.name}</td>`,
+        eDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delLocationBtn" data-location-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
 
-        return`<tr class="locationRow" data-location-id="${e.id}">${n}${de}</tr>`
+        return`<tr class="locationRow" data-location-id="${e.id}">${lName}${eDelBtn}</tr>`
 };  // WORKS!!
  
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Capitalize first letter
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1); 
+};
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -280,9 +286,9 @@ const insertEmployee = () => {
         type: "POST",
         dataType: "json",
         data: {
-            firstName: $("#addEmployeeFirstName").val(),
-            lastName: $("#addEmployeeLastName").val(),
-            jobTitle: $("#addEmployeeJobTitle").val(),
+            firstName: capitalizeFirstLetter($("#addEmployeeFirstName").val()),
+            lastName: capitalizeFirstLetter($("#addEmployeeLastName").val()),
+            jobTitle: capitalizeFirstLetter($("#addEmployeeJobTitle").val()),
             email: $("#addEmployeeEmail").val(),
             departmentID: $("#addEmployeeDepartment").val()
         },
@@ -311,7 +317,7 @@ insertDepartment = () => {
         type: "POST",
         dataType: "json",
         data: {
-            name: $("#addDepartmentName").val(),
+            name: capitalizeFirstLetter($("#addDepartmentName").val()),
             locationID: $("#locationSelectForAddDept").val()
         },
 
@@ -338,7 +344,7 @@ insertLocation = () => {
         type: "POST",
         dataType: "json",
         data: {
-            name: $("#addLocationName").val()
+            name: capitalizeFirstLetter($("#addLocationName").val())
         },
 
         success: function(result) {
@@ -497,7 +503,7 @@ $("#editDepartmentForm").submit(function() {
 
         name: $("#editDepartmentName").val(),
         locationID: $("#editDepartmentLocation").val(),
-        //id: $("#editDepartmentId").val()  // ?!?! not sure if need this!!
+       // id: $("#editDepartmentId").val()  // ?!?! not sure if need this!!
     };
         return showConfirmUpdateModal(editDepartmentFormData, "this department", "department"),
 !1}),
@@ -542,9 +548,9 @@ const updateEmployee = () => {
         type: "POST",
         dataType: "json",
         data: {
-            firstName: $("#editEmployeeFirstName").val(),
-            lastName: $("#editEmployeeLastName").val(),
-            jobTitle: $("#editEmployeeJobTitle").val(),
+            firstName: capitalizeFirstLetter($("#editEmployeeFirstName").val()),
+            lastName: capitalizeFirstLetter($("#editEmployeeLastName").val()),
+            jobTitle: capitalizeFirstLetter($("#editEmployeeJobTitle").val()),
             email: $("#editEmployeeEmail").val(),
             departmentID: $("#editEmployeeDepartment").val(),
             id:$("#editEmployeeId").val()
@@ -576,7 +582,7 @@ updateDepartment = () => {
         type: "POST",
         dataType: "json",
         data: {
-            name: $("#editDepartmentName").val(),
+            name: capitalizeFirstLetter($("#editDepartmentName").val()),
             locationID: $("#editDepartmentLocation").val(),
             id: $("#editDepartmentId").val()
         },
@@ -605,7 +611,7 @@ updateLocation = () => {
         type: "POST",
         dataType: "json",
         data: {
-            name: $("#editLocationName").val(),
+            name: capitalizeFirstLetter($("#editLocationName").val()),
             id: $("#editLocationId").val() 
         },
 
@@ -632,24 +638,24 @@ updateLocation = () => {
 ///////////////////////////////////////////////////////////////////////////
 // DELETE BUTTONS
 
-$("body").on("click", ".delEmployeeBtn", function(e) {
+$("body").on("click", ".delEmployeeBtn", function() {
 
-    const t = $(this),
-    employeeIdData = t[0].dataset.employeeId;
+    const employeeDeleteRow = $(this),
+    employeeIdData = employeeDeleteRow[0].dataset.employeeId;
 
     showConfirmDeleteModal(employeeIdData, "this employee", "employee")
 }),
 $("body").on("click", ".delDeptBtn", function() {
 
-    const t = $(this),
-    departmentIdData = t[0].dataset.departmentId;
+    const departmentDeleteRow = $(this),
+    departmentIdData = departmentDeleteRow[0].dataset.departmentId;
 
     showConfirmDeleteModal(departmentIdData, "this department", "department")
 }),
 $("body").on("click", ".delLocationBtn", function() {
 
-    const t = $(this),
-    locationIdData = t[0].dataset.locationId;
+    const locationDeleteRow = $(this),
+    locationIdData = locationDeleteRow[0].dataset.locationId;
 
     showConfirmDeleteModal(locationIdData, "this location", "location")
 });
@@ -752,14 +758,54 @@ deleteLocation = () => {
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-
 // SEARCH BUTTON 
 
+$("#searchButton").click(function() {
 
+    clearFeedback(),
+    $("#searchTermForm").trigger("reset"),
+    $("#searchTerm").modal("toggle")
 
+}),
+    $("#searchTermForm").submit(function() {
+        
+        const searchNameInput = $("#searchName").val()
+        
+            return $.ajax( {
 
+                url: "libs/php/getPersonnelByName.php", 
+                type: "POST",
+                dataType: "json",
+                data: {
+                    searchTerm: searchNameInput
+                },  
+                    success: function(result) {
 
+                        console.log(result['data']); 
 
+                        const searchResults = result['data']['personnel'];
+                        //console.log(searchResults);
+
+                        if (searchResults.length > 0) {  
+                        
+                        updateEmployeeTable(searchResults),
+                        $("#searchTerm").modal("toggle"),
+                        $("#searchTermForm").trigger("reset");
+
+                        } else {
+                            const noSearchResultsMessage = {
+                                id: "#searchTermFeedback",
+                                type: "danger",
+                                message: "There are no matches for your search, please try again!"
+                            };
+                                displayFeedback(noSearchResultsMessage)
+                            }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR, textStatus, errorThrown);
+                    } 
+                }),
+!1});   // WORKS!!
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -767,26 +813,6 @@ clearFeedback=()=> {
 
     $(".feedbackMessage").empty()
 };
-
-///////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-// Nav Buttons- Update Tables for Employee/Department/Location 
-
-    $("#nav-employees-tab").click(function() {
-
-        setActiveTables("#employeeTable"),
-        updateEmployeeTable(t);
-    }),
-     $("#nav-departments-tab").click(function() {
-                               
-        setActiveTables("#departmentTable"),
-        updateDepartmentTable(t);
-    }),
-    $("#nav-locations-tab").click(function() {
-
-        setActiveTables("#locationTable"),
-        updateLocationTable(t);
-    });
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -811,18 +837,16 @@ clearFeedback=()=> {
     setActiveTables = e => {
 
         clearFeedback();
-
         let data = "";
         "#employeeTable" == e ? (data = "#nav-employees-tab",
+        $("#searchButton").removeClass("d-none"),
         appTable = "Employee") : "#departmentTable" == e ? (data = "#nav-departments-tab",
+        $("#searchButton").addClass("d-none"),
         appTable = "Department") : "#locationTable" == e && (data = "#nav-locations-tab",
+        $("#searchButton").addClass("d-none"),
         appTable = "Location") 
-
     };
     
-
-
-
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////    
 ///////////////////////////////////////////////////////////////////////////
