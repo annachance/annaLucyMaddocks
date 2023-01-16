@@ -234,10 +234,10 @@
                             <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p class="fs-5 text-center">Please confirm you wish to add<span id="confirmAddName">.</span></p>
+                            <p class="fs-5 text-center">Please confirm you wish to add <span id="confirmAddName">.</span></p>
                         </div>
                         <div class="modal-footer justify-content-center">
-                            <button id="confirmAddButton" type="button" class="btn btn-info btn text-light">Add</button>
+                            <button id="confirmAddButton" type="button" class="btn btn-info btn text-light">Confirm</button>
                         </div>
                     </div>
                 </div>
@@ -269,6 +269,17 @@
                                                 <label for="editEmployeeLastName">Last Name</label>
                                             </div>
                                             <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="editEmployeeJobTitle" name="jobTitle" placeholder="Enter Name" required>
+                                                <label for="editEmployeeJobTitle">Job Title</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="email" class="form-control" id="editEmployeeEmail" name="email" placeholder="Enter Name" required>
+                                                
+                                                <!-- Dynamically Populated -->
+                                                
+                                                <label for="editEmployeeEmail">Email Address</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
                                                 <select class="form-select editEmployee departmentSelect" id="editEmployeeDepartment" required>
                                                 
                                                     <!--Dynamically Populated-->
@@ -283,17 +294,6 @@
                                                     
                                                 </select>
                                                 <label for="editEmployeeLocation">Location</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="editEmployeeJobTitle" name="jobTitle" placeholder="Enter Name" required>
-                                                <label for="editEmployeeJobTitle">Job Title</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="email" class="form-control" id="editEmployeeEmail" name="email" placeholder="Enter Name" required>
-                                                
-                                                <!-- Dynamically Populated -->
-                                                
-                                                <label for="editEmployeeEmail">Email Address</label>
                                             </div>
                                         <input type="hidden" id="editEmployeeId">
                                         <input type="hidden" id="editEmployeeOrigDeptId">
@@ -397,10 +397,6 @@
                     </div>
                 </div>
 
-
-
-
-
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!-- DELETE Employee/Department/Location Modals When DELETE BUTTON Clicked -->
@@ -440,27 +436,38 @@
                             </div>
                         </div>
                     </div>
-            
-
-
-
-
-
-
-
-
-              
+               
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!-- SEARCH BUTTON Modal -->
 
-
-
-
-
-
+                    <div id="searchTerm" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-info text-light">
+                                    <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;&nbsp;Search By Name</h4>  
+                                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form id="searchTermForm">
+                                    <div class="modal-body">
+                                        <!-- Edit Employee Form -->
+                                        <div class="container">
+                                            <div id="searchTermFeedback" class="feedbackMessage"></div>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="searchName" placeholder="First Name">
+                                                <label for="searchName">Name</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-center">
+                                        <button type="submit" class="btn btn-info text-light">Search</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
             </main>   
  <!--///////////////////////////////////////////////////////////////////////////////-->
