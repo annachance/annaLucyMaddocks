@@ -106,9 +106,10 @@ populateDepartmentSelects = (e, t) => {
         thisD.empty(),
         id = thisD.attr("id"),
 
-        "addEmployeeDepartment" == id ? thisD.append('<option value="">Select Department</option>') : "searchDepartmentSelect" == id && thisD.append('<option value="">All Departments</option>'),
+        "addEmployeeDepartment" == id ? thisD.append('<option value="">Select Department</option>') : 
 
-        "addEmployeeLocation" == id ? thisD.append('<option value="">Select Location</option>') : "searchLocationSelect" == id ? "All Locations" : 
+        "addEmployeeLocation" == id ? thisD.append('<option value="">Select Location</option>') : 
+
         "editDepartmentLocation" != id && thisD.append(`<option value="">${departmentSelect}</option>`),
         "Select Location"; 
         
@@ -117,7 +118,6 @@ populateDepartmentSelects = (e, t) => {
         })
     })
 },
-//locationSelectForAddDept
 // LOCATIONS    
 populateLocationSelects = e => {
 
@@ -127,11 +127,9 @@ populateLocationSelects = e => {
         const thisL = $(this);
         thisL.empty(),
         id = thisL.attr("id");
-
-        //const a = "searchLocationSelect" == id ? "All Locations" : "addEmployeeLocation" == id ? t.append('<option value="">Select Location</option>') : "Select Location";
-        //"editDepartmentLocation" != id && t.append(`<option value="">${a}</option>`),
         
-        const a = "searchLocationSelect" == id ? "All Locations" : "addEmployeeLocation" == id ? "" : "Select Location";
+        const a = "addEmployeeLocation" == id ? "" : "Select Location";
+        
         "editDepartmentLocation" != id && thisL.append(`<option value="">${a}</option>`),
         
         e.forEach(e => {
