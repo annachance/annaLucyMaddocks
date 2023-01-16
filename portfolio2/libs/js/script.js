@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////////////////////
  // Preloader
- /*$(window).on('load', function () {
+ $(window).on('load', function () {
 	if ($('#preloader').length) {
 	$('#preloader').delay(1000).fadeOut('slow', function () {
 	$(this).remove();
 	});
 	}
-  }); */
+  }); 
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -158,9 +158,10 @@ const updateEmployeeTable = e => {
             eEmail = `<td class="d-none d-lg-table-cell">${e.email}</td>`,
             eDepartment = `<td>${e.department}</td>`,
             eLocationName = `<td class="d-none d-md-table-cell">${e.location}</td>`,
+            eEditBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-warning editEmployeeBtn" data-employee-id="${e.id}"><i class="fa-solid fa-pen-to-square"></i></button></div></td>`,
             eDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delEmployeeBtn" data-employee-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
             
-            return `<tr class="employeeRow" data-employee-id="${e.id}">${eName}${eJobTitle}${eDepartment}${eEmail}${eLocationName}${eDelBtn}</tr>`
+            return `<tr class="employeeRow" data-employee-id="${e.id}">${eName}${eJobTitle}${eDepartment}${eEmail}${eLocationName}${eEditBtn}${eDelBtn}</tr>`
         },
 
 updateDepartmentTable = e => {
@@ -177,9 +178,10 @@ updateDepartmentTable = e => {
 
             const dName = `<td>${e.name}</td>`,
             dlocationId = `<td>${e.locationID}</td>`, // maybe take out if cant get it to show as location name!!
+            dEditBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-warning editDeptBtn" data-department-id="${e.id}"><i class="fa-solid fa-pen-to-square"></i></button></div></td>`,
             dDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delDeptBtn" data-department-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
 
-            return `<tr class="departmentRow" data-department-id="${e.id}">${dName}${dlocationId}${dDelBtn}</tr>`
+            return `<tr class="departmentRow" data-department-id="${e.id}">${dName}${dlocationId}${dEditBtn}${dDelBtn}</tr>`
 },
             
 updateLocationTable = e => {
@@ -195,9 +197,10 @@ updateLocationTable = e => {
         getLocationRow = e => {
 
         const lName = `<td>${e.name}</td>`,
-        eDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delLocationBtn" data-location-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
+        lEditBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-warning editLocationBtn" data-location-id="${e.id}"><i class="fa-solid fa-pen-to-square"></i></button></div></td>`,
+        lDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delLocationBtn" data-location-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
 
-        return`<tr class="locationRow" data-location-id="${e.id}">${lName}${eDelBtn}</tr>`
+        return`<tr class="locationRow" data-location-id="${e.id}">${lName}${lEditBtn}${lDelBtn}</tr>`
 };  // WORKS!!
  
 ///////////////////////////////////////////////////////////////////////////
@@ -367,7 +370,7 @@ insertLocation = () => {
 // CLICK ON ROWS TO EDIT 
 
 // EDIT EMPLOYEES (when each row is clicked!!) 
-$("body").on("click", ".employeeRow", function() {
+$("body").on("click", ".editEmployeeBtn", function() {
 
     clearFeedback();
     const employeeEditRow = $(this).data('employeeId');
@@ -394,7 +397,7 @@ $("body").on("click", ".employeeRow", function() {
             //$("#editEmployeeLastNameLabel").text(employeeIdData.lastName),  // ?!
 
             //$("#editEmployeeOrigDeptId").val(employeeIdData.departmentID),  // ?!
-            //$("#editEmployeeOrigLocId").val(employeeIdData.locationID),  // ?!
+            $("#editEmployeeOrigLocId").val(employeeIdData.locationID),  // ?!
             //$("#editEmployeeOrigJob").val(employeeIdData.jobTitle),  // ?!
             //$("#editEmployeeOrigEmail").val(employeeIdData.email),  // ?!
 
@@ -403,7 +406,7 @@ $("body").on("click", ".employeeRow", function() {
             $("#editEmployeeFirstName").val(employeeIdData.firstName),
             $("#editEmployeeLastName").val(employeeIdData.lastName),
             $("#editEmployeeDepartment").val(employeeIdData.departmentID),
-            //$("#editEmployeeLocation").val(employeeIdData.locationID),  // ?!
+            $("#editEmployeeLocation").val(employeeIdData.locationID),  // ?!
             $("#editEmployeeJobTitle").val(employeeIdData.jobTitle),
             $("#editEmployeeEmail").val(employeeIdData.email),
 
@@ -415,7 +418,7 @@ $("body").on("click", ".employeeRow", function() {
     })
 }),
 // EDIT DEPARTMENTS (when each row is clicked!!)
-$("body").on("click", ".departmentRow", function() {
+$("body").on("click", ".editDeptBtn", function() {
 
     clearFeedback();
     const thisDepartmentEditRow = $(this),
@@ -436,7 +439,7 @@ $("body").on("click", ".departmentRow", function() {
 
             //$("#editDepartmentLabel").text(departmentIdData.name),  // ?!
             $("#editDepartmentName").val(departmentIdData.name),
-            //$("#editDepartmentOrigLocation").val(departmentIdData.locationID), // ?!
+            $("#editDepartmentOrigLocation").val(departmentIdData.locationID), // ?!
             $("#editDepartmentLocation").val(departmentIdData.locationID),
             $("#editDepartmentId").val(departmentIdData.id),  
 
@@ -448,7 +451,7 @@ $("body").on("click", ".departmentRow", function() {
       })
     }),
     // EDIT LOCATIONS (when each row is clicked!!)
-    $("body").on("click", ".locationRow", function() {
+    $("body").on("click", ".editLocationBtn", function() {
 
         clearFeedback();
         const thisLocationEditRow = $(this),
@@ -490,7 +493,7 @@ $("#editEmployeeForm").submit(function() {
         jobTitle: $("#editEmployeeJobTitle").val(),
         email: $("#editEmployeeEmail").val(),
         departmentID: $("#editEmployeeDepartment").val(),
-        //id: $("#editEmployeeId").val()  // ?!?! not sure if need this!!
+        //]id: $("#editEmployeeId").val()  // ?!?! not sure if need this!!
     };
         return showConfirmUpdateModal(editEmployeeFormData, "this employee", "employee"),
 !1}),
@@ -804,6 +807,26 @@ $("#searchButton").click(function() {
                     } 
                 }),
 !1});   // WORKS!!
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Nav Buttons- Update Tables for Employee/Department/Location 
+
+    $("#nav-employees-tab").click(function() {
+
+        setActiveTables("#employeeTable"),
+        updateEmployeeTable();
+    }),
+     $("#nav-departments-tab").click(function() {
+                               
+        setActiveTables("#departmentTable"),
+        updateDepartmentTable();
+    }),
+    $("#nav-locations-tab").click(function() {
+
+        setActiveTables("#locationTable"),
+        updateLocationTable();
+    });
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
