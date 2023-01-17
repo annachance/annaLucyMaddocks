@@ -108,10 +108,9 @@ populateDepartmentSelects = (e, t) => {
 
         "addEmployeeDepartment" == id ? thisD.append('<option value="">Select Department</option>') : 
 
-        "addEmployeeLocation" == id ? thisD.append('<option value="">Select Location</option>') : 
+        "editEmployeeDepartment" == id ? thisD.append('<option value="">Select Department</option>') : 
 
         "editDepartmentLocation" != id && thisD.append(`<option value="">${departmentSelect}</option>`),
-        "Select Location"; 
         
         e.forEach(e => {
             thisD.append(`<option value="${e.id}">${e.name}</option>`)
@@ -126,11 +125,9 @@ populateLocationSelects = e => {
 
         const thisL = $(this);
         thisL.empty(),
-        id = thisL.attr("id");
-        
-        const a = "addEmployeeLocation" == id ? "" : "Select Location";
-        
-        "editDepartmentLocation" != id && thisL.append(`<option value="">${a}</option>`),
+        id = thisL.attr("id"),
+                
+        "editDepartmentLocation" != id && thisL.append(`<option value="">Select Location</option>`),
         
         e.forEach(e => {
             thisL.append(`<option value="${e.id}">${e.name}</option>`)
@@ -297,9 +294,9 @@ const insertEmployee = () => {
         success: function(result) {
 
             const addSuccessMessage1 = {
-                title: "Addition Success",
+                title: "Employee Added",
                 type: "success",
-                message: `Successfully added ${result['firstName']} ${result['lastName']}`
+                message: `Successfully added ${capitalizeFirstLetter($("#addEmployeeFirstName").val())} ${capitalizeFirstLetter($("#addEmployeeLastName").val())}.`
             };
 
             displayFeedbackModal(addSuccessMessage1),
@@ -325,9 +322,9 @@ insertDepartment = () => {
         success: function(result) {
 
             const addSuccessMessage2 = {
-                title: "Addition Successful",
+                title: "Department Added",
                 type: "success",
-                message: `Successfully added ${result['name']}`
+                message: `Successfully added ${capitalizeFirstLetter($("#addDepartmentName").val())}.`
             };
             displayFeedbackModal(addSuccessMessage2),
             refreshDepartments()
@@ -351,9 +348,9 @@ insertLocation = () => {
         success: function(result) {
 
             const addSuccessMessage3 = {
-                title: "Addition Successful",
+                title: "Location Added",
                 type: "success",
-                message: `Successfully added ${result['locationName']}`
+                message: `Successfully added ${capitalizeFirstLetter($("#addLocationName").val())}.`
             };
                 displayFeedbackModal(addSuccessMessage3),
                 refreshLocations()
@@ -562,9 +559,9 @@ const updateEmployee = () => {
             //console.log(result['data']);
 
             const editSuccessMessage1 = {
-                title: "Update Successful",
+                title: "Employee Updated",
                 type: "success",
-                message: `Successfully updated ${result['firstName']} ${result['lastName']}.`
+                message: `Successfully updated ${capitalizeFirstLetter($("#editEmployeeFirstName").val())} ${capitalizeFirstLetter($("#editEmployeeLastName").val())}.`
             };
 
                 displayFeedbackModal(editSuccessMessage1),
@@ -591,9 +588,9 @@ updateDepartment = () => {
         success: function(result) {
 
             const editSuccessMessage2 = {
-                title: "Update Sucessful",
+                title: "Department Updated",
                 type: "success",
-                message: `Successfully updated ${result['name']}.`
+                message: `Successfully updated ${capitalizeFirstLetter($("#editDepartmentName").val())}.`
             };
                 displayFeedbackModal(editSuccessMessage2),
                 refreshPersonnel(),
@@ -619,9 +616,9 @@ updateLocation = () => {
         success: function(result) {
 
             const editSuccessMessage3 = {
-                title:"Update Successful",
+                title:"Location Updated",
                 type:"success",
-                message:`Successfully updated ${result['name']}.`
+                message:`Successfully updated ${capitalizeFirstLetter($("#editLocationName").val())}.`
             };
                 displayFeedbackModal(editSuccessMessage3),
                 refreshPersonnel(),
