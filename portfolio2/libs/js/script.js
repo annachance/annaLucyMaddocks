@@ -174,11 +174,10 @@ updateDepartmentTable = e => {
         getDepartmentRow = e => {
 
             const dName = `<td>${e.name}</td>`,
-            dlocationId = `<td>${e.locationID}</td>`, // maybe take out if cant get it to show as location name!!
             dEditBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-warning editDeptBtn" data-department-id="${e.id}"><i class="fa-solid fa-pen-to-square"></i></button></div></td>`,
             dDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delDeptBtn" data-department-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
 
-            return `<tr class="departmentRow" data-department-id="${e.id}">${dName}${dlocationId}${dEditBtn}${dDelBtn}</tr>`
+            return `<tr class="departmentRow" data-department-id="${e.id}">${dName}${dEditBtn}${dDelBtn}</tr>`
 },
             
 updateLocationTable = e => {
