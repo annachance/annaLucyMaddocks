@@ -30,9 +30,9 @@
                 <div id="preloader"></div>
                 
                 <!--  NAVBAR  -->
-                <!--<nav class="navbar navbar-expand navbar-dark sticky-top bg-info container-fluid">
+                <!--<nav id="directory-nav" class="navbar navbar-expand navbar-dark sticky-top bg-info container-fluid">
                     <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
-                    <!--  **     <h1 class="ms-2 me-2"><i class="far fa-folder-open"></i>&nbsp;Company Directory</h1>
+                        <h1 class="ms-2 me-2"><i class="far fa-folder-open"></i>&nbsp;Company Directory</h1> 
 
                         <button class="nav-link active" id="nav-employees-tab" data-bs-toggle="tab" data-bs-target="#employeeTable" type="button" role="tab" aria-controls="nav-employees" aria-selected="true">Employees</button>
                         <button class="nav-link" id="nav-departments-tab" data-bs-toggle="tab" data-bs-target="#departmentTable" type="button" role="tab" aria-controls="nav-departments" aria-selected="false">Departments</button>
@@ -40,72 +40,28 @@
                     
                     </div>
                     <!-- Add Button -->
-                    <!--<div id="addButton"><i class="far fa-plus-square fa-2x"></i></div> -->
+                    <!--<div id="addButton"><i class="far fa-plus-square fa-2x"></i></div> 
                     <!--<button id="addButton" class="btn"><i class="far fa-plus-square fa-2x"></i></button>-->
-
-<!--NavBar Hamburger!-->
-<!--First button-->
-<section class="mb-3">
-  <nav class="navbar navbar-info bg-info">
-    <div class="container-fluid">
-      <button class="navbar-toggler first-button" type="button" data-mdb-toggle="collapse"
-        data-mdb-target="#navbarToggleExternalContent9"
-        aria-controls="navbarToggleExternalContent9" aria-expanded="false"
-        aria-label="Toggle navigation">
-        <div class="animated-icon1"><span></span><span></span><span></span></div>
-      </button>
-    </div>
-  </nav>
-  <div class="collapse" id="navbarToggleExternalContent9">
-    <div class="bg-light shadow-3 p-4">
-      <button class="btn btn-link btn-block border-bottom m-0" id="nav-employees-tab">Employees</button>
-      <button class="btn btn-link btn-block border-bottom m-0" id="nav-departments-tab">Departments</button>
-      <button class="btn btn-link btn-block m-0" id="nav-locations-tab">Locations</button>
-    </div>
-  </div>
-</section>
-
-
-<!--Third button-->
-<!--<section class="mb-3">
-  <nav class="navbar navbar-info bg-info">
-    <div class="container-fluid">
-      <button class="navbar-toggler third-button" type="button" data-mdb-toggle="collapse"
-        data-mdb-target="#navbarToggleExternalContent11"
-        aria-controls="navbarToggleExternalContent11" aria-expanded="false"
-        aria-label="Toggle navigation">
-        <div class="animated-icon3"><span></span><span></span><span></span></div>
-      </button>
-    </div>
-  </nav>
-  <div class="collapse" id="navbarToggleExternalContent11">
-    <div class="bg-light shadow-3 p-4">
-      <button class="btn btn-link btn-block border-bottom m-0">Link 1</button>
-      <button class="btn btn-link btn-block border-bottom m-0">Link 2</button>
-      <button class="btn btn-link btn-block m-0">Link 3</button>
-    </div>
-  </div>
-</section>-->
-
-<!--  end button --> 
-<!--<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-      <button class="navbar-toggler ms-auto" type="button" data-mdb-toggle="collapse"
-        data-mdb-target="#navbarToggleExternalContent3" aria-controls="navbarToggleExternalContent3"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fas fa-bars"></i>
-      </button>
-    </div>
-  </nav>
-  <div class="collapse" id="navbarToggleExternalContent3">
-    <div class="bg-light shadow-3 p-4">
-      <button class="btn btn-link btn-block border-bottom m-0">Link 1</button>
-      <button class="btn btn-link btn-block border-bottom m-0">Link 2</button>
-      <button class="btn btn-link btn-block m-0">Link 3</button>
-    </div>
-  </div>-->
+<!--///////////////////////////////////////////////////////////////////////////////-->
+                <!-- Top Navigation Menu (when in mobile view!) -->
+                <nav>           
+                    <div class="topnav">
+                        <a href="#home" class="active"><h1 class="ms-2 me-2"><i class="far fa-folder-open"></i>&nbsp;Company Directory</h1></a>
+                        <!-- Navigation links (hidden by default) -->
+                        <div id="myLinks">
+                        <a href="#news">Employees</a>
+                        <a href="#contact">Departments</a>
+                        <a href="#about">Locations</a>
+                        </div>
+                        <button id="addButton" class="btn"><i class="far fa-plus-square fa-2x"></i></button>
+                        <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
+                        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                        <i class="fa fa-bars"></i>
+                        </a>
+                    </div>
 
                 </nav>
+                
                 
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!-- POPULATING Table with Results from Database -->
