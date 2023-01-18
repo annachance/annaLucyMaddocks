@@ -371,8 +371,6 @@ $("body").on("click", ".editEmployeeBtn", function() {
     clearFeedback();
     const employeeEditRow = $(this).data('employeeId');
 
-    //console.log(employeeEditRow);
-
     $.ajax ({
 
         url: "libs/php/getPersonnelByID.php",
@@ -389,20 +387,14 @@ $("body").on("click", ".editEmployeeBtn", function() {
             const employeeIdData = result['data']['personnel'][0];
             console.log(employeeIdData);
 
-            //$("#editEmployeeFirstNameLabel").text(employeeIdData.firstName),  // ?!
-            //$("#editEmployeeLastNameLabel").text(employeeIdData.lastName),  // ?!
-
-            //$("#editEmployeeOrigDeptId").val(employeeIdData.departmentID),  // ?!
-            $("#editEmployeeOrigLocId").val(employeeIdData.locationID),  // ?!
-            //$("#editEmployeeOrigJob").val(employeeIdData.jobTitle),  // ?!
-            //$("#editEmployeeOrigEmail").val(employeeIdData.email),  // ?!
+            $("#editEmployeeFirstNameLabel").text(employeeIdData.firstName),
+            $("#editEmployeeLastNameLabel").text(employeeIdData.lastName),
 
             $("#editEmployeeId").val(employeeIdData.id),  
 
             $("#editEmployeeFirstName").val(employeeIdData.firstName),
             $("#editEmployeeLastName").val(employeeIdData.lastName),
             $("#editEmployeeDepartment").val(employeeIdData.departmentID),
-            $("#editEmployeeLocation").val(employeeIdData.locationID),  // ?!
             $("#editEmployeeJobTitle").val(employeeIdData.jobTitle),
             $("#editEmployeeEmail").val(employeeIdData.email),
 
@@ -433,9 +425,9 @@ $("body").on("click", ".editDeptBtn", function() {
 
             const departmentIdData = result['data'][0];
 
-            //$("#editDepartmentLabel").text(departmentIdData.name),  // ?!
+            $("#editDepartmentLabel").text(departmentIdData.name),  
+
             $("#editDepartmentName").val(departmentIdData.name),
-            $("#editDepartmentOrigLocation").val(departmentIdData.locationID), // ?!
             $("#editDepartmentLocation").val(departmentIdData.locationID),
             $("#editDepartmentId").val(departmentIdData.id),  
 
@@ -466,7 +458,7 @@ $("body").on("click", ".editDeptBtn", function() {
 
             const LocationIdData = result['data'][0];
 
-            //$("#editLocationLabel").text(LocationIdData.name),  // ?!
+            $("#editLocationLabel").text(LocationIdData.name),  
             $("#editLocationName").val(LocationIdData.name),
             $("#editLocationId").val(locationEditRow), 
             
@@ -489,7 +481,6 @@ $("#editEmployeeForm").submit(function() {
         jobTitle: $("#editEmployeeJobTitle").val(),
         email: $("#editEmployeeEmail").val(),
         departmentID: $("#editEmployeeDepartment").val(),
-        //]id: $("#editEmployeeId").val()  // ?!?! not sure if need this!!
     };
         return showConfirmUpdateModal(editEmployeeFormData, "this employee", "employee"),
 !1}),
@@ -500,7 +491,6 @@ $("#editDepartmentForm").submit(function() {
 
         name: $("#editDepartmentName").val(),
         locationID: $("#editDepartmentLocation").val(),
-       // id: $("#editDepartmentId").val()  // ?!?! not sure if need this!!
     };
         return showConfirmUpdateModal(editDepartmentFormData, "this department", "department"),
 !1}),
@@ -510,7 +500,6 @@ $("#editLocationForm").submit(function() {
     const editLocationFormData = {
 
         name: $("#editLocationName").val(),
-       // id: $("#editLocationId").val()  // ?!?! not sure if need this!!
     };
         return showConfirmUpdateModal(editLocationFormData, "this location", "location"),
 !1});
@@ -685,6 +674,7 @@ const deleteEmployee = () => {
         data: {
             id: $("#confirmDeleteButton").val(),
         },
+    
         success: function(result) {
 
             const deleteSuccessMessage1 = {
@@ -697,7 +687,7 @@ const deleteEmployee = () => {
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR, textStatus, errorThrown);
-        } 
+        }
     })
 },
 deleteDepartment = () => {
@@ -806,19 +796,33 @@ $("#searchButton").click(function() {
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
+
+/*  NavBar Hamburger! */
+document.querySelector('.first-button').addEventListener('click', function () {
+
+    document.querySelector('.animated-icon1').classList.toggle('open');
+    });
+/*  NavBar Hamburger! */
+
+
+
+
+
+
+
 // Nav Buttons- Update Tables for Employee/Department/Location 
 
-    $("#nav-employees-tab").click(function() {
+    $("#nav-employees-tab").click(function() {  //
 
         setActiveTables("#employeeTable"),
         updateEmployeeTable();
     }),
-     $("#nav-departments-tab").click(function() {
+     $("#nav-departments-tab").click(function() {  //
                                
         setActiveTables("#departmentTable"),
         updateDepartmentTable();
     }),
-    $("#nav-locations-tab").click(function() {
+    $("#nav-locations-tab").click(function() {  //
 
         setActiveTables("#locationTable"),
         updateLocationTable();
@@ -855,11 +859,11 @@ clearFeedback=()=> {
 
         clearFeedback();
         let data = "";
-        "#employeeTable" == e ? (data = "#nav-employees-tab",
+        "#employeeTable" == e ? (data = "#nav-employees-tab",  //
         $("#searchButton").removeClass("d-none"),
-        appTable = "Employee") : "#departmentTable" == e ? (data = "#nav-departments-tab",
+        appTable = "Employee") : "#departmentTable" == e ? (data = "#nav-departments-tab",  //
         $("#searchButton").addClass("d-none"),
-        appTable = "Department") : "#locationTable" == e && (data = "#nav-locations-tab",
+        appTable = "Department") : "#locationTable" == e && (data = "#nav-locations-tab", //
         $("#searchButton").addClass("d-none"),
         appTable = "Location") 
     };
@@ -875,7 +879,7 @@ clearFeedback=()=> {
     toTopBtn.on("click", function(e) {
         e.preventDefault(),
         $("html, body").animate({
-            scrollTop:0
+            scrollTop: 0
         },
         "300")
     }),
