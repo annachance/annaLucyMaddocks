@@ -796,10 +796,8 @@ $("#searchButton").click(function() {
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
+// Toggle between showing/ hiding the hamburger menu links when the user clicks bar icon 
 
-
-
-/* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
 function myFunction() {
     var x = document.getElementById("myLinks");
     if (x.style.display === "block") {
@@ -809,9 +807,27 @@ function myFunction() {
     }
   }; 
 
+///////////////////////////////////////////////////////////////////////////
+// Hamburger Nav Buttons- Update Tables for Employee/Department/Location (when in mobile view!)
 
+$("#nav-employees").click(function() {  
 
+    setActiveTables("#employeeTable"),
+    updateEmployeeTable();
+}),
+$("#nav-departments").click(function() {  
+                               
+    setActiveTables("#departmentTable"),
+    updateDepartmentTable();
+}),
+$("#nav-locations").click(function() {  
 
+    setActiveTables("#locationTable"),
+    updateLocationTable();
+});
+
+///////////////////////////////////////////////////////////////////////////
+// Nav Buttons- Update Tables for Employee/Department/Location (in bigger screen view!)
 
 // Nav Buttons- Update Tables for Employee/Department/Location 
 
@@ -862,11 +878,11 @@ clearFeedback=()=> {
 
         clearFeedback();
         let data = "";
-        "#employeeTable" == e ? (data = "#nav-employees-tab",  //
+        "#employeeTable" == e ? (data = "#nav-employees-tab",  
         $("#searchButton").removeClass("d-none"),
-        appTable = "Employee") : "#departmentTable" == e ? (data = "#nav-departments-tab",  //
+        appTable = "Employee") : "#departmentTable" == e ? (data = "#nav-departments-tab",  
         $("#searchButton").addClass("d-none"),
-        appTable = "Department") : "#locationTable" == e && (data = "#nav-locations-tab", //
+        appTable = "Department") : "#locationTable" == e && (data = "#nav-locations-tab", 
         $("#searchButton").addClass("d-none"),
         appTable = "Location") 
     };
