@@ -1,489 +1,876 @@
-<!DOCTYPE html>
+//////////////////////////////////////////////////////////////////////////
+// Preloader
+ $(window).on('load', function () {
+    if ($('#preloader').length) {
+    $('#preloader').delay(1000).fadeOut('slow', function () {
+    $(this).remove();
+    });
+    }
+  });
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Global Variables
  
-    <html lang="en">
+var data = [];
+let appTable = "Employee";
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Toggle hamburger menu
+ 
+function myFunction() {
+    var x = document.getElementById("myLinks");
+    if (x.style.display === "block") {
+      x.style.display = "none";
+    } else {
+      x.style.display = "block";
+    }
+  };
+ 
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// On Webpage Load
+const refreshPersonnel = () => {
+ 
+    // Retrieve EMPLOYEE DATABASE to application/ table
+    $.ajax({
+ 
+        url: "libs/php/getAll.php",
+        type: "POST",
+        dataType: "json",
+ 
+    success: function(result) {
+ 
+        if (result.status.name == "ok") {
+ 
+            console.log(result['data']);
+ 
+            const empolyeeData = result['data'];
+            updateEmployeeTable(empolyeeData);
+        }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+        }
+    })
+},
+ 
+refreshDepartments = () => {
+    // Retrieve DEPARTMENTS DATABASE to application/ table
+    $.ajax({
+ 
+        url: "libs/php/getAllDepartments.php",
+        type: "POST",
+        dataType: "json",
+ 
+        success: function(result) {
+ 
+        if (result.status.name == "ok") {
+ 
+            console.log(result['data']);
+ 
+            const departmentData = result['data'];
+            populateDepartmentSelects(departmentData),
+            updateDepartmentTable(departmentData)
+        }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+        }
+    })
+},
+
+refreshLocations = () => {
+    // Retrieve LOCATIONS DATABASE to application/ table
+    $.ajax({
+ 
+        url: "libs/php/getAllLocations.php",
+        type: "POST",
+        dataType: "json",
+ 
+        success: function(result) {
+ 
+        if (result.status.name == "ok") {
+ 
+            console.log(result['data']);
+ 
+            const locationData = result['data'];
+            populateLocationSelects(locationData),
+            updateLocationTable(locationData)
+        }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+        }
+    })
+},  // WORKS!!
+ 
+///////////////////////////////////////////////////////////////////////////
+// POPULATE DROPDOWNS IN FORMS
+// DEPARTMENTS  
+populateDepartmentSelects = (e, t) => {
+ 
+    const departmentSelect = t ? $(t) : $(".departmentSelect");
+    departmentSelect.each(function() {
+ 
+        const thisD = $(this);
+        thisD.empty(),
+        id = thisD.attr("id"),
+ 
+        "addEmployeeDepartment" == id ? thisD.append('<option value="">Select Department</option>') :
+ 
+        "editEmployeeDepartment" == id ? thisD.append('<option value="">Select Department</option>') : 
+ 
+        "editDepartmentLocation" != id && thisD.append(`<option value="">${departmentSelect}</option>`),
        
-        <head>
-            <meta charset="UTF-8">
-            <title>Project 2- Company Directory | IT Career Switch</title>
-            <meta name="description" content="IT Career Switch">
-            <meta name="author" content="Anna Maddocks">
-            <meta http-equiv="X-UA-Compatible" content="IE-edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        e.forEach(e => {
+            thisD.append(`<option value="${e.id}">${e.name}</option>`)
+        })
+    })
+},
+
+// LOCATIONS    
+populateLocationSelects = e => {
  
-            <!-- Favicon and Stylesheet-->
-            <link href="favicon.ico" rel="icon">
-            <link href="libs/css/style.css" rel="stylesheet" type="text/css">
+    const locationSelect = $(".locationSelect");
+    locationSelect.each(function() {
  
-            <!-- Bootstrap Initialization -->
-            <link href=https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        const thisL = $(this);
+        thisL.empty(),
+        id = thisL.attr("id");
+       
+        const a = "addEmployeeLocation" == id ? "" : "Select Location";
+       
+        "editDepartmentLocation" != id && thisL.append(`<option value="">Select Location</option>`),
+       
+        e.forEach(e => {
+
+            thisL.append(`<option value="${e.id}">${e.name}</option>`)
+        })
+    })
+};
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// UPDATE/ SHOW TABLES ON APP
+const updateEmployeeTable = e => {
  
-            <!-- FontAwesome Kit Initialization -->
-            <script src=https://kit.fontawesome.com/13f9671840.js crossorigin="anonymous"></script>
+    let eData = "";
+    e.forEach(e => {
  
-        </head>
- 
- <!--///////////////////////////////////////////////////////////////////////////////-->
- 
-        <body>
-            <header>
-                <!--  PRELOADER  -->
-                <div id="preloader"></div>
-               
-                <!--  NAVBAR  -->
-                <nav id="directory-nav" class="navbar navbar-expand navbar-dark sticky-top bg-info container-fluid">
-                    <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
-                        <h1 class="ms-2 me-2"><i class="far fa-folder-open"></i>&nbsp;Company Directory</h1>
- 
-                        <button class="nav-link active" id="nav-employees-tab" data-bs-toggle="tab" data-bs-target="#employeeTable" type="button" role="tab" aria-controls="nav-employees" aria-selected="true">Employees</button>
-                        <button class="nav-link" id="nav-departments-tab" data-bs-toggle="tab" data-bs-target="#departmentTable" type="button" role="tab" aria-controls="nav-departments" aria-selected="false">Departments</button>
-                        <button class="nav-link" id="nav-locations-tab" data-bs-toggle="tab" data-bs-target="#locationTable" type="button" role="tab" aria-controls="nav-locations" aria-selected="false">Locations</button>
-                   
-                    </div>
-                    <div id="addButton"><i class="far fa-plus-square fa-2x"></i></div>
- 
-                </nav>
- 
-                <nav id="mobile-nav">          
-                    <div class="topnav nav nav-tabs">
-                        <a href="#" class="active"><h1 class="ms-2 me-2"><i class="far fa-folder-open"></i>&nbsp;Company Directory</h1></a>
-                        <!-- Navigation links (hidden by default) -->
-                        <div id="myLinks">
-                        <button class="nav-link active btn" id="nav-employees" data-bs-toggle="tab" data-bs-target="#employeeTable" type="button" role="tab" aria-controls="nav-employees" aria-selected="true">Employees</button>
-                        <button class="nav-link btn" id="nav-departments" data-bs-toggle="tab" data-bs-target="#departmentTable" type="button" role="tab" aria-controls="nav-departments" aria-selected="false">Departments</button>
-                        <button class="nav-link btn" id="nav-locations" data-bs-toggle="tab" data-bs-target="#locationTable" type="button" role="tab" aria-controls="nav-locations" aria-selected="false">Locations</button>
-                        </div>
-                        <div id="mobileAddButton"><i class="far fa-plus-square fa-2x"></i></div>
-                        <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
-                        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-                        <i class="fa fa-bars"></i>
-                        </a>
-                    </div>
- 
-                </nav>
+        const eRow = getEmployeeRow(e);
+        eData += eRow
+    }),
+        $("#employeeResultsData").html(eData)
+    },
+        getEmployeeRow = e => {
+
+            const eName = `<td>${e.firstName} ${e.lastName}</td>`,
+            eJobTitle = `<td class="d-none d-lg-table-cell">${e.jobTitle}</td>`,
+            eEmail = `<td class="d-none d-lg-table-cell">${e.email}</td>`,
+            eDepartment = `<td>${e.department}</td>`,
+            eLocationName = `<td class="d-none d-md-table-cell">${e.location}</td>`,
+            eEditBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-warning editEmployeeBtn" data-employee-id="${e.id}"><i class="fa-solid fa-pen-to-square"></i></button></div></td>`,
+            eDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delEmployeeBtn" data-employee-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
             
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!-- POPULATING Table with Results from Database -->
-                <div class="tab-content" id="nav-tabContent">
+            return `<tr class="employeeRow" data-employee-id="${e.id}">${eName}${eJobTitle}${eDepartment}${eEmail}${eLocationName}${eEditBtn}${eDelBtn}</tr>`
+        },
+    
+updateDepartmentTable = e => {
+
+        let dData = "";
+        e.forEach(e => { 
+
+        const dRow = getDepartmentRow(e);
+        dData += dRow
+    }),
+        $("#departmentResultsData").html(dData)
+    },
+        getDepartmentRow = e => {
+
+            const dName = `<td>${e.name}</td>`,
+            dEditBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-warning editDeptBtn" data-department-id="${e.id}"><i class="fa-solid fa-pen-to-square"></i></button></div></td>`,
+            dDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delDeptBtn" data-department-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
+
+            return `<tr class="departmentRow" data-department-id="${e.id}">${dName}${dEditBtn}${dDelBtn}</tr>`
+    },
+
+updateLocationTable = e => {
  
-                    <!-- EMPLOYEE TABLE -->
-                    <div id="employeeTable" class="tab-pane show active container-fluid state">
-                        <!-- Employee Table Row -->
-                            <div class="row">
-                                <table class="table table-hover align-middle">
-                                    <tbody id="employeeResultsData">
-                                   
-                                    <!-- Dynamically Populated -->
+        let lData = "";
+        e.forEach(e => {
+ 
+        const lRow = getLocationRow(e);
+        lData += lRow
+    }),
+        $("#locationResultsData").html(lData)
+    },
+        getLocationRow = e => {
+
+            const lName = `<td>${e.name}</td>`,
+            lEditBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-warning editLocationBtn" data-location-id="${e.id}"><i class="fa-solid fa-pen-to-square"></i></button></div></td>`,
+            lDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delLocationBtn" data-location-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
+
+            return`<tr class="locationRow" data-location-id="${e.id}">${lName}${lEditBtn}${lDelBtn}</tr>`
+    };  // WORKS!!
+ 
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Capitalize first letter
+ 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// ADD BUTTON- Forms for Adding Employees/Departments/Locations
+
+$("#addButton").click(function() {
+ 
+    clearFeedback(),
+    $("#addEmployeeForm").trigger("reset"),
+    $("#addDepartmentForm").trigger("reset"),
+    $("#addLocationForm").trigger("reset"),
+    "Employee" == appTable ? $("#addEmployee").modal("toggle") : "Department" == appTable ? $("#addDepartment").modal("toggle") : "Location" == appTable && $("#addLocation").modal("toggle")
+}),
+$("#mobileAddButton").click(function() {
+ 
+    clearFeedback(),
+    $("#addEmployeeForm").trigger("reset"),
+    $("#addDepartmentForm").trigger("reset"),
+    $("#addLocationForm").trigger("reset"),
+    "Employee" == appTable ? $("#addEmployee").modal("toggle") : "Department" == appTable ? $("#addDepartment").modal("toggle") : "Location" == appTable && $("#addLocation").modal("toggle")
+}),
+ 
+$("#addEmployeeForm").submit(function() {
+ 
+    const addEmployeeFormData = {
+ 
+        firstName: $("#addEmployeeFirstName").val(),
+        lastName: $("#addEmployeeLastName").val(),
+        jobTitle: $("#addEmployeeJobTitle").val(),
+        email: $("#addEmployeeEmail").val(),
+        departmentID: $("#addEmployeeDepartment").val()
+    };
+ 
+        return showConfirmAddModal(addEmployeeFormData, "this employee", "employee"),
+!1}),
+ 
+$("#addDepartmentForm").submit(function() {
+ 
+    const addDepartmentFormData = {
+ 
+        departmentName: $("#addDepartmentName").val(),
+        locationID: $("#locationSelectForAddDept").val()
+    };
+        return showConfirmAddModal(addDepartmentFormData, "this department", "department"),  
+!1}),
+ 
+$("#addLocationForm").submit(function() {
+ 
+    const addLocationFormData = {
+ 
+        locationName: $("#addLocationName").val()
+    };
+        return showConfirmAddModal(addLocationFormData, "this location", "location"),
+    !1
+});
+ 
+const showConfirmAddModal = (e, t, a) => {
+ 
+    clearFeedback(),
+    $("#confirmAddButton").data("creation-type", a),
+    $("#confirmAddButton").data("new-item", e),
+    $("#confirmAddName").text(t),
+    $("#confirmAdd").modal("toggle")
+};  
+ 
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// CONFIRM ADD (when add button is clicked!!)
+ 
+$("#confirmAddButton").click(function() {
+ 
+    const addBtnId = $("#confirmAddButton").data("new-item"),
+    addBtnDataType = $("#confirmAddButton").data("creation-type");
+ 
+    $("#confirmAdd").modal("toggle"),
+    "employee" == addBtnDataType ? insertEmployee(addBtnId) : "department" == addBtnDataType ? insertDepartment(addBtnId) : "location" == addBtnDataType && insertLocation(addBtnId)
+});
+
+const insertEmployee = () => {
+ 
+    $.ajax ({
+        url: "libs/php/insertPersonnel.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            firstName: capitalizeFirstLetter($("#addEmployeeFirstName").val()),
+            lastName: capitalizeFirstLetter($("#addEmployeeLastName").val()),
+            jobTitle: capitalizeFirstLetter($("#addEmployeeJobTitle").val()),
+            email: $("#addEmployeeEmail").val(),
+            departmentID: $("#addEmployeeDepartment").val()
+        },
+ 
+        success: function(result) {
+ 
+            const addSuccessMessage1 = {
+                title: "Addition Success",
+                type: "success",
+                message: `Successfully added ${capitalizeFirstLetter($("#addEmployeeFirstName").val())} ${capitalizeFirstLetter($("#addEmployeeLastName").val())}.`
+            };
+ 
+            displayFeedbackModal(addSuccessMessage1),
+            refreshPersonnel()
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+        }
+        })
+    },
+ 
+insertDepartment = () => {
+ 
+    $.ajax ({
+        url: "libs/php/insertDepartment.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            name: capitalizeFirstLetter($("#addDepartmentName").val()),
+            locationID: $("#locationSelectForAddDept").val()
+        },
+ 
+        success: function(result) {
+ 
+            const addSuccessMessage2 = {
+                title: "Addition Successful",
+                type: "success",
+                message: `Successfully added ${capitalizeFirstLetter($("#addDepartmentName").val())}.`
+            };
+            displayFeedbackModal(addSuccessMessage2),
+            refreshDepartments()
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+        }
+        })
+    },
+ 
+insertLocation = () => {
+ 
+    $.ajax ({
+        url: "libs/php/insertLocation.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            name: capitalizeFirstLetter($("#addLocationName").val())
+        },
+ 
+        success: function(result) {
+ 
+            const addSuccessMessage3 = {
+                title: "Addition Successful",
+                type: "success",
+                message: `Successfully added ${capitalizeFirstLetter($("#addLocationName").val())}.`
+            };
+                displayFeedbackModal(addSuccessMessage3),
+                refreshLocations()
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+            }
+            })
+        };  // WORKS!!
+ 
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// CLICK ON ROWS TO EDIT
+ 
+// EDIT EMPLOYEES (when each row is clicked!!)
+$("body").on("click", ".editEmployeeBtn", function() {
+ 
+    clearFeedback();
+    const employeeEditRow = $(this).data('employeeId');
+  
+    $.ajax ({
+ 
+        url: "libs/php/getPersonnelByID.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: employeeEditRow
+        },
+ 
+        success: function(result) {
+ 
+            console.log(result);
+ 
+            const employeeIdData = result['data']['personnel'][0];
+            console.log(employeeIdData);
+ 
+            $("#editEmployeeFirstNameLabel").text(employeeIdData.firstName),
+            $("#editEmployeeLastNameLabel").text(employeeIdData.lastName),
+ 
+            $("#editEmployeeId").val(employeeIdData.id),  
+ 
+            $("#editEmployeeFirstName").val(employeeIdData.firstName),
+            $("#editEmployeeLastName").val(employeeIdData.lastName),
+            $("#editEmployeeDepartment").val(employeeIdData.departmentID),
+            $("#editEmployeeJobTitle").val(employeeIdData.jobTitle),
+            $("#editEmployeeEmail").val(employeeIdData.email),
+ 
+            $("#editEmployee").modal("toggle")
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+        }
+    })
+}),
+// EDIT DEPARTMENTS (when each row is clicked!!)
+$("body").on("click", ".editDeptBtn", function() {
+ 
+    clearFeedback();
+    const thisDepartmentEditRow = $(this),
+    departmentEditRow = thisDepartmentEditRow[0].dataset.departmentId;
+ 
+    $.ajax ({
+ 
+        url: "libs/php/getDepartmentByID.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: departmentEditRow
+        },
+ 
+        success: function(result) {
+ 
+            const departmentIdData = result['data'][0];
+ 
+            $("#editDepartmentLabel").text(departmentIdData.name),
+
+            $("#editDepartmentName").val(departmentIdData.name),
+            $("#editDepartmentLocation").val(departmentIdData.locationID),
+            $("#editDepartmentId").val(departmentIdData.id),  
+ 
+            $("#editDepartment").modal("toggle")
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+        }
+      })
+    }),
+    // EDIT LOCATIONS (when each row is clicked!!)
+    $("body").on("click", ".editLocationBtn", function() {
+ 
+        clearFeedback();
+        const thisLocationEditRow = $(this),
+        locationEditRow = thisLocationEditRow[0].dataset.locationId;
+ 
+    $.ajax ({
+ 
+        url: "libs/php/getLocationByID.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: locationEditRow
+            },
+
+        success: function(result) {
+
+            const LocationIdData = result['data'][0];
+
+            $("#editLocationLabel").text(LocationIdData.name),  
+            $("#editLocationName").val(LocationIdData.name),
+            $("#editLocationId").val(locationEditRow),
+
+            $("#editLocation").modal("toggle")
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+        }
+      })
+    }),
+ 
+///////////////////////////////////////////////////////////////////////////
+//  EDIT FORMS        
+$("#editEmployeeForm").submit(function() {
+ 
+    const editEmployeeFormData = {
+ 
+        firstName: $("#editEmployeeFirstName").val(),
+        lastName: $("#editEmployeeLastName").val(),
+        jobTitle: $("#editEmployeeJobTitle").val(),
+        email: $("#editEmployeeEmail").val(),
+        departmentID: $("#editEmployeeDepartment").val(),
+    };
+        return showConfirmUpdateModal(editEmployeeFormData, "this employee", "employee"),
+!1}),
+ 
+$("#editDepartmentForm").submit(function() {
+ 
+    const editDepartmentFormData = {
+ 
+        name: $("#editDepartmentName").val(),
+        locationID: $("#editDepartmentLocation").val(),
+    };
+        return showConfirmUpdateModal(editDepartmentFormData, "this department", "department"),
+!1}),
+ 
+$("#editLocationForm").submit(function() {
+
+    const editLocationFormData = {
+ 
+        name: $("#editLocationName").val(),
+    };
+        return showConfirmUpdateModal(editLocationFormData, "this location", "location"),
+!1});
+ 
+    showConfirmUpdateModal = (e, t, a) => {
+ 
+        clearFeedback(),
+        $("#confirmUpdateButton").data("update-type",a),
+        $("#confirmUpdateButton").data("update-item",e),
+        $("#confirmUpdateName").text(t),
+        $("#confirmUpdate").modal("toggle")
+    };
+ 
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// CONFIRMS UPDATE BUTTONS
+ 
+$("#confirmUpdateButton").click(function() {
+ 
+    const updateBtnId = $("#confirmUpdateButton").data("update-item"),
+    updateBtnDataType = $("#confirmUpdateButton").data("update-type");
+
+    $("#confirmUpdate").modal("toggle"),
+    "employee" == updateBtnDataType ? updateEmployee(updateBtnId) : "department" == updateBtnDataType ? updateDepartment(updateBtnId) : "location" == updateBtnDataType && updateLocation(updateBtnId)
+});
+ 
+const updateEmployee = () => {
+ 
+    $.ajax ({
+
+        url: "libs/php/updatePersonnel.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            firstName: capitalizeFirstLetter($("#editEmployeeFirstName").val()),
+            lastName: capitalizeFirstLetter($("#editEmployeeLastName").val()),
+            jobTitle: capitalizeFirstLetter($("#editEmployeeJobTitle").val()),
+            email: $("#editEmployeeEmail").val(),
+            departmentID: $("#editEmployeeDepartment").val(),
+            id:$("#editEmployeeId").val()
+        },
+ 
+        success: function(result) {
+ 
+            //console.log(result['data']);
+ 
+            const editSuccessMessage1 = {
+                title: "Update Successful",
+                type: "success",
+                message: `Successfully updated ${capitalizeFirstLetter($("#editEmployeeFirstName").val())} ${capitalizeFirstLetter($("#editEmployeeLastName").val())}.`
+            };
+ 
+                displayFeedbackModal(editSuccessMessage1),
+                refreshPersonnel()
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+            }
+            })
+    },
+updateDepartment = () => {
+ 
+    $.ajax ({
+ 
+        url: "libs/php/updateDepartment.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            name: capitalizeFirstLetter($("#editDepartmentName").val()),
+            locationID: $("#editDepartmentLocation").val(),
+            id: $("#editDepartmentId").val()
+        },
+ 
+        success: function(result) {
+ 
+            const editSuccessMessage2 = {
+                title: "Update Sucessful",
+                type: "success",
+                message: `Successfully updated ${capitalizeFirstLetter($("#editDepartmentName").val())}.`
+            };
+                displayFeedbackModal(editSuccessMessage2),
+                refreshPersonnel(),
+                refreshDepartments()
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+            }
+            })
+    },
+updateLocation = () => {
+ 
+    $.ajax ({
+ 
+        url: "libs/php/updateLocation.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            name: capitalizeFirstLetter($("#editLocationName").val()),
+            id: $("#editLocationId").val()
+        },
+ 
+        success: function(result) {
+ 
+            const editSuccessMessage3 = {
+                title:"Update Successful",
+                type:"success",
+                message:`Successfully updated ${capitalizeFirstLetter($("#editLocationName").val())}.`
+            };
+                displayFeedbackModal(editSuccessMessage3),
+                refreshPersonnel(),
+                refreshDepartments(),
+                refreshLocations()
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+            }
+            })
+    };   // WORKS!!
+ 
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// DELETE BUTTONS
+ 
+$("body").on("click", ".delEmployeeBtn", function() {
+ 
+    const employeeDeleteRow = $(this),
+    employeeIdData = employeeDeleteRow[0].dataset.employeeId;
+ 
+    showConfirmDeleteModal(employeeIdData, "this employee", "employee")
+}),
+$("body").on("click", ".delDeptBtn", function() {
+ 
+    const departmentDeleteRow = $(this),
+    departmentIdData = departmentDeleteRow[0].dataset.departmentId;
+ 
+    showConfirmDeleteModal(departmentIdData, "this department", "department")
+}),
+$("body").on("click", ".delLocationBtn", function() {
+
+    const locationDeleteRow = $(this),
+    locationIdData = locationDeleteRow[0].dataset.locationId;
+ 
+    showConfirmDeleteModal(locationIdData, "this location", "location")
+});
+ 
+const showConfirmDeleteModal = (e, t, a) => {
+ 
+    $("#confirmDeleteButton").data("deletion-type", a),
+    $("#confirmDeleteButton").val(e),
+    $("#confirmDeleteName").text(t),
+    $("#confirmDelete").modal("toggle")
+};
+///////////////////////////////////////////////////////////////////////////
+// CONFIRMS DELETE (when delete button is clicked!!)
+ 
+$("#confirmDeleteButton").click(function() {
+ 
+    const deleteBtnId = $("#confirmDeleteButton").val(),
+    deleteBtnDataType = $("#confirmDeleteButton").data("deletion-type");
+ 
+    "employee" == deleteBtnDataType ? deleteEmployee(deleteBtnId) : "department" == deleteBtnDataType ? deleteDepartment(deleteBtnId) : "location" == deleteBtnDataType && deleteLocation(deleteBtnId)
+});
+ 
+const deleteEmployee = () => {
+ 
+    $.ajax ({
+ 
+        url: "libs/php/deletePersonnelByID.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: $("#confirmDeleteButton").val(),
+        },
+        success: function(result) {
+ 
+            const deleteSuccessMessage1 = {
+                title: "Delete Successful",
+                type: "success",
+                message: "You have successfully deleted this employee."
+            };
+            displayFeedbackModal(deleteSuccessMessage1),
+            refreshPersonnel()
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR, textStatus, errorThrown);
+        }
+    })
+},
+deleteDepartment = () => {
+ 
+    $.ajax ({
+       
+        url: "libs/php/deleteDepartmentByID.php",
+        type: "POST",
+        dataType: "json"
+        ,data: {
+            id: $("#confirmDeleteButton").val(),
+        },
+        success: function(result) {
+ 
+            const deleteSuccessMessage2 = {
+                 title: "Delete Successful",
+                 type: "success",
+                 message: "You have successfully deleted this department."
+                };
+ 
+                displayFeedbackModal(deleteSuccessMessage2),
+                refreshDepartments()
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, textStatus, errorThrown);
+            }
+        })
+},
+deleteLocation = () => {
+       
+        $.ajax ({
+            url: "libs/php/deleteLocationByID.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+            id: $("#confirmDeleteButton").val(),
+            },
+            success: function(result) {
                
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                const deleteSuccessMessage3 = {
+                    title: "Delete Successful",
+                    type: "success",
+                    message: "You have successfully deleted this location."
+                };
  
-                        <!-- DEPARTMENTS TABLE -->
-                        <div id="departmentTable" class="tab-pane container-fluid state">
-                        <!-- Department Table Row -->
-                            <div class="row">
-                                <table class="table table-hover align-middle">
-                                    <tbody id="departmentResultsData">
-                                   
-                                    <!-- Dynamically Populated -->
-                                   
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                displayFeedbackModal(deleteSuccessMessage3),
+                refreshLocations()
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, textStatus, errorThrown);
+            }
+        })
+};  // WORKS!!
  
-                        <!-- LOCATIONS TABLE -->
-                        <div id="locationTable" class="tab-pane container-fluid state">
-                        <!-- Location Table Row -->
-                            <div class="row">
-                                <table class="table table-hover align-middle">
-                                    <tbody id="locationResultsData">
-                                   
-                                    <!-- Dynamically Populated -->
-                                   
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </header>
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// SEARCH BUTTON
  
-<!--///////////////////////////////////////////////////////////////////////////////-->
-                <main>
-                    <!-- BUTTONS -->
-                    <!-- To top -->
-                    <button id="toTopButton" class="btn btn-info floatBtn rounded-circle"><i class="fas fa-arrow-up fa-lg"></i></button>
-                    <!-- Search -->
-                    <button id="searchButton" class="btn btn-info floatBtn rounded-circle"><i class="fas fa-search fa-lg"></i></button>
-               
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!-- ADD BUTTON- Employee/Department/Location Modals -->
-         
-                <!-- ADD EMPLOYEE MODAL -->
-                <div id="addEmployee" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                        <div class="modal-header bg-info text-light">
+$("#searchButton").click(function() {
  
-                        <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;Add New Employee</h4>
-                        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                            <form id="addEmployeeForm">
-                                <div id="addEmployeeModalBody" class="modal-body">
-                                    <div class="container">
-                                        <div id="addEmployeeFeedback" class="feedbackMessage"></div>
-                                       
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="addEmployeeFirstName" placeholder="First Name" required>
-                                            <label for="addEmployeeFirstName">First Name</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="addEmployeeLastName" placeholder="Last Name" required>
-                                            <label for="addEmployeeLastName">Last Name</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="addEmployeeJobTitle" name="jobTitle" placeholder="Enter Name" required>
-                                            <label for="addEmployeeJobTitle">Job Title</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input type="email" class="form-control" id="addEmployeeEmail" name="email" placeholder="Enter Name" required>
-                                            <label for="addEmployeeEmail">Email Address</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <select class="form-select departmentSelect" id="addEmployeeDepartment" required>
-                                           
-                                                <!-- Dynamically Populated -->
+    clearFeedback(),
+    $("#searchTermForm").trigger("reset"),
+    $("#searchTerm").modal("toggle")
  
-                                            </select>
-                                            <label for="addEmployeeDepartment">Department</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-info text-light">Add</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+}),
+    $("#searchTermForm").submit(function() {
+       
+        const searchNameInput = $("#searchName").val()
+       
+            return $.ajax( {
  
-<!--///////////////////////////////////////////////////////////////////////////////-->
+                url: "libs/php/getPersonnelByName.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    searchTerm: searchNameInput
+                },  
+                    success: function(result) {
  
-                <!-- ADD DEPARTMENT MODAL -->
-                <div id="addDepartment" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header bg-info text-light">
-                                <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-briefcase"></i>&nbsp;&nbsp;Add New Department</h4>
-                                <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                                <form id="addDepartmentForm">
-                                    <div class="modal-body">
-                                        <div class="container">
-                                        <div id="addDepartmentFeedback" class="feedbackMessage"></div>
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="addDepartmentName" name="departmentName" placeholder="Enter Name" required>
-                                                <label for="addDepartmentName">Name</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <select class="form-select locationSelect" id="locationSelectForAddDept" required></select>
-                                               
-                                                <!-- Dynamically Populated -->
+                        console.log(result['data']);
  
-                                                <label for="locationSelectForAddDept">Location</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer justify-content-center">
-                                        <button type="submit" class="btn btn-info text-light">Add</button>
-                                    </div>
-                                </form>
-                        </div>
-                    </div>
-                </div>
+                        const searchResults = result['data']['personnel'];
+                        //console.log(searchResults);
  
-<!--///////////////////////////////////////////////////////////////////////////////-->
+                        if (searchResults.length > 0) {  
+                       
+                        updateEmployeeTable(searchResults),
+                        $("#searchTerm").modal("toggle"),
+                        $("#searchTermForm").trigger("reset");
  
-                <!-- ADD LOCATION MODAL -->
-                <div id="addLocation" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                        <div class="modal-header bg-info text-light">
-                            <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-location-pin"></i>&nbsp;&nbsp;Add New Location</h4>
-                            <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                            <form id="addLocationForm">
-                                <div class="modal-body">
-                                    <div class="container">
-                                        <div id="addLocationFeedback" class="feedbackMessage"></div>
-                                        <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="addLocationName" name="locationName" placeholder="Enter Name" required>
-                                        <label for="addLocationName">Name</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer justify-content-center">
-                                    <button type="submit" class="btn btn-info text-light">Add</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-             
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!--///////////////////////////////////////////////////////////////////////////////-->
- <!-- ADD Confirmation Feedback Message Model-->
-               
-                <div id="confirmAdd" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-info text-light">
-                            <h4 class="fs-4 text-center modal-title w-100">Confirm Add</h4>
-                            <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p class="fs-5 text-center">Please confirm you wish to add <span id="confirmAddName">.</span></p>
-                        </div>
-                        <div class="modal-footer justify-content-center">
-                            <button id="confirmAddButton" type="button" class="btn btn-info btn text-light">Confirm</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-             
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!-- EDIT Employee/Department/Location Modals When ROW Clicked-->
+                        } else {
+                            const noSearchResultsMessage = {
+                                id: "#searchTermFeedback",
+                                type: "danger",
+                                message: "There are no matches for your search, please try again!"
+                            };
+                                displayFeedback(noSearchResultsMessage)
+                            }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR, textStatus, errorThrown);
+                    }
+                })
+!1});   // WORKS!!
  
-                <!-- EDIT Employee Modal -->
-                <div id="editEmployee" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header bg-info text-light">
-                                <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;Edit Employee- <span id="editEmployeeFirstNameLabel"></span> <span id="editEmployeeLastNameLabel"></span></h4>
-                                <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <!-- Edit Employee Form -->
-                            <form id="editEmployeeForm">
-                                <div class="modal-body">
-                                    <div class="container">
-                                        <div id="editEmployeeFeedback" class="feedbackMessage"></div>
-                                            <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="editEmployeeFirstName" placeholder="First Name" required>
-                                            <label for="editEmployeeFirstName">First Name</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="editEmployeeLastName" placeholder="Last Name" required>
-                                                <label for="editEmployeeLastName">Last Name</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="editEmployeeJobTitle" name="jobTitle" placeholder="Enter Name" required>
-                                                <label for="editEmployeeJobTitle">Job Title</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="email" class="form-control" id="editEmployeeEmail" name="email" placeholder="Enter Name" required>
-                                               
-                                                <!-- Dynamically Populated -->
-                                               
-                                                <label for="editEmployeeEmail">Email Address</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <select class="form-select editEmployee departmentSelect" id="editEmployeeDepartment" required>
-                                               
-                                                    <!--Dynamically Populated-->
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+clearFeedback=()=> {
  
-                                                </select>
-                                                <label for="editEmployeeDepartment">Department</label>
-                                            </div>
-                                        <input type="hidden" id="editEmployeeId">
-                                        <input type="hidden" id="editEmployeeOrigDeptId">
-                                        <input type="hidden" id="editEmployeeOrigLocId">
-                                        <input type="hidden" id="editEmployeeOrigJob">
-                                        <input type="hidden" id="editEmployeeOrigEmail">
-                                    </div>
-                                </div>
-                                <div class="modal-footer justify-content-center">
-                                    <button type="submit" class="btn btn-info text-light">Update</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+    $(".feedbackMessage").empty()
+};
  
-<!--///////////////////////////////////////////////////////////////////////////////-->
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// DELETION Feedback Message Modal
  
-                <!-- EDIT Department Modal -->
-                <div id="editDepartment" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header bg-info text-light">
-                            <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-briefcase"></i>&nbsp;&nbsp;Edit Dept- <span id="editDepartmentLabel"></span></h4>
-                            <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <!-- Edit Department Form -->
-                            <form id="editDepartmentForm">
-                                <div class="modal-body">
-                                    <div class="container">
-                                        <div id="editDepartmentFeedback" class="feedbackMessage"></div>
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="editDepartmentName" name="departmentName" placeholder="Enter Name" required>
-                                            <label for="editDepartmentName">Department Name</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <select class="form-select locationSelect" id="editDepartmentLocation" required></select>
-                                            <!-- Dynamically Populated -->
-                                            <label for="editDepartmentLocation">Location</label>
-                                        </div>
-                                            <input type="hidden" id="editDepartmentId">
-                                            <input type="hidden" id="editDepartmentOrigLocation">
-                                    </div>
-                                </div>
-                                <div class="modal-footer justify-content-center">
-                                    <button type="submit" class="btn btn-info text-light">Update</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+    const displayFeedbackModal = e => {
+                                                                       
+        $(".modal").modal("hide"),
+        $("#feedbackModalTitle").text(e.title);
+        const message =`<div class="alert alert-${e.type}" role="alert">${e.message}</div>`;
+        $("#feedbackMessage").html(message),
+        $("#feedbackModal").modal("show")
+    },
+    displayFeedback = e => {
+       
+        $("feedbackModalTitle").text=e.title;
+        const message2 =`<div class="alert alert-${e.type}" role="alert">${e.message}</div>`;
+        $(e.id).html(message2)
+    },
+///////////////////////////////////////////////////////////////////////////
  
-<!--///////////////////////////////////////////////////////////////////////////////-->
+    setActiveTables = e => {
  
-                <!-- EDIT Location Modal -->
-                <div id="editLocation" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header bg-info text-light">
-                                <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-location-pin"></i>&nbsp;&nbsp;Edit Location- <span id="editLocationLabel"></span></h4>
-                                <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <!-- Edit Location Form -->
-                            <form id="editLocationForm">
-                                <div class="modal-body">
-                                    <div class="container">
-                                        <div id="editLocationFeedback" class="feedbackMessage"></div>
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="editLocationName" name="locationName" placeholder="Enter Name" required>
-                                            <label for="editLocationName">Location Name</label>
-                                        </div>
-                                            <input type="hidden" id="editLocationId">
-                                    </div>
-                                </div>
-                                <div class="modal-footer justify-content-center">
-                                    <button type="submit" class="btn btn-info text-light">Update</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+        clearFeedback();
+        let data = "";
+        "#employeeTable" == e ? (data = "#nav-employees-tab", "#nav-employees",
+        $("#searchButton").removeClass("d-none"),
+        appTable = "Employee") : "#departmentTable" == e ? (data = "#nav-departments-tab", "#nav-departments",
+        $("#searchButton").addClass("d-none"),
+        appTable = "Department") : "#locationTable" == e && (data = "#nav-locations-tab", "#nav-locations",
+        $("#searchButton").addClass("d-none"),
+        appTable = "Location")
+    };
+   
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////    
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Page Scrolls Back To Up To Top Of Page When Click The toTopButton
  
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!-- UPDATE Confirmaton Feedback Message Modal -->
- 
-                <div id="confirmUpdate" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header bg-info text-light">
-                                <h4 class="fs-4 text-center modal-title w-100">Confirm Update</h4>
-                                <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p class="fs-5 text-center">Please confirm you wish to update <span id="confirmUpdateName"></span></p>
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <button id="confirmUpdateButton" type="button" class="btn btn-info text-light">Confirm</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
- 
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!-- DELETE Employee/Department/Location Modals When DELETE BUTTON Clicked -->
- 
-                    <div id="confirmDelete" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header bg-info text-light">
-                                    <h4 class="fs-4 text-center modal-title w-100">Confirm You Wish To Delete</h4>
-                                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div id="deleteFeedback" class="feedbackMessage"></div>
-                                    <p class="fs-5 text-center">This action CANNOT be undone!<br>Do you still wish to DELETE <span id="confirmDeleteName"></span>?</p>
-                                </div>
-                                    <div class="modal-footer justify-content-center">
-                                    <button id="confirmDeleteButton" type="button" class="btn btn-info text-light">Delete</button>
-                                </div>
-                            </div>
-                        </div>    
-                    </div>
- 
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!-- DELETE Confirmaton Feedback Message Modal -->
- 
-                    <div id="feedbackModal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header bg-info text-light">
-                                    <h4 class="fs-4 text-center modal-title w-100"><span id="feedbackModalTitle">Confirm Delete</span></h4>
-                                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                <div id="feedbackMessage" class="feedbackMessage"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-               
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!--///////////////////////////////////////////////////////////////////////////////-->
-<!-- SEARCH BUTTON Modal -->
- 
-                    <div id="searchTerm" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header bg-info text-light">
-                                    <h4 class="fs-4 text-center modal-title w-100"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;&nbsp;Search By Name</h4>  
-                                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <form id="searchTermForm">
-                                    <div class="modal-body">
-                                        <!-- Edit Employee Form -->
-                                        <div class="container">
-                                            <div id="searchTermFeedback" class="feedbackMessage"></div>
-                                            <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="searchName" placeholder="First Name">
-                                                <label for="searchName">Name</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer justify-content-center">
-                                        <button type="submit" class="btn btn-info text-light">Search</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
- 
-            </main>  
- <!--///////////////////////////////////////////////////////////////////////////////-->
- 
-             <!-- Jquery.js -->
-             <script src=https://code.jquery.com/jquery-3.6.1.min.js integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
- 
-             <!-- Bootstrap Initialization -->
-             <script src=https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
-             <script src=https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
- 
-            <!-- Script.js -->
-            <script src="libs/js/script.js"></script>
- 
-        </body>
- 
-    </html>
+$("#toTopButton").on("click", function(e) {
+        e.preventDefault(),
+        $("html, body").animate({
+            scrollTop:0
+        },
+        "300")
+}),
+refreshPersonnel(),
+refreshDepartments(),
+refreshLocations();
