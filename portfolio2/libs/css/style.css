@@ -40,49 +40,15 @@
         -webkit-transform:rotate(360deg);
                 transform:rotate(360deg)
     }
-}
- 
-/* Style the navigation menu */
-.topnav {
-    overflow: hidden;
-    background-color: rgb(78, 194, 229);
-    position: relative;
-  }
- 
-  /* Hide the links inside the navigation menu (except for logo/home) */
-  .topnav #myLinks {
-    display: none;
-  }
- 
-  /* Style navigation menu links */
-  .topnav a {
-    color: black;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-    display: block;
-  }
- 
-  /* Style the hamburger menu */
-  .topnav a.icon {
-    background: rgb(78, 194, 229);
-    display: block;
-    position: absolute;
-    right: 0;
-    top: 15px;
-  }
- 
-@media only screen and (min-width:640px) {
-    #mobile-nav {
-        display: none;
-    }
-}
+} 
  
 @media only screen and (max-width:640px) {
-    #directory-nav {
-        display: none;
+    #addButton {
+        color:rgb(0, 0, 0);
+        vertical-align: middle;
+        margin-right: 10px;
     }
-}
+} 
 .modal-body {
     max-height:70vh;
     overflow-y:auto
@@ -94,15 +60,15 @@
     box-shadow:
     0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)
 }
+#toTopButton :hover {
+    cursor:pointer;
+    color:rgba(255,255,255,1)
+}
 #searchButton {
     position:fixed;
     bottom:10px;
     right:10px;
     box-shadow:0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)
-}
-#toTopButton :hover {
-    cursor:pointer;
-    color:rgba(255,255,255,1)
 }
 #searchButton :hover {
     cursor:pointer;
@@ -114,21 +80,12 @@
 }
 #addButton {
     color:rgb(0, 0, 0);
+    vertical-align: middle;
     justify-content: flex-end;
     margin-right: 10px;
     margin-left: 480px;
 }
 #addButton :hover {
-    cursor:pointer;
-    color:rgba(255,255,255,1)
-}
-#mobileAddButton {
-    color:rgb(0, 0, 0);
-    justify-content: middle;
-    margin-right: 40px;
-    margin-left: 0px;
-}
-#mobileAddButton :hover {
     cursor:pointer;
     color:rgba(255,255,255,1)
 }
