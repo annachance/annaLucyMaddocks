@@ -33,7 +33,7 @@ $query = $conn->prepare('SELECT COUNT(id)
 FROM department
 WHERE locationID=?');
 
-$query->bind_param("i", $_REQUEST['id']);
+$query->bind_param("i", $_POST['id']);
 
 $query->execute();
 
@@ -75,7 +75,7 @@ $output['status']['name'] = "ok";
 $output['status']['description'] = "success";
 $output['status']['returnedIn'] = (microtime(true) -
 $executionStartTime) / 1000 . " ms";
-$output['data'] = $numDepartmentWithLoc;
+$output['data'] = numDepartmentInLoc;
 
 mysqli_close($conn);
 
