@@ -684,7 +684,8 @@ const checkDeleteDepartment = () => {
 
             if (result['data'] == 0) {
 
-            deleteDepartment($("#confirmDeleteButton").val())
+                //console.log(result);
+                deleteDepartment()
 
              } else {
                 const deleteDeparmentDeniedMessage = {
@@ -718,7 +719,8 @@ checkDeleteLocation = () => {
 
             if (result['data'] == 0) {
 
-            deleteLocation($("#confirmDeleteButton").val())
+                //console.log(result);
+                deleteLocation()
 
             } else {
                 const deleteLocationDeniedMessage = {
