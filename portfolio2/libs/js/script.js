@@ -93,7 +93,7 @@ refreshLocations = () => {
             console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
         }
     })
-},  // WORKS!!
+},
 
 ///////////////////////////////////////////////////////////////////////////
 // POPULATE DROPDOWNS IN FORMS
@@ -135,10 +135,6 @@ populateLocationSelects = e => {
         })
     })
 };
-
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -202,7 +198,7 @@ updateLocationTable = e => {
         lDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delLocationBtn" data-location-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
 
         return`<tr class="locationRow" data-location-id="${e.id}">${lName}${lEditBtn}${lDelBtn}</tr>`
-};  // WORKS!!
+};
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -364,9 +360,7 @@ insertLocation = () => {
                 console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
             }
             })
-        };  // WORKS!!!!
-
-
+        };
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -625,7 +619,7 @@ updateLocation = () => {
                 console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
             }
             })
-    };   // WORKS!!
+    };
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -670,10 +664,78 @@ $("#confirmDeleteButton").click(function() {
     const deleteBtnId = $("#confirmDeleteButton").val(),
     deleteBtnDataType = $("#confirmDeleteButton").data("deletion-type");
 
-    "employee" == deleteBtnDataType ? deleteEmployee(deleteBtnId) : "department" == deleteBtnDataType ? deleteDepartment(deleteBtnId) : "location" == deleteBtnDataType && deleteLocation(deleteBtnId)
+    "employee" == deleteBtnDataType ? deleteEmployee(deleteBtnId) : "department" == deleteBtnDataType ? checkDeleteDepartment(deleteBtnId) : "location" == deleteBtnDataType && checkDeleteLocation(deleteBtnId)
 });
 
-const deleteEmployee = () => {
+const checkDeleteDepartment = () => {
+
+    $.ajax ({
+
+        url: "libs/php/getPersonnelCountByDepartment.php", 
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: $("#confirmDeleteButton").val(),
+        },
+
+        success: function(result) {
+
+            //console.log(result);
+
+            if (result['data'] == 0) {
+
+            deleteDepartment($("#confirmDeleteButton").val())
+
+             } else {
+                const deleteDeparmentDeniedMessage = {
+                    title: "Delete Unsuccessful",
+                    type: "danger",
+                    message: "Cannot be deleted. Please remove all employees from this department to be able to delete."
+                };
+                    displayFeedbackModal(deleteDeparmentDeniedMessage)
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, textStatus, errorThrown);
+            }
+    })
+},
+
+checkDeleteLocation = () => {
+
+    $.ajax ({
+            
+        url: "libs/php/getDepartmentCountByLocation.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: $("#confirmDeleteButton").val(),
+        },
+
+        success: function(result) {
+
+            //console.log(result);
+
+            if (result['data'] == 0) {
+
+            deleteLocation($("#confirmDeleteButton").val())
+
+            } else {
+                const deleteLocationDeniedMessage = {
+                    title: "Delete Unsuccessful",
+                    type: "danger",
+                    message: "Cannot be deleted. Please remove all departments from this location to be able to delete."
+                };
+                    displayFeedbackModal(deleteLocationDeniedMessage)
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, textStatus, errorThrown);
+            }
+    })
+},
+
+deleteEmployee = () => {
 
     $.ajax ({
 
@@ -749,7 +811,7 @@ deleteLocation = () => {
                 console.log(jqXHR, textStatus, errorThrown);
             } 
         })
-};  // WORKS!!
+};
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -801,7 +863,7 @@ $("#searchButton").click(function() {
                         console.log(jqXHR, textStatus, errorThrown);
                     } 
                 }),
-!1});   // WORKS!!
+!1});
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -824,14 +886,13 @@ const displayFeedbackModal = e => {
 },
 displayFeedback = e => {
     
-    $("feedbackModalTitle").text=e.title;
+    $("feedbackModalTitle").text = e.title;
     const message2 =`<div class="alert alert-${e.type}" role="alert">${e.message}</div>`;
     $(e.id).html(message2)
 };
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-
 // Nav Buttons- Update Tables for Employee/Department/Location                                       
 
 clearFeedback=()=> {
@@ -872,12 +933,12 @@ setActiveTables = e => {
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
+// TO TOP BUTTON!
 
-    const btn=$("#toTopButton");
-
-    btn.on("click",function(e) {
+    $("#toTopButton").on("click",function(e) {
         e.preventDefault(),
-        $("html, body").animate({scrollTop:0
+        $("html, body").animate({
+            scrollTop: 0
         },
         "300")
     }),
