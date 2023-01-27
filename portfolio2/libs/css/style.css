@@ -56,16 +56,18 @@
     .navbar {
         flex-direction: row;
         flex: 0 0 100%;
+        position: fixed; /* Set the navbar to fixed position */
+        top: 0; /* Position the navbar at the top of the page */
         width: 100%;
         max-width: 1200px;
         margin: 0 auto;
         padding-bottom: 0;
     }
     #addButton {
-        position: absolute;
-        right: 0;
-        left: 30;
-        bottom: 80px;
+        position: absolute;  /* need to sort out the add button in small screen!!!! */
+        right: 150px;
+        left: 0px;
+        bottom: 0px;
         z-index: 10;
     }
     .tab-actions {
@@ -83,9 +85,18 @@
         color: #fff;
     }
 } 
-/* MAIN */
+
+/* MAIN */   /* #navBar { */
+.navbar {
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%;
+}
 .tab-actions {
     display: flex;
+}
+#nav-employees-tab, #nav-departments-tab, #nav-locations-tab {
+    color: black;
 }
 .modal-body {
     max-height: 70vh;
@@ -121,8 +132,8 @@
     color:rgb(0, 0, 0);
     vertical-align: middle;
     justify-content: flex-end;
-    margin-right: 10px;
-    margin-left: 480px;
+    margin-right: 0px;
+    margin-left: 879px;  
 }
 #addButton :hover {
     cursor: pointer;
