@@ -33,7 +33,7 @@ const refreshPersonnel = () => {
 
         if (result.status.name == "ok") {
 
-            console.log(result['data']);
+            //console.log(result['data']);
 
             const employeeData = result['data'];
             updateEmployeeTable(employeeData);
@@ -57,7 +57,7 @@ refreshDepartments = () => {
 
         if (result.status.name == "ok") {
 
-            console.log(result['data']);
+            //console.log(result['data']);
 
             const departmentData = result['data'];
             populateDepartmentSelects(departmentData),
@@ -82,7 +82,7 @@ refreshLocations = () => {
 
         if (result.status.name == "ok") {
 
-            console.log(result['data']);
+            //console.log(result['data']);
 
             const locationData = result['data'];
             populateLocationSelects(locationData),
@@ -291,7 +291,6 @@ const insertEmployee = () => {
             email: $("#addEmployeeEmail").val(),
             departmentID: $("#addEmployeeDepartment").val()
         },
-
         success: function(result) {
 
             const addSuccessMessage1 = {
@@ -319,7 +318,6 @@ insertDepartment = () => {
             name: capitalizeFirstLetter($("#addDepartmentName").val()),
             locationID: $("#locationSelectForAddDept").val()
         },
-
         success: function(result) {
 
             const addSuccessMessage2 = {
@@ -345,7 +343,6 @@ insertLocation = () => {
         data: {
             name: capitalizeFirstLetter($("#addLocationName").val())
         },
-
         success: function(result) {
 
             const addSuccessMessage3 = {
@@ -365,9 +362,9 @@ insertLocation = () => {
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-// CLICK ON ROWS TO EDIT 
+// CLICK ON EDIT BUTTONS
 
-// EDIT EMPLOYEES (when each row is clicked!!) 
+// EDIT EMPLOYEES (when edit button is clicked!!) 
 $("body").on("click", ".editEmployeeBtn", function() { 
 
     clearFeedback();
@@ -381,13 +378,12 @@ $("body").on("click", ".editEmployeeBtn", function() {
         data: {
             id: employeeEditRow
         },
-
         success: function(result) {
 
-            console.log(result);
+            //console.log(result);
 
             const employeeIdData = result['data']['personnel'][0];
-            console.log(employeeIdData);
+            //console.log(employeeIdData);
 
             $("#editEmployeeFirstNameLabel").text(employeeIdData.firstName),
             $("#editEmployeeLastNameLabel").text(employeeIdData.lastName),
@@ -407,7 +403,7 @@ $("body").on("click", ".editEmployeeBtn", function() {
         }
     })
 }),
-// EDIT DEPARTMENTS (when each row is clicked!!)
+// EDIT DEPARTMENTS (when edit button is clicked!!)
 $("body").on("click", ".editDeptBtn", function() {
 
     clearFeedback();
@@ -422,7 +418,6 @@ $("body").on("click", ".editDeptBtn", function() {
         data: {
             id: departmentEditRow 
         },
-
         success: function(result) {
 
             const departmentIdData = result['data'][0];
@@ -440,7 +435,7 @@ $("body").on("click", ".editDeptBtn", function() {
         }
       })
     }),
-    // EDIT LOCATIONS (when each row is clicked!!)
+    // EDIT LOCATIONS (when edit button is clicked!!)
     $("body").on("click", ".editLocationBtn", function() {
 
         clearFeedback();
@@ -454,8 +449,7 @@ $("body").on("click", ".editDeptBtn", function() {
         dataType: "json",
         data: {
             id: locationEditRow
-            },
-
+        },
         success: function(result) {
 
             const LocationIdData = result['data'][0];
@@ -543,7 +537,6 @@ const updateEmployee = () => {
             departmentID: $("#editEmployeeDepartment").val(),
             id:$("#editEmployeeId").val()
         },
-
         success: function(result) {
 
             //console.log(result['data']);
@@ -574,7 +567,6 @@ updateDepartment = () => {
             locationID: $("#editDepartmentLocation").val(),
             id: $("#editDepartmentId").val()
         },
-
         success: function(result) {
 
             const editSuccessMessage2 = {
@@ -602,7 +594,6 @@ updateLocation = () => {
             name: capitalizeFirstLetter($("#editLocationName").val()),
             id: $("#editLocationId").val() 
         },
-
         success: function(result) {
 
             const editSuccessMessage3 = {
@@ -677,7 +668,6 @@ const checkDeleteDepartment = () => {
         data: {
             id: $("#confirmDeleteButton").val(),
         },
-
         success: function(result) {
 
             //console.log(result);
@@ -712,7 +702,6 @@ checkDeleteLocation = () => {
         data: {
             id: $("#confirmDeleteButton").val(),
         },
-
         success: function(result) {
 
             //console.log(result);
@@ -747,7 +736,6 @@ deleteEmployee = () => {
         data: {
             id: $("#confirmDeleteButton").val(),
         },
-    
         success: function(result) {
 
             const deleteSuccessMessage1 = {
@@ -839,32 +827,32 @@ $("#searchButton").click(function() {
                 data: {
                     searchTerm: searchNameInput
                 },  
-                    success: function(result) {
+                success: function(result) {
 
-                        console.log(result['data']); 
+                    //console.log(result['data']); 
 
-                        const searchResults = result['data']['personnel'];
-                        //console.log(searchResults);
+                    const searchResults = result['data']['personnel'];
+                    //console.log(searchResults);
 
-                        if (searchResults.length > 0) {  
-                        
-                        updateEmployeeTable(searchResults),
-                        $("#searchTerm").modal("toggle"),
-                        $("#searchTermForm").trigger("reset");
+                    if (searchResults.length > 0) {  
+                    
+                    updateEmployeeTable(searchResults),
+                    $("#searchTerm").modal("toggle"),
+                    $("#searchTermForm").trigger("reset");
 
-                        } else {
-                            const noSearchResultsMessage = {
-                                id: "#searchTermFeedback",
-                                type: "danger",
-                                message: "There are no matches for your search, please try again!"
-                            };
-                                displayFeedback(noSearchResultsMessage)
-                            }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR, textStatus, errorThrown);
-                    } 
-                }),
+                    } else {
+                        const noSearchResultsMessage = {
+                            id: "#searchTermFeedback",
+                            type: "danger",
+                            message: "There are no matches for your search, please try again!"
+                        };
+                            displayFeedback(noSearchResultsMessage)
+                        }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR, textStatus, errorThrown);
+                } 
+            }),
 !1});
 
 ///////////////////////////////////////////////////////////////////////////
@@ -903,18 +891,18 @@ clearFeedback=()=> {
 };
 $("#nav-employees-tab").click(function() {
 
-    setActiveTables("#employeeTable"),
-    updateEmployeeTable();
+    setActiveTables("#employeeTable");
+    //updateEmployeeTable(); // dont need these!!!! - delete finished!!!
 }),
 $("#nav-departments-tab").click(function() {
 
-    setActiveTables("#departmentTable"),
-    updateDepartmentTable();
+    setActiveTables("#departmentTable");
+    //updateDepartmentTable();
 }),
 $("#nav-locations-tab").click(function() {
 
-    setActiveTables("#locationTable"),
-    updateLocationTable();
+    setActiveTables("#locationTable");
+    //updateLocationTable();
 }); 
 
 setActiveTables = e => {
