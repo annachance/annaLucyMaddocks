@@ -29,21 +29,19 @@
                 <!--  PRELOADER  -->
                 <div id="preloader"></div>
                 <!--  NAVBAR  -->
-                <nav class="navbar navbar-expand navbar-dark sticky-top bg-info container-fluid">
-                    <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
-                        <h1 id="directoryTitle" class="ms-2 me-2"><i class="far fa-folder-open"></i>&nbsp;Company Directory</h1>
-
+                <nav class="navbar navbar-expand navbar-dark sticky-top bg-info" id="navBar">
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <div class="tab-actions">
                             <button class="nav-link active" id="nav-employees-tab" data-bs-toggle="tab" data-bs-target="#employeeTable" type="button" role="tab" aria-controls="nav-employees" aria-selected="true">Employees</button>
                             <button class="nav-link" id="nav-departments-tab" data-bs-toggle="tab" data-bs-target="#departmentTable" type="button" role="tab" aria-controls="nav-departments" aria-selected="true">Departments</button>
                             <button class="nav-link" id="nav-locations-tab" data-bs-toggle="tab" data-bs-target="#locationTable" type="button" role="tab" aria-controls="nav-locations" aria-selected="true">Locations</button>
                         </div>
-
+                        <button id="addButton" class="btn floatBtn"><i class="far fa-plus-square fa-2x"></i></button>
                     </div>
-                    <div id="addButton"><i class="far fa-plus-square fa-2x"></i></div>
-
                 </nav>
             </header>
+
+            <main>
                 <div class="tab-content" id="nav-tabContent">
 <!-- Populating Table with Results from database -->
 
@@ -144,8 +142,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-info text-light">Add</button>
+                                <div class="modal-footer justify-content-right">
+                                    <button type="submit" class="btn btn-info text-light">Add</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                 </div>
                             </form>
                         </div>
@@ -179,8 +178,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer justify-content-center">
+                                    <div class="modal-footer justify-content-right">
                                         <button type="submit" class="btn btn-info text-light">Add</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                     </div>
                                 </form>
                         </div>
@@ -207,8 +207,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer justify-content-center">
+                            <div class="modal-footer justify-content-right">
                                 <button type="submit" class="btn btn-info text-light">Add</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             </div>
                         </form>
                     </div>
@@ -222,14 +223,15 @@
                     <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-info text-light">
-                            <h4 class="fs-4 text-center modal-title w-100">Confirm Add</h4>
+                            <h4 class="fs-4 text-center modal-title w-100">Add Confirmation</h4>
                             <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <p class="fs-5 text-center">Please confirm you wish to add <span id="confirmAddName">.</span></p>
                         </div>
-                        <div class="modal-footer justify-content-center">
-                            <button id="confirmAddButton" type="button" class="btn btn-info btn text-light">Confirm</button>
+                        <div class="modal-footer justify-content-right">
+                            <button id="confirmAddButton" type="button" class="btn btn-info btn text-light">Yes</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                         </div>
                     </div>
                     </div>
@@ -286,8 +288,9 @@
                                         <input type="hidden" id="editEmployeeOrigEmail">
                                     </div>
                                 </div>
-                                <div class="modal-footer justify-content-center">
-                                    <button type="submit" class="btn btn-info text-light">Update</button>
+                                <div class="modal-footer justify-content-right">
+                                    <button type="submit" class="btn btn-info text-light">Save</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                 </div>
                             </form>
                         </div>
@@ -322,8 +325,9 @@
                                             <input type="hidden" id="editDepartmentOrigLocation">
                                     </div>
                                 </div>
-                                <div class="modal-footer justify-content-center">
-                                    <button type="submit" class="btn btn-info text-light">Update</button>
+                                <div class="modal-footer justify-content-right">
+                                    <button type="submit" class="btn btn-info text-light">Save</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                 </div>
                             </form>
                         </div>
@@ -352,8 +356,9 @@
                                             <input type="hidden" id="editLocationId">
                                     </div>
                                 </div>
-                                <div class="modal-footer justify-content-center">
-                                    <button type="submit" class="btn btn-info text-light">Update</button>
+                                <div class="modal-footer justify-content-right">
+                                    <button type="submit" class="btn btn-info text-light">Save</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                 </div>
                             </form>
                         </div>
@@ -368,14 +373,15 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header bg-info text-light">
-                                <h4 class="fs-4 text-center modal-title w-100">Confirm Update</h4>
+                                <h4 class="fs-4 text-center modal-title w-100">Update Confirmation</h4>
                                 <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <p class="fs-5 text-center">Please confirm you wish to update <span id="confirmUpdateName"></span></p>
                             </div>
-                            <div class="modal-footer justify-content-center">
-                                <button id="confirmUpdateButton" type="button" class="btn btn-info text-light">Confirm</button>
+                            <div class="modal-footer justify-content-right">
+                                <button id="confirmUpdateButton" type="button" class="btn btn-info text-light">Yes</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                             </div>
                         </div>
                     </div>
@@ -389,15 +395,16 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header bg-info text-light">
-                                <h4 class="fs-4 text-center modal-title w-100">Confirm You Wish To Delete</h4>
+                                <h4 class="fs-4 text-center modal-title w-100">Delete Confirmation</h4>
                                 <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div id="deleteFeedback" class="feedbackMessage"></div>
-                                <p class="fs-5 text-center">This action CANNOT be undone!<br>Do you still wish to DELETE <span id="confirmDeleteName"></span>?</p>
+                                <p class="fs-7 text-center">Are you sure you wish to delete... DELETE <span id="confirmDeleteName"></span>?</p>
                             </div>
-                                <div class="modal-footer justify-content-center">
-                                <button id="confirmDeleteButton" type="button" class="btn btn-info text-light">Delete</button>
+                                <div class="modal-footer justify-content-right">
+                                    <button id="confirmDeleteButton" type="button" class="btn btn-info text-light">Yes</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                             </div>
                         </div>
                     </div>    
@@ -425,7 +432,7 @@
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!--///////////////////////////////////////////////////////////////////////////////-->
-                <!-- SEARCH BUTTON Modal -->
+<!-- SEARCH BUTTON Modal -->
 
                 <div id="searchTerm" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
                     <div class="modal-dialog modal-dialog-centered">
