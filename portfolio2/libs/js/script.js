@@ -619,24 +619,89 @@ updateLocation = () => {
 
 $("body").on("click", ".delEmployeeBtn", function() {
 
-    const employeeDeleteRow = $(this),
-    employeeIdData = employeeDeleteRow[0].dataset.employeeId;
+    const employeeDeleteRow = $(this).data('employeeId');
 
-    showConfirmDeleteModal(employeeIdData, "this employee", "employee")
+    $.ajax ({
+
+        url: "libs/php/getPersonnelByID.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: employeeDeleteRow
+        },
+        success: function(result) {
+
+            //console.log(result);
+
+            const employeeIdData = result['data']['personnel'][0];
+            //console.log(employeeIdData);
+
+            $("#confirmDeleteName").text(employeeIdData.firstName + " " + employeeIdData.lastName)
+            //console.log(confirmDeleteName);
+
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+        }
+    }),
+
+    showConfirmDeleteModal(employeeDeleteRow, "this employee", "employee")
 }),
 $("body").on("click", ".delDeptBtn", function() {
 
-    const departmentDeleteRow = $(this),
-    departmentIdData = departmentDeleteRow[0].dataset.departmentId;
+    const departmentDeleteRow = $(this).data('departmentId');
 
-    showConfirmDeleteModal(departmentIdData, "this department", "department")
+    $.ajax ({
+
+        url: "libs/php/getDepartmentByID.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id: departmentDeleteRow 
+        },
+        success: function(result) {
+
+            const departmentIdData = result['data'][0];
+            //console.log(departmentIdData);
+
+            $("#confirmDeleteName").text(departmentIdData.name)
+            //console.log(confirmDeleteName); 
+
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+        }
+      }),
+
+    showConfirmDeleteModal(departmentDeleteRow, "this department", "department")
 }),
 $("body").on("click", ".delLocationBtn", function() {
 
-    const locationDeleteRow = $(this),
-    locationIdData = locationDeleteRow[0].dataset.locationId;
+    const locationDeleteRow = $(this).data('locationId');
 
-    showConfirmDeleteModal(locationIdData, "this location", "location")
+$.ajax ({
+
+    url: "libs/php/getLocationByID.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+        id: locationDeleteRow
+    },
+    success: function(result) {
+
+        const LocationIdData = result['data'][0];
+        //console.log(LocationIdData);
+
+        $("#confirmDeleteName").text(LocationIdData.name)
+        //console.log(confirmDeleteName); 
+      
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+    }
+  })
+
+    showConfirmDeleteModal(locationDeleteRow, "this location", "location")
 });
 
 const showConfirmDeleteModal = (e, t, a) => {
@@ -741,7 +806,7 @@ deleteEmployee = () => {
             const deleteSuccessMessage1 = {
                 title: "Delete Successful",
                 type: "success",
-                message: "You have successfully deleted this employee."
+                message: "Employee successfully deleted."
             };
             displayFeedbackModal(deleteSuccessMessage1),
             refreshPersonnel()
@@ -766,7 +831,7 @@ deleteDepartment = () => {
             const deleteSuccessMessage2 = {
                  title: "Delete Successful",
                  type: "success",
-                 message: "You have successfully deleted this department."
+                 message: "Department successfully deleted."
                 };
 
                 displayFeedbackModal(deleteSuccessMessage2),
@@ -791,7 +856,7 @@ deleteLocation = () => {
                 const deleteSuccessMessage3 = {
                     title: "Delete Successful",
                     type: "success",
-                    message: "You have successfully deleted this location."
+                    message: "Location successfully deleted."
                 };
 
                 displayFeedbackModal(deleteSuccessMessage3),
@@ -935,3 +1000,15 @@ setActiveTables = e => {
     refreshPersonnel(),
     refreshDepartments(),
     refreshLocations();
+
+    //  Custom favicon  // Do last!!!
+
+   //   Clear console of all errors and logs  // DONE!!
+   //   All controls should be visible at all times with only data scrolling  * (make nav bar stay at the top when scrolling!!)  // DONE!!
+   //   All deletion confirmations should name the entry -- // DONE!!
+
+   
+
+   //   https://codepen.io/itcareerswitch/pen/Jjvbygx/e42d120ebcfae2d96470d20d7247df21    ?!?!? for Edit/ Update employee!
+   
+   //   Check for dependencies first and then either one or other modal: SELECT count(p.id) as departmentCount, d.name as departmentName FROM personnel p LEFT JOIN department d ON ( d.id = p.departmentID) WHERE d.id = ?  -- get the order right first- when clicking the delete button to get the warning modal to show or the confirm delete button to show depending on the count and whether it can be deleted or not!! 
