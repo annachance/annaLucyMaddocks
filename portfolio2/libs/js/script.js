@@ -683,7 +683,7 @@ $("body").on("click", ".delDeptBtn", function() {  // on click delete button!
             type: "POST",
             dataType: "json",
             data: {
-                id: $("#confirmDeleteButton").val(),
+                id: departmentDeleteRow
             },
             success: function(result) {
     
@@ -732,7 +732,8 @@ $.ajax ({
         console.log(LocationIdData);
 
         $("#confirmDeleteName").text(LocationIdData.name)
-        console.log(confirmDeleteName); 
+        console.log(LocationIdData.name); 
+	    
         checkDeleteLocation() //works
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -747,7 +748,7 @@ $.ajax ({
         type: "POST",
         dataType: "json",
         data: {
-            id: $("#confirmDeleteButton").val(), //might be something to do with this -- this might need to be  locationDeleteRow
+            id: locationDeleteRow
         },
         success: function(result) {
 
