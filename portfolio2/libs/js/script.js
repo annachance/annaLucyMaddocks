@@ -1,4 +1,4 @@
- ///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
  // Preloader
  $(window).on('load', function () {
 	if ($('#preloader').length) {
@@ -222,7 +222,6 @@ $("#addButton").click(function() {
     "Employee" == appTable ? $("#addEmployee").modal("toggle") : "Department" == appTable ? $("#addDepartment").modal("toggle") : "Location" == appTable && $("#addLocation").modal("toggle")
 }),
 
-
 $("#addEmployeeForm").submit(function() {
 
     const addEmployeeFormData = {
@@ -379,8 +378,6 @@ $("body").on("click", ".editEmployeeBtn", function() {
             id: employeeEditRow
         },
         success: function(result) {
-
-            //console.log(result);
 
             const employeeIdData = result['data']['personnel'][0];
             //console.log(employeeIdData);
@@ -652,30 +649,7 @@ $("body").on("click", ".delDeptBtn", function() {  // on click delete button!
     const departmentDeleteRow = $(this).data('departmentId');  // get the data!
    // checkDeleteDepartment();
 
-    $.ajax ({
-
-        url: "libs/php/getDepartmentByID.php",
-        type: "POST",
-        dataType: "json",
-        data: {
-            id: departmentDeleteRow 
-        },
-        success: function(result) {
-
-            const departmentIdData = result['data'][0];
-            console.log(departmentIdData); // log the data of that department ID
-
-            $("#confirmDeleteName").text(departmentIdData.name)
-            console.log(departmentIdData.name); // log the name of that department ID
-            //console.log(confirmDeleteName); // log the name of that department ID
-
-            checkDeleteDepartment(); //works!  // go and check the count by id!
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
-        }
-      }),
-    checkDeleteDepartment = () => {   // check the count by id!
+   // checkDeleteDepartment = () => {   // check the count by id!
 
         $.ajax ({
     
@@ -683,14 +657,35 @@ $("body").on("click", ".delDeptBtn", function() {  // on click delete button!
             type: "POST",
             dataType: "json",
             data: {
-                id: departmentDeleteRow
+                id: departmentDeleteRow,
             },
             success: function(result) {
     
                 console.log(result); // log the count 
     
                 if (result['data'] == 0) {  // if the count equals 0 (has no dependancies!!) then:-
-    
+
+                    $.ajax ({
+
+                        url: "libs/php/getDepartmentByID.php",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            id: departmentDeleteRow 
+                        },
+                        success: function(result) {
+                
+                            const departmentIdData = result['data'][0];
+                            console.log(departmentIdData); // log the data of that department ID
+                
+                            $("#confirmDeleteName").text(departmentIdData.name)
+                            console.log(departmentIdData.name); // log the name of that department ID
+                                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+                        }
+                      }),
+
                     showConfirmDeleteModal(departmentDeleteRow, "this department", "department") //works!  // show the do you wish to confirm delete modal!!
 
                  } else { // or if not then :-
@@ -698,49 +693,21 @@ $("body").on("click", ".delDeptBtn", function() {  // on click delete button!
                     const deleteDeparmentDeniedMessage = {
                         title: "Delete Unsuccessful",
                         type: "danger",
-                        message: "Cannot be deleted. Please remove all employees from this department to be able to delete."
-                       // message:`Successfully updated ${capitalizeFirstLetter($("#editLocationName").val())}.`
+                        message: `${$("#confirmDeleteName")} cannot be deleted. Please remove all employees from this department to be able to delete.`
                     };
                         displayFeedbackModal(deleteDeparmentDeniedMessage) //works!  // show warning message above (cannot be deleted)!!
-
-
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR, textStatus, errorThrown);
                 }
         })
-    }
-
-    //showConfirmDeleteModal(departmentDeleteRow, "this department", "department") // delete!
 }),
 $("body").on("click", ".delLocationBtn", function() {
 
     const locationDeleteRow = $(this).data('locationId');
 
-$.ajax ({
-
-    url: "libs/php/getLocationByID.php",
-    type: "POST",
-    dataType: "json",
-    data: {
-        id: locationDeleteRow
-    },
-    success: function(result) {
-
-        const LocationIdData = result['data'][0];
-        console.log(LocationIdData);
-
-        $("#confirmDeleteName").text(LocationIdData.name)
-        console.log(LocationIdData.name); 
-	    
-        checkDeleteLocation() //works
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-        console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
-    }
-  }),
-  checkDeleteLocation = () => {
+  //checkDeleteLocation = () => {
 
     $.ajax ({
             
@@ -748,24 +715,42 @@ $.ajax ({
         type: "POST",
         dataType: "json",
         data: {
-            id: locationDeleteRow
+            id: locationDeleteRow 
         },
         success: function(result) {
 
-            //console.log(result);
+            console.log(result); // log the count 
 
             if (result['data'] == 0) {
 
-                showConfirmDeleteModal(locationDeleteRow, "this location", "location") //works
+                $.ajax ({
 
-                console.log(result);
-                //deleteLocation()
+                    url: "libs/php/getLocationByID.php",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        id: locationDeleteRow
+                    },
+                    success: function(result) {
+                
+                        const LocationIdData = result['data'][0];
+                        console.log(LocationIdData);
+                
+                        $("#confirmDeleteName").text(LocationIdData.name)
+                        console.log(LocationIdData.name); 
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+                    }
+                  }),
+
+                    showConfirmDeleteModal(locationDeleteRow, "this location", "location") //works
 
             } else {
                 const deleteLocationDeniedMessage = {
                     title: "Delete Unsuccessful",
                     type: "danger",
-                    message: "Cannot be deleted. Please remove all departments from this location to be able to delete."
+                    message: `${$("#confirmDeleteName")} Please remove all departments from this location to be able to delete.`
                 };
                     displayFeedbackModal(deleteLocationDeniedMessage) //works
                 }
@@ -774,7 +759,6 @@ $.ajax ({
                 console.log(jqXHR, textStatus, errorThrown);
             }
     })
-}
 
 });
 
@@ -795,7 +779,7 @@ $("#confirmDeleteButton").click(function() {
     deleteBtnDataType = $("#confirmDeleteButton").data("deletion-type");
 
     // need to change checkDeleteDepartment(deleteBtnId) to deleteDepartment(deleteBtnId)
-    "employee" == deleteBtnDataType ? deleteEmployee(deleteBtnId) : "department" == deleteBtnDataType ? checkDeleteDepartment(deleteBtnId) : "location" == deleteBtnDataType && checkDeleteLocation(deleteBtnId)
+    "employee" == deleteBtnDataType ? deleteEmployee(deleteBtnId) : "department" == deleteBtnDataType ? deleteDepartment(deleteBtnId) : "location" == deleteBtnDataType && deleteLocation(deleteBtnId)
 });
 
 const deleteEmployee = () => {
@@ -901,8 +885,6 @@ $("#searchButton").click(function() {
                 },  
                 success: function(result) {
 
-                    //console.log(result['data']); 
-
                     const searchResults = result['data']['personnel'];
                     //console.log(searchResults);
 
@@ -964,17 +946,14 @@ clearFeedback=()=> {
 $("#nav-employees-tab").click(function() {
 
     setActiveTables("#employeeTable");
-    //updateEmployeeTable(); // dont need these!!!! - delete finished!!!
 }),
 $("#nav-departments-tab").click(function() {
 
     setActiveTables("#departmentTable");
-    //updateDepartmentTable();
 }),
 $("#nav-locations-tab").click(function() {
 
     setActiveTables("#locationTable");
-    //updateLocationTable();
 }); 
 
 setActiveTables = e => {
