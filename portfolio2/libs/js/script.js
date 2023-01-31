@@ -614,9 +614,9 @@ updateLocation = () => {
 ///////////////////////////////////////////////////////////////////////////
 // DELETE BUTTONS
 
-$("body").on("click", ".delEmployeeBtn", function() { // on click delete button!
+$("body").on("click", ".delEmployeeBtn", function() { 
 
-    const employeeDeleteRow = $(this).data('employeeId');  // get the data!
+    const employeeDeleteRow = $(this).data('employeeId');
 
     $.ajax ({
 
@@ -628,13 +628,10 @@ $("body").on("click", ".delEmployeeBtn", function() { // on click delete button!
         },
         success: function(result) {
 
-            //console.log(result);
-
             const employeeIdData = result['data']['personnel'][0];
             //console.log(employeeIdData);
 
-            $("#confirmDeleteName").text(employeeIdData.firstName + " " + employeeIdData.lastName) // works!
-            //console.log(confirmDeleteName);
+            $("#confirmDeleteName").text(employeeIdData.firstName + " " + employeeIdData.lastName)
 
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -642,72 +639,62 @@ $("body").on("click", ".delEmployeeBtn", function() { // on click delete button!
         }
     }),
 
-    showConfirmDeleteModal(employeeDeleteRow, "this employee", "employee") // show the do you wish to confirm delete modal!!  // works!
+    showConfirmDeleteModal(employeeDeleteRow, "this employee", "employee")
 }),
-$("body").on("click", ".delDeptBtn", function() {  // on click delete button!
+$("body").on("click", ".delDeptBtn", function() { 
 
-    const departmentDeleteRow = $(this).data('departmentId');  // get the data!
-   // checkDeleteDepartment();
-
-   // checkDeleteDepartment = () => {   // check the count by id!
+    const departmentDeleteRow = $(this).data('departmentId');
 
         $.ajax ({
     
-            url: "libs/php/getPersonnelCountByDepartment.php",   // go and get the the count by id!
+            url: "libs/php/getPersonnelCountByDepartment.php",
             type: "POST",
             dataType: "json",
             data: {
                 id: departmentDeleteRow,
             },
-            success: function(result) {
+            success: function(result1) {
     
-                console.log(result); // log the count 
-    
-                if (result['data'] == 0) {  // if the count equals 0 (has no dependancies!!) then:-
+                $.ajax ({
 
-                    $.ajax ({
+                    url: "libs/php/getDepartmentByID.php",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        id: departmentDeleteRow 
+                    },
+                    success: function(result2) {
+            
+                        const departmentIdData = result2['data'][0];
+                        //console.log(departmentIdData);
+            
+                        if (result1['data'] == 0) {
 
-                        url: "libs/php/getDepartmentByID.php",
-                        type: "POST",
-                        dataType: "json",
-                        data: {
-                            id: departmentDeleteRow 
-                        },
-                        success: function(result) {
-                
-                            const departmentIdData = result['data'][0];
-                            console.log(departmentIdData); // log the data of that department ID
-                
-                            $("#confirmDeleteName").text(departmentIdData.name)
-                            console.log(departmentIdData.name); // log the name of that department ID
-                                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+                            //$("#confirmDeleteName").text(departmentIdData.name)
+                            //console.log(departmentIdData.name); 
+
+                            showConfirmDeleteModal(departmentDeleteRow, `${departmentIdData.name}`, "department")
+
+                        } else {
+
+                            const deleteDeparmentDeniedMessage = {
+                                title: "Delete Unsuccessful",
+                                type: "danger",
+                                message: `${departmentIdData.name}, cannot be deleted. Please remove all employees from this department to be able to delete.`
+                            };
+                            displayFeedbackModal(deleteDeparmentDeniedMessage)
                         }
-                      }),
-
-                    showConfirmDeleteModal(departmentDeleteRow, "this department", "department") //works!  // show the do you wish to confirm delete modal!!
-
-                 } else { // or if not then :-
-
-                    const deleteDeparmentDeniedMessage = {
-                        title: "Delete Unsuccessful",
-                        type: "danger",
-                        message: `${$("#confirmDeleteName")} cannot be deleted. Please remove all employees from this department to be able to delete.`
-                    };
-                        displayFeedbackModal(deleteDeparmentDeniedMessage) //works!  // show warning message above (cannot be deleted)!!
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR, textStatus, errorThrown);
-                }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR, textStatus, errorThrown);
+                        }
+                })
+            }
         })
 }),
 $("body").on("click", ".delLocationBtn", function() {
 
     const locationDeleteRow = $(this).data('locationId');
-
-  //checkDeleteLocation = () => {
 
     $.ajax ({
             
@@ -717,49 +704,44 @@ $("body").on("click", ".delLocationBtn", function() {
         data: {
             id: locationDeleteRow 
         },
-        success: function(result) {
+        success: function(result1) {
 
-            console.log(result); // log the count 
+            $.ajax ({
 
-            if (result['data'] == 0) {
+                url: "libs/php/getLocationByID.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    id: locationDeleteRow
+                },
+                success: function(result2) {
+            
+                    const LocationIdData = result2['data'][0];
+                    //console.log(LocationIdData);
 
-                $.ajax ({
+                    if (result1['data'] == 0) {
 
-                    url: "libs/php/getLocationByID.php",
-                    type: "POST",
-                    dataType: "json",
-                    data: {
-                        id: locationDeleteRow
-                    },
-                    success: function(result) {
-                
-                        const LocationIdData = result['data'][0];
-                        console.log(LocationIdData);
-                
-                        $("#confirmDeleteName").text(LocationIdData.name)
-                        console.log(LocationIdData.name); 
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
+                        //$("#confirmDeleteName").text(LocationIdData.name)
+                        //console.log(LocationIdData.name); 
+
+                        showConfirmDeleteModal(locationDeleteRow, `${LocationIdData.name}`, "location") 
+
+                    } else {
+
+                        const deleteLocationDeniedMessage = {
+                            title: "Delete Unsuccessful",
+                            type: "danger",
+                            message: `${LocationIdData.name}, cannot be deleted. Please remove all departments from this location to be able to delete.`
+                        };
+                            displayFeedbackModal(deleteLocationDeniedMessage) 
                     }
-                  }),
-
-                    showConfirmDeleteModal(locationDeleteRow, "this location", "location") //works
-
-            } else {
-                const deleteLocationDeniedMessage = {
-                    title: "Delete Unsuccessful",
-                    type: "danger",
-                    message: `${$("#confirmDeleteName")} Please remove all departments from this location to be able to delete.`
-                };
-                    displayFeedbackModal(deleteLocationDeniedMessage) //works
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR, textStatus, errorThrown);
-            }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR, textStatus, errorThrown);
+                    }
+            })
+        }
     })
-
 });
 
 const showConfirmDeleteModal = (e, t, a) => {
