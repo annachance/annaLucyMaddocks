@@ -156,10 +156,10 @@ const updateEmployeeTable = e => {
             eEmail = `<td class="d-none d-lg-table-cell">${e.email}</td>`,
             eDepartment = `<td>${e.department}</td>`,
             eLocationName = `<td class="d-none d-md-table-cell">${e.location}</td>`,
-            eEditBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-warning editEmployeeBtn" data-employee-id="${e.id}"><i class="fa-solid fa-pen-to-square"></i></button></div></td>`,
-            eDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delEmployeeBtn" data-employee-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
+            eEditBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-warning editEmployeeBtn" data-id="23"><i class="fa-solid fa-pen-to-square"></i></button></div></td>`,
+            eDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delEmployeeBtn" data-id="23"><i class="fas fa-trash-alt"></i></button></div></td>`;
             
-            return `<tr class="employeeRow" data-employee-id="${e.id}">${eName}${eJobTitle}${eDepartment}${eEmail}${eLocationName}${eEditBtn}${eDelBtn}</tr>`
+            return `<tr class="employeeRow" data-id="23">${eName}${eJobTitle}${eDepartment}${eEmail}${eLocationName}${eEditBtn}${eDelBtn}</tr>`
         },
 
 updateDepartmentTable = e => {
@@ -358,6 +358,13 @@ insertLocation = () => {
             })
         };
 
+
+
+
+
+// ************************************************************************
+
+
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -366,161 +373,19 @@ insertLocation = () => {
 // EDIT EMPLOYEES (when edit button is clicked!!) 
 $("body").on("click", ".editEmployeeBtn", function() { 
 
-    clearFeedback();
-    const employeeEditRow = $(this).data('employeeId');
-
-    $.ajax ({
-
-        url: "libs/php/getPersonnelByID.php",
-        type: "POST",
-        dataType: "json",
-        data: {
-            id: employeeEditRow
-        },
-        success: function(result) {
-
-            const employeeIdData = result['data']['personnel'][0];
-            //console.log(employeeIdData);
-
-            $("#editEmployeeFirstNameLabel").text(employeeIdData.firstName),
-            $("#editEmployeeLastNameLabel").text(employeeIdData.lastName),
-
-            $("#editEmployeeId").val(employeeIdData.id),  
-
-            $("#editEmployeeFirstName").val(employeeIdData.firstName),
-            $("#editEmployeeLastName").val(employeeIdData.lastName),
-            $("#editEmployeeDepartment").val(employeeIdData.departmentID),
-            $("#editEmployeeJobTitle").val(employeeIdData.jobTitle),
-            $("#editEmployeeEmail").val(employeeIdData.email),
-
-            $("#editEmployee").modal("toggle")
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
-        }
-    })
+    //clearFeedback();
+    //const employeeEditRow = $(this).data('employeeId');
+    $("#editEmployee").modal("toggle")
+ 
 }),
-// EDIT DEPARTMENTS (when edit button is clicked!!)
-$("body").on("click", ".editDeptBtn", function() {
+// Executes when the form button with type="submit" is clicked
 
-    clearFeedback();
-    const thisDepartmentEditRow = $(this),
-    departmentEditRow = thisDepartmentEditRow[0].dataset.departmentId;
-
-    $.ajax ({
-
-        url: "libs/php/getDepartmentByID.php",
-        type: "POST",
-        dataType: "json",
-        data: {
-            id: departmentEditRow 
-        },
-        success: function(result) {
-
-            const departmentIdData = result['data'][0];
-
-            $("#editDepartmentLabel").text(departmentIdData.name),  
-
-            $("#editDepartmentName").val(departmentIdData.name),
-            $("#editDepartmentLocation").val(departmentIdData.locationID),
-            $("#editDepartmentId").val(departmentIdData.id),  
-
-            $("#editDepartment").modal("toggle")
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
-        }
-      })
-    }),
-    // EDIT LOCATIONS (when edit button is clicked!!)
-    $("body").on("click", ".editLocationBtn", function() {
-
-        clearFeedback();
-        const thisLocationEditRow = $(this),
-        locationEditRow = thisLocationEditRow[0].dataset.locationId;
-
-    $.ajax ({
-
-        url: "libs/php/getLocationByID.php",
-        type: "POST",
-        dataType: "json",
-        data: {
-            id: locationEditRow
-        },
-        success: function(result) {
-
-            const LocationIdData = result['data'][0];
-
-            $("#editLocationLabel").text(LocationIdData.name),  
-            $("#editLocationName").val(LocationIdData.name),
-            $("#editLocationId").val(locationEditRow), 
-            
-            $("#editLocation").modal("toggle")
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
-        }
-      })
-    }),
-
-///////////////////////////////////////////////////////////////////////////
-//  EDIT FORMS         
-$("#editEmployeeForm").submit(function() {
-
-    const editEmployeeFormData = {
-
-        firstName: $("#editEmployeeFirstName").val(),
-        lastName: $("#editEmployeeLastName").val(),
-        jobTitle: $("#editEmployeeJobTitle").val(),
-        email: $("#editEmployeeEmail").val(),
-        departmentID: $("#editEmployeeDepartment").val(),
-    };
-        return showConfirmUpdateModal(editEmployeeFormData, "this employee", "employee"),
-!1}),
-
-$("#editDepartmentForm").submit(function() {
-
-    const editDepartmentFormData = {
-
-        name: $("#editDepartmentName").val(),
-        locationID: $("#editDepartmentLocation").val(),
-    };
-        return showConfirmUpdateModal(editDepartmentFormData, "this department", "department"),
-!1}),
-
-$("#editLocationForm").submit(function() {
-
-    const editLocationFormData = {
-
-        name: $("#editLocationName").val(),
-    };
-        return showConfirmUpdateModal(editLocationFormData, "this location", "location"),
-!1});
-
-    showConfirmUpdateModal = (e, t, a) => {
-
-        clearFeedback(),
-        $("#confirmUpdateButton").data("update-type",a),
-        $("#confirmUpdateButton").data("update-item",e),
-        $("#confirmUpdateName").text(t),
-        $("#confirmUpdate").modal("toggle")
-    };         
-
-///////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-// CONFIRMS UPDATE BUTTONS
-
-$("#confirmUpdateButton").click(function() {
-
-    const updateBtnId = $("#confirmUpdateButton").data("update-item"),
-    updateBtnDataType = $("#confirmUpdateButton").data("update-type");
-
-    $("#confirmUpdate").modal("toggle"),
-    "employee" == updateBtnDataType ? updateEmployee(updateBtnId) : "department" == updateBtnDataType ? updateDepartment(updateBtnId) : "location" == updateBtnDataType && updateLocation(updateBtnId)
-});
-
-const updateEmployee = () => {
-
+$('#editEmployeeForm').on("submit", function(e) {
+  
+    // stop the default browser behviour
+    
+    e.preventDefault();
+    
     $.ajax ({
 
         url: "libs/php/updatePersonnel.php", 
@@ -552,62 +417,98 @@ const updateEmployee = () => {
             }
             })
     },
-updateDepartment = () => {
+    
+    // if successful
+    
+    //$('#editEmployee').modal("hide")
+    
+  )
+  
+  // The modal "show" event is triggered when the $('#...').modal('show')
+  // is requested and executes before the modal is visible
+  
+  $('#editEmployee').on('show.bs.modal', function(e) {
+  
+      $.ajax({
+      url: "libs/php/getPersonnelByID.php",
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        id: $(e.relatedTarget).attr('data-id') // Retrieves the data-id attribute from the calling button
+      },
+      success: function (result) {
+              
+        var employeeIdData = result.status.code
+  
+        if (employeeIdData == 200) {
+  
+            console.log(result.data);
+            // Update the hidden input with the employee id so that
+            // it can be referenced when the form is submitted
+            
+            $('#editEmployeeId').val(result.data.personnel[0].id);
 
-    $.ajax ({
+            $('#editEmployeeFirstNameLabel').val(result.data.personnel[0].firstName);
+            $('#editEmployeeLastNameLabel').val(result.data.personnel[0].lastName);
+            
+            $('#editEmployeeFirstName').val(result.data.personnel[0].firstName);
+            $('#editEmployeeLastName').val(result.data.personnel[0].lastName);
+            $('#editEmployeeEmail').val(result.data.personnel[0].email);
+            $('#editEmployeeJobTitle').val(result.data.personnel[0].jobTitle);
+            $('#editEmployeeDepartment').val(result.data.personnel[0].departmentID);
+          
+        } else {
+  
+            $('#editEmployee .modal-title').replaceWith("Error retrieving data");
+  
+        } 
+  
+      },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $('#editEmployee .modal-title').replaceWith("Error retrieving data");
+        }
+    });
+  
+  })
+  
+  // The "shown" event triggers after the modal appears
+  // and can be used to run commands that won't work on hidden elements
+  
+  $('#editEmployee').on('shown.bs.modal', function () {
+    
+    // You can optionally use the the following command to place 
+    // the cursor in the first input as a courtesy to the user.
+    // Commands like this that manipulate the state of a control
+    // will only work once it is visible
+    
+    $('#editEmployeeFirstName').focus();
+    
+  });
+  
+  // The "hide" and "hidden" events trigger before and after
+  // the modal disappears and can be used to clear down the form.
+  // This is useful if the form needs to be empty the next time 
+  // that it is shown
+  
+  $('#editEmployee').on('hidden.bs.modal', function () {
+    
+    $('#editEmployeeForm')[0].reset();
+    
+  });
 
-        url: "libs/php/updateDepartment.php",
-        type: "POST",
-        dataType: "json",
-        data: {
-            name: capitalizeFirstLetter($("#editDepartmentName").val()),
-            locationID: $("#editDepartmentLocation").val(),
-            id: $("#editDepartmentId").val()
-        },
-        success: function(result) {
 
-            const editSuccessMessage2 = {
-                title: "Department Updated",
-                type: "success",
-                message: `Successfully updated ${capitalizeFirstLetter($("#editDepartmentName").val())}.`
-            };
-                displayFeedbackModal(editSuccessMessage2),
-                refreshPersonnel(),
-                refreshDepartments()
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
-            }
-            })
-    },
-updateLocation = () => {
 
-    $.ajax ({
 
-        url: "libs/php/updateLocation.php",
-        type: "POST",
-        dataType: "json",
-        data: {
-            name: capitalizeFirstLetter($("#editLocationName").val()),
-            id: $("#editLocationId").val() 
-        },
-        success: function(result) {
 
-            const editSuccessMessage3 = {
-                title:"Location Updated",
-                type:"success",
-                message:`Successfully updated ${capitalizeFirstLetter($("#editLocationName").val())}.`
-            };
-                displayFeedbackModal(editSuccessMessage3),
-                refreshPersonnel(),
-                refreshDepartments(),
-                refreshLocations()
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(JSON.stringify(jqXHR, textStatus, errorThrown));
-            }
-            })
-    };
+
+  
+// ************************************************************************
+
+
+
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
