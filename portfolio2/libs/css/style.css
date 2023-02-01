@@ -56,19 +56,18 @@
     .navbar {
         flex-direction: row;
         flex: 0 0 100%;
-        position: fixed; /* Set the navbar to fixed position */
-        top: 0; /* Position the navbar at the top of the page */
+        position: fixed; 
+        top: 0; 
         width: 100%;
         max-width: 1200px;
         margin: 0 auto;
         padding-bottom: 0;
     }
     #addButton {
-        position: absolute;  /* need to sort out the add button in small screen!!!! */
-        right: 150px;
-        left: 0px;
-        bottom: 0px;
-        z-index: 10;
+        position: absolute;
+        right: 15px;
+        bottom: 0.5px;
+        z-index: 5;
     }
     .tab-actions {
         display: flex;
@@ -86,10 +85,10 @@
     }
 } 
 
-/* MAIN */   /* #navBar { */
-.navbar {
-    position: fixed; /* Set the navbar to fixed position */
-    top: 0; /* Position the navbar at the top of the page */
+/* NAV */
+#navBar { 
+    position: fixed; 
+    top: 0; 
     width: 100%;
 }
 .tab-actions {
@@ -98,11 +97,15 @@
 #nav-employees-tab, #nav-departments-tab, #nav-locations-tab {
     color: black;
 }
+/* MAIN */
+#nav-tabContent {
+    padding: 65px 15px;
+}
 .modal-body {
     max-height: 70vh;
     overflow-y: auto
 }
-/* TOPTOPBUTTON AND SEARCH BUTTONS */
+/* TO TOP BUTTON AND SEARCH BUTTONS */
 #toTopButton {
     position: fixed;
     bottom: 10px;
