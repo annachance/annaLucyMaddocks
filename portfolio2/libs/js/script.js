@@ -148,19 +148,19 @@ const updateEmployeeTable = e => {
         eData += eRow
     }),
         $("#employeeResultsData").html(eData)
-    },
-        getEmployeeRow = e => {
+},
+getEmployeeRow = e => {
 
-            const eName = `<td>${e.firstName} ${e.lastName}</td>`,
-            eJobTitle = `<td class="d-none d-lg-table-cell">${e.jobTitle}</td>`,
-            eEmail = `<td class="d-none d-lg-table-cell">${e.email}</td>`,
-            eDepartment = `<td>${e.department}</td>`,
-            eLocationName = `<td class="d-none d-md-table-cell">${e.location}</td>`,
-            eEditBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-warning editEmployeeBtn" data-id="23"><i class="fa-solid fa-pen-to-square"></i></button></div></td>`,
-            eDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delEmployeeBtn" data-id="23"><i class="fas fa-trash-alt"></i></button></div></td>`;
-            
-            return `<tr class="employeeRow" data-id="23">${eName}${eJobTitle}${eDepartment}${eEmail}${eLocationName}${eEditBtn}${eDelBtn}</tr>`
-        },
+    const eName = `<td>${e.firstName} ${e.lastName}</td>`,
+    eJobTitle = `<td class="d-none d-lg-table-cell">${e.jobTitle}</td>`,
+    eEmail = `<td class="d-none d-lg-table-cell">${e.email}</td>`,
+    eDepartment = `<td>${e.department}</td>`,
+    eLocationName = `<td class="d-none d-md-table-cell">${e.location}</td>`,
+    eEditBtn = `<td><div class="d-flex justify-content-end"><button type="button" class="btn btn-outline-warning editEmployeeBtn" data-bs-toggle="modal" data-bs-target="#editEmployee" data-id="${e.id}"><i class="fa-solid fa-pen-to-square"></i></button></div></td>`,
+    eDelBtn = `<td><div class="d-flex justify-content-end"><button class="btn btn-outline-danger delEmployeeBtn" data-employee-id="${e.id}"><i class="fas fa-trash-alt"></i></button></div></td>`;
+    
+    return `<tr class="employeeRow" data-employee-id="${e.id}">${eName}${eJobTitle}${eDepartment}${eEmail}${eLocationName}${eEditBtn}${eDelBtn}</tr>`
+},
 
 updateDepartmentTable = e => {
 
@@ -371,20 +371,13 @@ insertLocation = () => {
 // CLICK ON EDIT BUTTONS
 
 // EDIT EMPLOYEES (when edit button is clicked!!) 
-$("body").on("click", ".editEmployeeBtn", function() { 
-
-    //clearFeedback();
-    //const employeeEditRow = $(this).data('employeeId');
-    $("#editEmployee").modal("toggle")
- 
-}),
 // Executes when the form button with type="submit" is clicked
-
 $('#editEmployeeForm').on("submit", function(e) {
   
     // stop the default browser behviour
     
     e.preventDefault();
+    
     
     $.ajax ({
 
@@ -397,11 +390,11 @@ $('#editEmployeeForm').on("submit", function(e) {
             jobTitle: capitalizeFirstLetter($("#editEmployeeJobTitle").val()),
             email: $("#editEmployeeEmail").val(),
             departmentID: $("#editEmployeeDepartment").val(),
-            id:$("#editEmployeeId").val()
+            id:$("#employeeID").val()
         },
         success: function(result) {
 
-            //console.log(result['data']);
+            console.log(result['data']);
 
             const editSuccessMessage1 = {
                 title: "Employee Updated",
@@ -420,7 +413,7 @@ $('#editEmployeeForm').on("submit", function(e) {
     
     // if successful
     
-    //$('#editEmployee').modal("hide")
+    //$('#editEmployee').modal("hide")   // need to solve this error!!!
     
   )
   
@@ -446,11 +439,11 @@ $('#editEmployeeForm').on("submit", function(e) {
             // Update the hidden input with the employee id so that
             // it can be referenced when the form is submitted
             
-            $('#editEmployeeId').val(result.data.personnel[0].id);
+            $('#employeeID').val(result.data.personnel[0].id);
 
-            $('#editEmployeeFirstNameLabel').val(result.data.personnel[0].firstName);
-            $('#editEmployeeLastNameLabel').val(result.data.personnel[0].lastName);
-            
+            $('#editEmployeeFirstNameLabel').text(result.data.personnel[0].firstName);
+            $('#editEmployeeLastNameLabel').text(result.data.personnel[0].lastName);
+
             $('#editEmployeeFirstName').val(result.data.personnel[0].firstName);
             $('#editEmployeeLastName').val(result.data.personnel[0].lastName);
             $('#editEmployeeEmail').val(result.data.personnel[0].email);
@@ -484,7 +477,7 @@ $('#editEmployeeForm').on("submit", function(e) {
     $('#editEmployeeFirstName').focus();
     
   });
-  
+    
   // The "hide" and "hidden" events trigger before and after
   // the modal disappears and can be used to clear down the form.
   // This is useful if the form needs to be empty the next time 
