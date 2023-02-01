@@ -244,14 +244,17 @@
                     </div>
                     </div>
 
+
+
+
+
+
+
+
+
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!-- EDIT Employee/Department/Location Modals When Edit Button Clicked-->
-
-
-
-  
-  <!-- the first of the data-bs attributes removes the backdrop and prevents the modal from being closed by clicking outside of it. The second disables the ESC key preventing it from closing the modal -->
   
   <!-- EDIT Employee Modal -->
   <div id="editEmployee" class="modal fade" tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-labelledby="editEmployeeLabel" aria-hidden="true">
@@ -315,10 +318,95 @@
     </div>
   </div>
 
+<!--///////////////////////////////////////////////////////////////////////////////-->
+    <!-- EDIT Department Modal -->
+      <div id="editDepartment" class="modal fade" tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-labelledby="editDepartmentLabel" aria-hidden="true">
+        
+        <!--   the last two classes centre the modal and, if the content is too long, ensures  -->
+        <!--   that the header and footer are always on display by making the body scroll -->
+        
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          
+          <!-- As the backdrop is disabled we can use the Bootstrap shadow class to add definition to the dialog -->
+          
+          <div class="modal-content shadow"> 
+            
+            <!-- wrap the form tag around the modal-body and modal-footer -->
+            
+            <!-- Edit Employee Form -->
+            <form id="editDepartmentForm">
+              
+              <div class="modal-header bg-info text-light">
+                <h5 class="modal-title"><i class="fa-solid fa-briefcase"></i>&nbsp;&nbsp;Edit Department- <span id="editDepartmentLabel"></span></h5>
+                <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+    
+    
+              <div id="editDepartmentModalBody" class="modal-body">
+    
+                <!--<div id="editEmployeeFeedback" class="feedbackMessage"></div>-->
+    
+                <input type="hidden" id="departmentID">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="editDepartmentName" placeholder="Enter name" required>
+                  <label for="editDepartmentName">Department name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <select class="form-select editDepartment locationSelect" id="editDepartmentLocation" required>
+                    
+                        <!--Dynamically Populated-->
+    
+                    </select>
+                    <label for="editDepartmentLocation">Location</label>
+                </div>           
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-info text-light btn-sm myBtn">SAVE</button>
+                <button type="button" class="btn btn-secondary btn-sm myBtn" data-bs-dismiss="modal">CANCEL</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
 
-
-
-
+<!--///////////////////////////////////////////////////////////////////////////////-->
+    <!-- EDIT Location Modal -->
+    <div id="editLocation" class="modal fade" tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-labelledby="editLocationLabel" aria-hidden="true">
+    
+        <!--   the last two classes centre the modal and, if the content is too long, ensures  -->
+        <!--   that the header and footer are always on display by making the body scroll -->
+        
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          
+          <!-- As the backdrop is disabled we can use the Bootstrap shadow class to add definition to the dialog -->
+          
+          <div class="modal-content shadow"> 
+            
+            <!-- wrap the form tag around the modal-body and modal-footer -->
+            
+            <form id="editLocationForm">
+              <div class="modal-header bg-info text-light">
+                <h5 class="modal-title"><i class="fa-solid fa-location-pin"></i>&nbsp;&nbsp;Edit Location- <span id="editLocationLabel"></span></h5>
+                <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+    
+    
+              <div class="modal-body">
+                <input type="hidden" id="locationID">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="editLocationName" placeholder="Enter Name" required>
+                  <label for="editLocationName">Location name</label>
+                </div>         
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-info text-light btn-sm myBtn">SAVE</button>
+                <button type="button" class="btn btn-secondary btn-sm myBtn" data-bs-dismiss="modal">CANCEL</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!--///////////////////////////////////////////////////////////////////////////////-->
 <!-- UPDATE Confirmaton Feedback Message Modal -->
@@ -331,7 +419,7 @@
                 <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="fs-5 text-center">Please confirm you wish to update <span id="confirmUpdateName"></span></p>
+                <p class="fs-5 text-center">Please confirm you wish to update <span id="confirmUpdateName"></span>?</p>
             </div>
             <div class="modal-footer justify-content-right">
                 <button id="confirmUpdateButton" type="button" class="btn btn-info text-light">Yes</button>
