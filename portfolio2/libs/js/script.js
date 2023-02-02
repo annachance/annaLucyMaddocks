@@ -999,6 +999,7 @@ clearFeedback=()=> {
 };
 $("#nav-employees-tab").click(function() {
 
+    refreshPersonnel(),
     setActiveTables("#employeeTable");
 }),
 $("#nav-departments-tab").click(function() {
