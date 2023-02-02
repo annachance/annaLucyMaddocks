@@ -220,6 +220,7 @@ $("#addButton").click(function() {
     $("#addDepartmentForm").trigger("reset"),
     $("#addLocationForm").trigger("reset"),
     "Employee" == appTable ? $("#addEmployee").modal("toggle") : "Department" == appTable ? $("#addDepartment").modal("toggle") : "Location" == appTable && $("#addLocation").modal("toggle")
+
 }),
 
 $("#addEmployeeForm").submit(function() {
@@ -358,24 +359,14 @@ insertLocation = () => {
             })
         };
 
-
-
-
-
-// ************************************************************************
-
-
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // CLICK ON EDIT BUTTONS
 
 // EDIT EMPLOYEES (when edit button is clicked!!) 
-// Executes when the form button with type="submit" is clicked
 $('#editEmployeeForm').on("submit", function(e) {
-  
-    // stop the default browser behviour
-    
+      
     e.preventDefault();
     
     const editEmployeeFormData = {
@@ -386,17 +377,11 @@ $('#editEmployeeForm').on("submit", function(e) {
         email: $("#editEmployeeEmail").val(),
         departmentID: $("#editEmployeeDepartment").val(),
     };
-        return showConfirmUpdateModal(editEmployeeFormData, "this employee", "employee"),
-!1,
 
-    // if successful
-    
-    $('#editEmployee').modal("hide")   // need to solve this error!!!
-    
-})
-  
-  // The modal "show" event is triggered when the $('#...').modal('show')
-  // is requested and executes before the modal is visible
+    $('#editEmployee').hide(); 
+        showConfirmUpdateModal(editEmployeeFormData, "this employee", "employee");
+
+});
   
   $('#editEmployee').on('show.bs.modal', function(e) {
   
@@ -413,9 +398,7 @@ $('#editEmployeeForm').on("submit", function(e) {
   
         if (employeeIdData == 200) {
   
-            console.log(result.data);
-            // Update the hidden input with the employee id so that
-            // it can be referenced when the form is submitted
+            //console.log(result.data);
             
             $('#employeeID').val(result.data.personnel[0].id);
 
@@ -433,33 +416,18 @@ $('#editEmployeeForm').on("submit", function(e) {
             $('#editEmployee .modal-title').replaceWith("Error retrieving data");
   
         } 
-  
       },
         error: function (jqXHR, textStatus, errorThrown) {
             $('#editEmployee .modal-title').replaceWith("Error retrieving data");
         }
     });
-  
   })
   
-  // The "shown" event triggers after the modal appears
-  // and can be used to run commands that won't work on hidden elements
-  
   $('#editEmployee').on('shown.bs.modal', function () {
-    
-    // You can optionally use the the following command to place 
-    // the cursor in the first input as a courtesy to the user.
-    // Commands like this that manipulate the state of a control
-    // will only work once it is visible
     
     $('#editEmployeeFirstName').focus();
     
   });
-    
-  // The "hide" and "hidden" events trigger before and after
-  // the modal disappears and can be used to clear down the form.
-  // This is useful if the form needs to be empty the next time 
-  // that it is shown
   
   $('#editEmployee').on('hidden.bs.modal', function () {
     
@@ -469,12 +437,9 @@ $('#editEmployeeForm').on("submit", function(e) {
 
 ///////////////////////////////////////////////////////////////////////////
 // EDIT DEPARTMENTS (when edit button is clicked!!)
-// Executes when the form button with type="submit" is clicked
 
 $('#editDepartmentForm').on("submit", function(e) {
-  
-    // stop the default browser behviour
-    
+      
     e.preventDefault();
     
     const editDepartmentFormData = {
@@ -482,22 +447,16 @@ $('#editDepartmentForm').on("submit", function(e) {
         name: $("#editDepartmentName").val(),
         locationID: $("#editDepartmentLocation").val(),
     };
-        return showConfirmUpdateModal(editDepartmentFormData, "this department", "department"),
-!1,
     
-    // if successful
-    
-    $('#editDepartment').modal("hide");
-    
+    $('#editDepartment').hide();
+        showConfirmUpdateModal(editDepartmentFormData, "this department", "department");
+
   })
-  
-  // The modal "show" event is triggered when the $('#...').modal('show')
-  // is requested and executes before the modal is visible
   
   $('#editDepartment').on('show.bs.modal', function(e) {
   
       $.ajax({
-      url: "libs/php/getDepartmentByID.php", // change for getDepartmentByID.php
+      url: "libs/php/getDepartmentByID.php",
       type: 'POST',
       dataType: 'json',
       data: {
@@ -505,14 +464,11 @@ $('#editDepartmentForm').on("submit", function(e) {
       },
       success: function (result) {
               
-        console.log(result.data);
+        //console.log(result.data);
 
         var departmentIdData = result.status.code
   
         if (departmentIdData == 200) {
-  
-          // Update the hidden input with the employee id so that
-          // it can be referenced when the form is submitted
           
           $('#departmentID').val(result.data[0].id);
   
@@ -526,7 +482,6 @@ $('#editDepartmentForm').on("submit", function(e) {
           $('#editDepartment .modal-title').replaceWith("Error retrieving data");
   
         } 
-  
       },
       error: function (jqXHR, textStatus, errorThrown) {
         $('#editDepartment .modal-title').replaceWith("Error retrieving data");
@@ -535,24 +490,11 @@ $('#editDepartmentForm').on("submit", function(e) {
   
   })
   
-  // The "shown" event triggers after the modal appears
-  // and can be used to run commands that won't work on hidden elements
-  
   $('#editDepartment').on('shown.bs.modal', function () {
-    
-    // You can optionally use the the following command to place 
-    // the cursor in the first input as a courtesy to the user.
-    // Commands like this that manipulate the state of a control
-    // will only work once it is visible
     
     $('#editDepartmentName').focus();
     
   });
-  
-  // The "hide" and "hidden" events trigger before and after
-  // the modal disappears and can be used to clear down the form.
-  // This is useful if the form needs to be empty the next time 
-  // that it is shown
   
   $('#editDepartment').on('hidden.bs.modal', function () {
     
@@ -562,34 +504,25 @@ $('#editDepartmentForm').on("submit", function(e) {
 
 ///////////////////////////////////////////////////////////////////////////
 // EDIT LOCATIONS (when edit button is clicked!!)
-// Executes when the form button with type="submit" is clicked
 
 $('#editLocationForm').on("submit", function(e) {
-  
-    // stop the default browser behviour
-    
+      
     e.preventDefault();
     
     const editLocationFormData = {
 
         name: $("#editLocationName").val(),
     };
-        return showConfirmUpdateModal(editLocationFormData, "this location", "location"),
-!1,
     
-    // if successful
-    
-    $('#editLocation').modal("hide");
-    
+    $('#editLocation').hide();
+        showConfirmUpdateModal(editLocationFormData, "this location", "location");
+
   })
-  
-  // The modal "show" event is triggered when the $('#...').modal('show')
-  // is requested and executes before the modal is visible
   
   $('#editLocation').on('show.bs.modal', function (e) {
   
       $.ajax({
-      url: "libs/php/getLocationByID.php",  // change to getLocationByID.php
+      url: "libs/php/getLocationByID.php", 
       type: 'POST',
       dataType: 'json',
       data: {
@@ -597,14 +530,11 @@ $('#editLocationForm').on("submit", function(e) {
       },
       success: function (result) {
 
-        console.log(result.data);
+        //console.log(result.data);
               
         var locationIdData = result.status.code
   
         if (locationIdData == 200) {
-  
-          // Update the hidden input with the employee id so that
-          // it can be referenced when the form is submitted
           
           $('#locationID').val(result.data[0].id);
           
@@ -617,7 +547,6 @@ $('#editLocationForm').on("submit", function(e) {
           $('#editLocation .modal-title').replaceWith("Error retrieving data");
   
         } 
-  
       },
       error: function (jqXHR, textStatus, errorThrown) {
         $('#editLocation .modal-title').replaceWith("Error retrieving data");
@@ -626,24 +555,11 @@ $('#editLocationForm').on("submit", function(e) {
   
   })
   
-  // The "shown" event triggers after the modal appears
-  // and can be used to run commands that won't work on hidden elements
-  
   $('#editLocation').on('shown.bs.modal', function () {
-    
-    // You can optionally use the the following command to place 
-    // the cursor in the first input as a courtesy to the user.
-    // Commands like this that manipulate the state of a control
-    // will only work once it is visible
     
     $('#editLocationName').focus();
     
   });
-  
-  // The "hide" and "hidden" events trigger before and after
-  // the modal disappears and can be used to clear down the form.
-  // This is useful if the form needs to be empty the next time 
-  // that it is shown
   
   $('#editLocation').on('hidden.bs.modal', function () {
     
@@ -764,19 +680,6 @@ updateLocation = () => {
             }
             })
     };
-
-
-
-
-
-
-// ************************************************************************
-
-
-
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
