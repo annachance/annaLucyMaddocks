@@ -74,11 +74,7 @@
     }
     header {
         background: #0dcaf0;
-        padding: 0 15px;
-    }
-    
-    #directoryTitle {
-        margin-bottom: 30px;
+        padding: 0 0px;
     }
     .nav-tabs nav.link {
         color: #fff;
