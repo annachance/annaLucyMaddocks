@@ -1,0 +1,140 @@
+/* PRELOADER */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background:#fff
+}
+#preloader:before {
+    content: "";
+    position: fixed;
+    top: calc(50% - 30px);
+    left: calc(50% - 30px);
+    border: 6px solid #f2f2f2;
+    border-top: 6px solid #2ef0f7;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    -webkit-animation: animate-preloader 1s linear infinite;
+            animation: animate-preloader 1s linear infinite
+}
+@-webkit-keyframes animate-preloader {
+    0% {
+        -webkit-transform: rotate(0);
+                transform: rotate(0)
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+                transform: rotate(360deg)
+    }
+}
+@keyframes animate-preloader {
+    0% {
+        -webkit-transform: rotate(0);
+                transform: rotate(0)
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+                transform: rotate(360deg)
+    }
+} 
+
+
+
+
+ /* MEDIA QUERY */
+@media only screen and (max-width:640px) {
+    .nav-tabs {
+        flex: 0 0 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .navbar {
+        flex-direction: row;
+        flex: 0 0 100%;
+        position: fixed; 
+        top: 0; 
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-bottom: 0;
+    }
+    #addButton {
+        position: absolute;
+        right: 15px;
+        bottom: 3px;
+        z-index: 5;
+    }
+    .tab-actions {
+        display: flex;
+    }
+    header {
+        background: #0dcaf0;
+        padding: 0 0px;
+    }
+    .nav-tabs nav.link {
+        color: #fff;
+    }
+} 
+
+/* NAV */
+#navBar { 
+    position: fixed; 
+    top: 0; 
+    width: 100%;
+}
+.tab-actions {
+    display: flex;
+}
+#nav-employees-tab, #nav-departments-tab, #nav-locations-tab {
+    color: black;
+}
+/* MAIN */
+#nav-tabContent {
+    padding: 65px 15px;
+}
+.modal-body {
+    max-height: 70vh;
+    overflow-y: auto
+}
+/* TO TOP BUTTON AND SEARCH BUTTONS */
+#toTopButton {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)
+}
+#toTopButton :hover {
+    cursor: pointer;
+    color:rgba(255,255,255,1)
+}
+#searchButton {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)
+}
+#searchButton :hover {
+    cursor: pointer;
+    color:rgba(255,255,255,1)
+}
+.floatBtn {
+    width: 50px;
+    height: 50px
+}
+/* ADD BUTTON */
+#addButton {
+    color:rgb(0, 0, 0);
+    vertical-align: middle;
+    justify-content: flex-end;
+    margin-right: 0px;
+    margin-left: 879px;  
+}
+#addButton :hover {
+    cursor: pointer;
+    color:rgba(255,255,255,1)
+}
