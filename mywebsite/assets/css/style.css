@@ -568,6 +568,11 @@ section .container {
   margin-bottom: 30px;
 }
 
+.portfolio .row .portfolio-container {  /* ?!?! not working atm ?! */
+  display: flex;
+  justify-content: center;
+}
+
 .portfolio #portfolio-flters {
   padding: 0;
   margin: 0 auto 15px auto;
@@ -607,6 +612,8 @@ section .container {
   overflow: hidden;
   z-index: 1;
   background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
 }
 
 .portfolio .portfolio-wrap::before {
