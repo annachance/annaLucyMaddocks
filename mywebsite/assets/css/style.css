@@ -518,6 +518,14 @@ section .container {
   background-color: #18d2c6;
 }
 
+@media (max-width: 768px) {
+  .resume .btn  {
+    margin-left: 0%;
+    bottom: 20px;
+    position: relative;
+  }
+}
+
 .resume .resume-item {
   padding: 0 0 20px 20px;
   margin-top: -2px;
