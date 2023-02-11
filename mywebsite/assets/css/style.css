@@ -465,7 +465,7 @@ section .container {
 
 .skills .progress-bar {
   width: 1px;
-  height: 10px;
+  height: 5px;
   transition: 0.9s;
   background-color: #18d2c6;
 }
@@ -509,6 +509,13 @@ section .container {
   margin-top: 20px;
   margin-bottom: 20px;
   color: #fff;
+}
+
+.resume .btn {
+  margin-left: 80%;
+  bottom: 90px;
+  position: relative;
+  background-color: #18d2c6;
 }
 
 .resume .resume-item {
@@ -574,20 +581,35 @@ section .container {
   justify-content: center;
 }
 
-
-/*.portfolio .portfolio-container {  /* ?!?! not working atm ?! */
-  /*display: flex;
-  justify-content: center;
-}*/
+.portfolio .container #click {
+  position: relative;
+  left: 390px;
+}
 
 .portfolio .portfolio-wrap {
-  transition: 0.3s;
   position: relative;
+  left: 160px;
   overflow: hidden;
   z-index: 1;
   background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .portfolio .portfolio-wrap {
+    position: relative;
+    left: 0px;
+    overflow: hidden;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+  }
+  .portfolio .container #click {
+    position: relative;
+    left: 0px;
+  }
 }
 
 .portfolio .portfolio-wrap::before {
@@ -601,6 +623,7 @@ section .container {
   transition: all ease-in-out 0.3s;
   z-index: 2;
   opacity: 0;
+  justify-content: center;
 }
 
 .portfolio .portfolio-wrap .portfolio-info {
