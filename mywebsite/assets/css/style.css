@@ -788,6 +788,13 @@ section .container {
   }
 }
 
+@media (max-width: 768px) {
+  .portfolio-details img {
+   height: 200px;
+   width: 375px;
+  }
+}
+
 .portfolio-details .swiper-pagination {
   margin-top: 20px;
   position: relative;
