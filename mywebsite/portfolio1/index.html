@@ -1,0 +1,350 @@
+<!doctype html>
+    
+       <html lang="en">
+      
+           <head>
+
+               <meta charset="utf-8">
+               <title>Project 1- Gazetteer | IT Career Switch</title>
+               <meta name="description" content="IT Career Switch">
+               <meta name="author" content="Anna Maddocks">
+               <meta http-equiv="X-UA-Compatible" content="IE-edge"> 
+               <meta name="viewport" content="width=device-width, initial-scale=1"> 
+      
+
+               <!-- Favicon -->
+               <link href="favicon2.ico" rel="icon">
+
+			   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+			   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+			   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+			   <!-- Stylesheet-->
+               <link rel="stylesheet" type="text/css" href="libs/css/style.css"> 
+      
+               <!-- Bootstrap Initialization -->
+               <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+      
+               <!-- Leaflet Map Initialization -->
+			   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
+
+               <!-- Leaflet L.easyButton --> 
+               <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+
+			   <!-- Leaflet MarkerCluster --> 
+               <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
+               <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+			  
+			   <!-- Leaflet ExtraMarker --> 
+			   <link rel="stylesheet" href="libs/css/leaflet.extra-markers.min.css">
+
+               <!-- User Current Location Initialization  -->
+               <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+               <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.css" />
+    
+				<!-- FontAwesome Kit Initialization -->
+			   <script src="https://kit.fontawesome.com/13f9671840.js" crossorigin="anonymous"></script>
+								
+			   <!-- Flat Icon Initialization -->
+			   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+			   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css'>
+			   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+           </head>
+      
+<!--///////////////////////////////////////////////////////////////////////////////-->
+
+           <body>
+    
+               <header>
+                    <div id="preloader"></div> 
+      
+                   <!--   NavBar/ dropdown menu!   -->
+                   <!-- <nav class="navbar navbar-fixed-top bg-primary" role="navigation"> -->
+					<form> 
+							<select class="form-select" id="country-dropdown" name="country-dropdown"> 
+							<option value="">--Select a country of the world--</option>
+							</select>
+						</div>
+					</form>
+				   </nav>
+               </header>
+      
+<!--///////////////////////////////////////////////////////////////////////////////-->
+    
+               <main>
+               <!--   Full-screen sized map   -->
+                  <div id="map"></div>
+    
+<!--//////////////////////////// Modals/Overlays ///////////////////////////////// -->
+
+               <!-- Modal 1 - Country Information -->
+<!-- Modal -->
+<div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    
+      <!-- Modal Content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" style="white-space: nowrap;" id="countryName"></h4>
+		  <img id="titleFlag" title="Country Flag" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+        </div>
+        <div class="modal-body">
+          <table class="table" id="table">
+            <tbody>
+            <tr>
+			  <td id="nativeName" width="100%" colspan="4"></td>
+            </tr>
+            <tr>
+              <th>Continent Name </th>
+              <td id="continentName"></td>
+            </tr>
+			<tr>
+				<th>ISO Codes (Alpha2 & 3) </th>
+				<td id="cca2and3"></td>
+			</tr> 
+            <tr>
+            	<th>Capital </th>
+            	<td id="txtCapital"></td>
+        	</tr>
+        	<tr>
+         		<th>Languages </th>
+         		<td id="languages"></td>
+      		</tr>
+      		<tr>
+        		<th>Population </th>
+        		<td id="txtPopulation"></td>
+   			</tr>
+   			<tr>
+      			<th>Bordering Countries </th>
+      			<td id="txtBorders"></td>
+  			</tr> 
+			<tr>
+				<th>Driving Side </th>
+				<td id="drivingSide"></td>
+			</tr> 
+			<tr>
+				<th>Time Zone </th>
+				<td id="timezoneId"></td>
+			</tr> 
+  			<tr>
+				<th>Land Area </th>
+				<td id="area"></td>
+			</tr> 
+			<tr>
+				<td colspan="4"><img id="coatOfArms" src="" alt="" title="Coat Of Arms"></td>
+			</tr> 
+        </tbody>
+        </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<!--///////////////////////////////////////////////////////////////////////////////-->
+
+					<!-- Modal 2 - Country Weather -->
+<!-- Modal -->
+<div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+						
+	<!-- Modal content-->
+	<div class="modal-content">
+		<div class="modal-header">
+			<h4 class="modal-title" id="txtCapitalName"></h4>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+	</div>
+    <div class="modal-body">
+        <table class="table table-responsive" id="table">
+			<tbody>
+				<tr>
+					<th id="todaysDate"  width="100%" colspan="4"></th>
+				</tr>
+				<tr>
+					<td width="25%" id="txtDescription" align="center"></td>
+					<td width="25%"><img id="LargeWeatherIcon" src="" alt="" style="width:100px;height:100px;"></td>
+					<td width="25%" id="txtTemperature" align="center"></td>
+					<td width="25%" id="highestAndLowestTemp" align="center"></td>
+				</tr>
+<!--///////////////////////////////////  Daily Forecast  ///////////////////////////////////////////////-->
+				<tr>
+					<td id="day2" width="25%" align="center"></td>
+					<td id="day3" width="25%" align="center"></td>
+					<td id="day4" width="25%" align="center"></td>
+					<td id="day5" width="25%" align="center"></td>
+				</tr>
+				<tr>
+					<td width="25%">
+						<img class="smallWeatherIcon" id="weatherIcon2" src="" alt="" align="center">
+					</td>
+					<td width="25%">
+						<img class="smallWeatherIcon" id="weatherIcon3" src="" alt="" align="center">
+					</td>
+					<td width="25%">
+						<img class="smallWeatherIcon" id="weatherIcon4" src="" alt="" align="center">
+					</td>
+					<td width="25%">
+						<img class="smallWeatherIcon" id="weatherIcon5" src="" alt="" align="center">
+					</td>
+				</tr>
+				<tr>
+					<td id="day2Temp" width="25%" align="center"></td>
+					<td id="day3Temp" width="25%" align="center"></td>
+					<td id="day4Temp" width="25%" align="center"></td>
+					<td id="day5Temp" width="25%" align="center"></td>
+				</tr>
+			</tbody>
+		</table>
+<!--///////////////////////////////////  Sunrise and Sunset Times  ///////////////////////////////////////////////-->
+		<table class="table table-responsive" id="tableA">
+			<tbody>
+			<div class='row'>
+				<div class='col fw-bold' align="center" id='weatherSunRiseTime'>Not Available</div>
+				<div class='col fw-bold' align="center" id='weatherSunSetTime'>Not Available</div>
+			</div>
+			<div class='row'>
+				<div class='col' align="center" id='weatherSunRiseIcon'><i class="fi fi-rs-sunrise-alt"></i></div>
+				<div class='col' align="center" id='weatherSunSetIcon'><i class="fi fi-sr-sunset"></i></div>
+			</div>
+			</tbody>
+		</table>
+	</div>
+   </div>				
+ </div>
+</div>
+
+<!--///////////////////////////////////////////////////////////////////////////////-->
+
+					<!-- Modal 3 - Country Currency -->
+<!-- Modal -->
+<div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+
+	<!-- Modal content-->
+	<div class="modal-content">
+		<div class="modal-header">
+			<h4 class="modal-title" ><b>Currency</b></h4>
+			<img id="titleFlag3" title="Country Flag" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  
+		</div>
+		<div class="modal-body">
+		     <table class="table table-responsive" id="table2">
+				<tbody>
+					<tr>
+						<td width="25%"><img src="png/exchange.png" id="currencyImg" alt="https://www.flaticon.com/free-icon/exchange_893078?term=currency&page=1&position=1&page=1&position=1&related_id=893078&origin=search" width="60" height="75"></td>
+						<td width="25%" id="txtCurrency" align="center"></td>
+						<td width="50%" id="currencySymbol" align="center"></td>
+						<td width="25%" id="txtCurrencyCode" align="center"></td>
+					</tr>
+					<tr>
+				    	<th width="100%" colspan="4" align="center"><h5><b>Exchange Rates</b></h5></th>
+				    </tr> 
+					<tr>
+						<th>USD </th>
+						<td id="exchangeRateUSD" width="100%" colspan="4"></td>
+					</tr>
+					<tr>
+						 <th>EUR </th>
+						 <td id="exchangeRateEUR" width="100%" colspan="4"></td>
+					</tr>
+					<tr>
+					    <th>GBP </th>
+					    <td id="exchangeRateGBP" width="100%" colspan="4"></td>
+					</tr>
+					</tbody>
+				    </table>
+						</div>
+				</div>
+			</div>
+		</div>
+
+<!--///////////////////////////////////////////////////////////////////////////////-->
+
+					<!-- Modal 4 - Country News -->
+<!-- Modal -->
+<div class="modal fade" id="modal4" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+  <!-- Modal content-->  
+  <div class="modal-content">
+	<div class="modal-header">
+		<h4 class="modal-title" style="white-space: nowrap;"><b>Top Headlines</b></h4>
+		<img id="titleFlag4" title="Country Flag" data-bs-target="#flagModal" data-bs-toggle="modal" data-bs-dismiss="modal" src="" alt="">
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+	</div>
+	<div class="modal-body" id="news-body">
+
+		<table class="table table-striped" id="tableB">
+			<tbody id="tbodyNews">
+			</tbody>
+		</table>
+	</div>
+  </div>
+  </div>
+</div>
+
+<!--///////////////////////////////////////////////////////////////////////////////-->
+
+					<!-- Modal 5 - Country Flag -->
+<!-- Modal -->
+<div class="modal fade" id="modal5" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+
+  <!-- Modal content-->  
+  <div class="modal-content">
+	<div class="modal-header">
+		<h4 class="modal-title" id="txtCountryName"></h4>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	</div>
+
+	<div class="modal-body">
+			<img class="d-block max-auto" id="flags" src="" alt="">
+		</div>
+
+	</div>
+  </div>
+  </div>
+</div>
+
+</main>    
+<!--///////////////////////////////////////////////////////////////////////////////-->
+
+<!-- Script.js -->
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+<!-- Boostrap Initialization -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+      
+<!-- Popper Bootstrap Module -- needed?! -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> 
+
+<!-- Leaflet Map Initialization -->
+<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+
+<!-- Leaflet L.easyButton --> 
+<script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+
+<!-- Leaflet MarkerCluster --> 
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+<!-- Leaflet ExtraMarker --> 
+<script src="libs/js/leaflet.extra-markers.min.js"></script>
+
+<!-- User Current Location Initialization -->
+<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+
+<script type="application/javascript" src="libs/js/script.js"></script>
+
+<!-- Date.js Initialization -->
+<script type="text/javascript" src="date.js"></script>
+      
+</body>
+    
+</html>
